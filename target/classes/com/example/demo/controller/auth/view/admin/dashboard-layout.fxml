@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.demo.controller.BaseController">
+    <!-- Sidebar -->
+    <VBox alignment="TOP_CENTER" spacing="20" prefWidth="250" style="-fx-background-color: #2F4F4F;"
+          AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0">
+        <Button text="Dashboard" fx:id="dashboardMenuItem" onAction="#onDashboardButtonClick"
+                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16px;"/>
+        <Button text="User Managements" fx:id="userMenuItem" onAction="#onUsersButtonClick"
+                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16px;"/>
+        <Button text="Settings" fx:id="settingsMenuItem" onAction="#onSettingsButtonClick"
+                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16px;"/>
+        <Button text="Logout" onAction="#onLogoutButtonClick"
+                style="-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-size: 16px;"/>
+    </VBox>
+
+    <!-- Main Content Area -->
+    <VBox layoutX="250" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="250"
+          AnchorPane.rightAnchor="0">
+        <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-background-color: #4CAF50; -fx-padding: 10;"
+              HBox.hgrow="ALWAYS">
+            <Label fx:id="welcomeLabel" style="-fx-font-size: 18px; -fx-text-fill: white; -fx-font-weight: bold;"
+                   HBox.hgrow="ALWAYS"/>
+        </HBox>
+
+        <!-- Main content should fill all available space -->
+        <StackPane fx:id="rootPaneDashboard" VBox.vgrow="ALWAYS">
+            <AnchorPane fx:id="mainContent" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
+                        AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
+            </AnchorPane>
+        </StackPane>
+    </VBox>
+</AnchorPane>
