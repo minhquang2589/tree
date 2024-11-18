@@ -11,7 +11,7 @@ public class MySQLConnection {
     public static Connection connect() {
         if (connection == null) {
             try {
-                String url = "jdbc:mariadb://localhost:3306/xamplebackend?useSSL=false&serverTimezone=UTC";
+                String url = "jdbc:mariadb://localhost:3306/tree?useSSL=false&serverTimezone=UTC";
                 String user = "root";
                 String password = "";
                 connection = DriverManager.getConnection(url, user, password);
