@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Rectangle?>
+
+<GridPane layoutY="60" hgap="20" vgap="20">
+    <HBox alignment="CENTER" spacing="20" GridPane.columnIndex="0" GridPane.rowIndex="0">
+        <Rectangle width="150" height="150" style="-fx-fill: #ff9800;"/>
+        <VBox alignment="CENTER">
+            <Label text="Total Users" style="-fx-font-size: 16px;"/>
+            <Label text="120" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+        </VBox>
+    </HBox>
+
+    <HBox alignment="CENTER" spacing="20" GridPane.columnIndex="1" GridPane.rowIndex="0">
+        <Rectangle width="150" height="150" style="-fx-fill: #4caf50;"/>
+        <VBox alignment="CENTER">
+            <Label text="Total Sales" style="-fx-font-size: 16px;"/>
+            <Label text="340" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+        </VBox>
+    </HBox>
+
+    <HBox alignment="CENTER" spacing="20" GridPane.columnIndex="2" GridPane.rowIndex="0">
+        <Rectangle width="150" height="150" style="-fx-fill: #2196f3;"/>
+        <VBox alignment="CENTER">
+            <Label text="Pending Orders" style="-fx-font-size: 16px;"/>
+            <Label text="30" style="-fx-font-size: 24px; -fx-font-weight: bold;"/>
+        </VBox>
+    </HBox>
+</GridPane>
