@@ -1,13 +1,14 @@
 package com.example.demo.Utils;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Field;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Collection;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.nio.file.Path;
 
 public class Config {
 
@@ -47,6 +48,39 @@ public class Config {
         Pattern pattern = Pattern.compile(emailRegex);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
+    }
+
+
+    public static String saveImage(String originalFileName, java.io.File file) {
+        Path targetDir = Paths.get("src/assets/images");
+        if (!Files.exists(targetDir)) {
+            try {
+                Files.createDirectories(targetDir);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        String uniqueFileName = generateFileNameWithTimestamp(originalFileName);
+        Path targetPath = ((java.nio.file.Path) targetDir).resolve(uniqueFileName);
+        try {
+            Files.copy(file.toPath(), targetPath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return targetPath.toString();
+    }
+
+
+    public static String generateFileNameWithTimestamp(String originalFileName) {
+        String extension = "";
+        int i = originalFileName.lastIndexOf('.');
+        if (i > 0) {
+            extension = originalFileName.substring(i);
+        }
+        return System.currentTimeMillis() + extension;
     }
 
 }

@@ -82,16 +82,16 @@ public class HomeController {
             preparedStatement.setString(2, password);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                int id = resultSet.getInt("id");
+                int id = resultSet.getInt("user_id");
                 String fullName = resultSet.getString("name");
-                String email = resultSet.getString("email");
                 String phoneNumber = resultSet.getString("phone");
-                String address = resultSet.getString("address");
-                String gender = resultSet.getString("genders");
+                String gender = resultSet.getString("gender");
+                String email = resultSet.getString("email");
                 String birthday = resultSet.getString("birthday");
                 String role = resultSet.getString("role");
                 String image = resultSet.getString("image");
-                return new UserModel(id, fullName, email, phoneNumber, address, gender, role, birthday, image,password);
+                String address = resultSet.getString("address");
+                return new UserModel(id, fullName, email, phoneNumber, gender, role, birthday, image,password, address);
             }
         }
         return null;

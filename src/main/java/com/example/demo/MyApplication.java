@@ -10,33 +10,33 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import com.example.demo.config.MySQLConnection;
 import javafx.scene.Parent;
+
 import java.io.IOException;
+import java.sql.SQLException;
+
+import static com.example.demo.controller.HomeController.handleLogin;
 
 public class MyApplication extends Application {
 
     @Override
-    public void start(Stage stage) throws IOException {
-        String fxmlFilePath = "/com/example/demo/controller/auth/login-view.fxml";
+    public void start(Stage stage) throws IOException, SQLException {
+        String fxmlPath = "/com/example/demo/controller/auth/login-view.fxml";
         MySQLConnection.connect();
         boolean isLoggedIn = (boolean) PreferencesUtils.get("isLoggedIn", false);
         UserModel user = PreferencesUtils.getUser();
-
         if (isLoggedIn && user != null) {
-            fxmlFilePath = "/com/example/demo/controller/auth/view/admin/dashboard-layout.fxml";
             System.out.println(user.toString());
+            UserModel login = handleLogin(user.getPhone(), user.getPassword());
+            if (login != null) {
+                fxmlPath = "/com/example/demo/controller/auth/view/admin/dashboard-layout.fxml";
+            }
         }
-
-        loadScene(stage, fxmlFilePath, isLoggedIn);
-    }
-
-    public void reloadScene(Stage stage, String fxmlFilePath, boolean isLoggedIn) throws IOException {
-        loadScene(stage, fxmlFilePath, isLoggedIn);
+        loadScene(stage, fxmlPath, isLoggedIn);
     }
 
     private void loadScene(Stage stage, String fxmlFilePath, boolean isLoggedIn) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MyApplication.class.getResource(fxmlFilePath));
         Parent root = fxmlLoader.load();
-
         Scene scene = new Scene(root, 620, 500);
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
         double screenWidth = screenBounds.getWidth();

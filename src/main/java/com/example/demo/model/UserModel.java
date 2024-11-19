@@ -1,33 +1,33 @@
 package com.example.demo.model;
 
 public class UserModel {
-    private final int id;
+    private final int user_id;
     private String name = "";
     private String email = "";
     private String phone;
-    private String address = "";
     private String gender = "";
     private String role = "";
     private final String birthday;
     private String image = "";
+    private String address = "";
     private String password = "";
 
 
-    public UserModel(int id, String name, String email, String phone, String address, String gender, String role, String birthday, String image, String password) {
-        this.id = id;
+    public UserModel(int user_id, String name, String email, String phone, String gender, String role, String birthday, String image, String password, String address) {
+        this.user_id = user_id;
         this.name = name;
         this.email = email;
         this.phone = phone;
-        this.address = address;
         this.gender = gender;
         this.role = role;
         this.birthday = birthday;
         this.image = image;
         this.password = password;
+        this.address = address;
     }
 
     public int getId() {
-        return id;
+        return user_id;
     }
 
     public String getName() {
@@ -45,6 +45,7 @@ public class UserModel {
     public String getAddress() {
         return address;
     }
+
 
     public String getGender() {
         return gender;
@@ -68,8 +69,8 @@ public class UserModel {
 
     @Override
     public String toString() {
-        return String.format("User{id=%d, name='%s', email='%s', phone='%s', address='%s', gender='%s', role='%s', birthday='%s', image='%s', password='%s'}",
-                id, name, email, phone, address, gender, role, birthday, image, password);
+        return String.format("User{user_id=%d, name='%s', email='%s', phone='%s', gender='%s', role='%s', birthday='%s', image='%s', password='%s', address='%s'}",
+                user_id, name, email, phone, gender, role, birthday, image, password, address);
     }
 
     public void setName(String text) {
@@ -82,10 +83,6 @@ public class UserModel {
 
     public void setPhone(String text) {
         this.phone = text;
-    }
-
-    public void setAddress(String text) {
-        this.address = text;
     }
 
     public void setGender(String value) {
@@ -102,5 +99,9 @@ public class UserModel {
 
     public void setPasword(String value) {
         this.password = value;
+    }
+
+    public void setAddress(String value) {
+        this.address = value;
     }
 }

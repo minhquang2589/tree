@@ -3,6 +3,7 @@ package com.example.demo.controller.admin;
 import com.example.demo.DAO.UserDAO;
 import com.example.demo.Utils.Config;
 import com.example.demo.Utils.Modal;
+import com.example.demo.Utils.PreferencesUtils;
 import com.example.demo.model.UserModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,13 +19,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.sql.SQLException;
+import java.util.Objects;
 
 public class UserController {
 
@@ -50,6 +46,8 @@ public class UserController {
     private TableColumn<UserModel, String> actionColumn;
 
     private final ObservableList<UserModel> userList = FXCollections.observableArrayList();
+
+    UserModel user = PreferencesUtils.getUser();
 
     @FXML
     public void initialize() throws SQLException {
@@ -119,7 +117,6 @@ public class UserController {
     }
 
 
-
     private void loadUserData() throws SQLException {
         UserDAO userDAO = new UserDAO();
         userList.setAll(userDAO.getAllUsers());
@@ -131,11 +128,10 @@ public class UserController {
             TextField nameField = new TextField(selectedUser.getName());
             TextField emailField = new TextField(selectedUser.getEmail());
             TextField phoneField = new TextField(selectedUser.getPhone());
-            TextField addressField = new TextField(selectedUser.getAddress());
             ComboBox<String> genderComboBox = new ComboBox<>();
             ComboBox<String> roleComboBox = new ComboBox<>();
-            genderComboBox.getItems().addAll("Male", "Female", "none");
-            roleComboBox.getItems().addAll("user", "admin", "none");
+            genderComboBox.getItems().addAll("male", "female", "other");
+            roleComboBox.getItems().addAll("user", "admin", "moderator");
             genderComboBox.setValue(selectedUser.getGender());
             roleComboBox.setValue(selectedUser.getRole());
 
@@ -153,22 +149,12 @@ public class UserController {
                 Stage stage = (Stage) chooseImageButton.getScene().getWindow();
                 java.io.File file = fileChooser.showOpenDialog(stage);
                 if (file != null) {
-                    Path targetDir = Paths.get("assets/images");
-                    if (!Files.exists(targetDir)) {
-                        try {
-                            Files.createDirectories(targetDir);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            return;
-                        }
-                    }
-                    Path targetPath = targetDir.resolve(file.getName());
-                    try {
-                        Files.copy(file.toPath(), targetPath, StandardCopyOption.REPLACE_EXISTING);
-                        selectedUser.setImage(targetPath.toString());
-                        imageView.setImage(new Image("file:" + targetPath.toString()));
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    String savedImagePath = Config.saveImage( file.getName(), file);
+                    if (savedImagePath != null) {
+                        selectedUser.setImage(savedImagePath);
+                        imageView.setImage(new Image("file:" + savedImagePath));
+                    } else {
+                        System.out.println("Failed to save image");
                     }
                 }
             });
@@ -179,7 +165,6 @@ public class UserController {
                     new Label("Name:"), nameField,
                     new Label("Email:"), emailField,
                     new Label("Phone:"), phoneField,
-                    new Label("Address:"), addressField,
                     new Label("Gender:"), genderComboBox,
                     new Label("Role:"), roleComboBox,
                     chooseImageButton, imageView
@@ -193,7 +178,6 @@ public class UserController {
                     selectedUser.setName(nameField.getText());
                     selectedUser.setEmail(emailField.getText());
                     selectedUser.setPhone(phoneField.getText());
-                    selectedUser.setAddress(addressField.getText());
                     selectedUser.setGender(genderComboBox.getValue());
                     selectedUser.setRole(roleComboBox.getValue());
                     try {
@@ -227,24 +211,32 @@ public class UserController {
     }
 
     public void handleDeleteUser(UserModel selectedUser) {
-        if (selectedUser != null) {
-            Modal.showAlert(
-                    null,
-                    "Bạn có muốn xoá user " + selectedUser.getName() + " không?",
-                    Alert.AlertType.CONFIRMATION,
-                    () -> {
-                        try {
-                            UserDAO userDAO = new UserDAO();
-                            userDAO.deleteUser(selectedUser.getId());
-                            loadUserData();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                            Modal.showAlert("Thất bại", "Xoá người dùng không thành cônh. vui lòng thử lại sai", null, null, null);
-                        }
-                    },
-                    null
-            );
+        if (!Objects.equals(user.getRole(), "admin")) {
+            Modal.showAlert("Thất bại", "Bạn không có quyền xoá dữ liệu này!", null, null, null);
+        } else {
+            if (user.getId() == selectedUser.getId()) {
+                Modal.showAlert("Thất bại", "Lỗi. Xin vui lòng thử lại sau!", null, null, null);
+            } else {
+                Modal.showAlert(
+                        null,
+                        "Bạn có muốn xoá user " + selectedUser.getName() + " không?",
+                        Alert.AlertType.CONFIRMATION,
+                        () -> {
+                            try {
+                                UserDAO userDAO = new UserDAO();
+                                userDAO.deleteUser(selectedUser.getId());
+                                loadUserData();
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                                Modal.showAlert("Thất bại", "Xoá người dùng không thành cônh. vui lòng thử lại sai", null, null, null);
+                            }
+                        },
+                        null
+                );
+            }
+
         }
+
     }
 
 

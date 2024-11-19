@@ -37,6 +37,9 @@ public class RegisterController {
     public Button registerButton;
     @FXML
     public TextField addressField;
+    @FXML
+    public PasswordField confirmPasswordField;
+    @FXML
     private LoadingOverlay loadingOverlay;
     @FXML
     private StackPane rootPane;
@@ -45,7 +48,7 @@ public class RegisterController {
     public void initialize() {
         loadingOverlay = new LoadingOverlay();
         loadingOverlay.addTo(rootPane);
-        genderComboBox.getItems().addAll("Nam", "Nữ", "Không");
+        genderComboBox.getItems().addAll("male", "female", "other");
     }
 
 
@@ -54,14 +57,21 @@ public class RegisterController {
         String fullName = fullNameField.getText();
         String phone = phoneField.getText();
         String password = passwordField.getText();
+        String confirmPass = confirmPasswordField.getText();
         String gender = genderComboBox.getValue();
         String dob = dobDatePicker.getValue() != null ? dobDatePicker.getValue().toString() : "Chưa chọn ngày sinh";
         String email = emailField.getText();
         String address = addressField.getText();
 
-        if (phone.isEmpty() || fullName.isEmpty() || password.isEmpty() || gender.isEmpty() || dob.isEmpty() || email.isEmpty() || address.isEmpty()) {
+        if (phone.isEmpty() || fullName.isEmpty() || password.isEmpty() || confirmPass.isEmpty() || gender.isEmpty() || dob.isEmpty() || email.isEmpty() || address.isEmpty()) {
             loadingOverlay.hide();
             Modal.showAlert(null, "Xin vui lòng nhập đủ thông tin và thử lại!", null, null, null);
+            return;
+        }
+
+        if (!password.equals(confirmPass)) {
+            loadingOverlay.hide();
+            Modal.showAlert(null, "Mật khẩu và xác nhận mật khẩu không giống nhau. Xin vui lòng nhập lại!", null, null, null);
             return;
         }
 
@@ -96,7 +106,7 @@ public class RegisterController {
 
     public static boolean insertUser(String fullName, String phone, String password, String gender, String dob, String email, String address) throws SQLException {
         String checkSql = "SELECT COUNT(*) FROM users WHERE email = ? OR phone = ?";
-        String insertSql = "INSERT INTO users (name, phone, password, genders, birthday, email, address) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String insertSql = "INSERT INTO users (name, phone, password, gender, birthday, email, address) VALUES (?, ?, ?, ?, ?, ?, ?)";
         Connection connection = MySQLConnection.connect();
 
         if (connection != null) {

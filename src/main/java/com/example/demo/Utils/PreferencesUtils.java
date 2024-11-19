@@ -66,12 +66,12 @@ public class PreferencesUtils {
         save("user_fullName", user.getName());
         save("user_email", user.getEmail());
         save("user_phone", user.getPhone());
-        save("user_address", user.getAddress());
         save("user_gender", user.getGender());
         save("user_role", user.getRole());
         save("user_birthday", user.getBirthday());
         save("user_image", user.getImage());
         save("user_password", user.getPassword());
+        save("user_address", user.getAddress());
     }
 
     public static UserModel getUser() {
@@ -79,15 +79,15 @@ public class PreferencesUtils {
         String fullName = (String) get("user_fullName", "");
         String email = (String) get("user_email", "");
         String phone = (String) get("user_phone", "");
-        String address = (String) get("user_address", "");
         String gender = (String) get("user_gender", "");
         String role = (String) get("user_role", "");
         String birthday = (String) get("user_birthday", "");
         String image = (String) get("user_image", "");
         String pass = (String) get("user_password", "");
+        String address = (String) get("user_address", "");
 
         if (id != 0 && !fullName.isEmpty()) {
-            return new UserModel(id, fullName, email, phone, address,gender, role, birthday, image,pass);
+            return new UserModel(id, fullName, email, phone,gender, role, birthday, image,pass, address);
         }
 
         return null;
