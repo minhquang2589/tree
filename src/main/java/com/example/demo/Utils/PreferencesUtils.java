@@ -23,7 +23,7 @@ public class PreferencesUtils {
         } else if (value == null) {
             preferences.remove(key);
         } else {
-            throw new IllegalArgumentException("Unsupported type: " + value.getClass());
+            throw new IllegalArgumentException(String.valueOf(value.getClass()));
         }
     }
 
@@ -39,18 +39,14 @@ public class PreferencesUtils {
         } else if (defaultValue instanceof Long) {
             return preferences.getLong(key, (Long) defaultValue);
         } else if (defaultValue == null) {
-            return null;  // Nếu defaultValue là null, trả về null
+            return null;
         } else {
-            throw new IllegalArgumentException("Unsupported type: " + defaultValue.getClass());
+            throw new IllegalArgumentException(String.valueOf(defaultValue.getClass()));
         }
     }
 
     public static void remove(String key) {
         preferences.remove(key);
-    }
-
-    public static boolean contains(String key) {
-        return Boolean.parseBoolean(preferences.toString());
     }
 
     public static void clearAll() {
@@ -87,7 +83,7 @@ public class PreferencesUtils {
         String address = (String) get("user_address", "");
 
         if (id != 0 && !fullName.isEmpty()) {
-            return new UserModel(id, fullName, email, phone,gender, role, birthday, image,pass, address);
+            return new UserModel(id, fullName, email, phone, gender, role, birthday, image, pass, address);
         }
 
         return null;

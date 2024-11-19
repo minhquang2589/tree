@@ -15,7 +15,7 @@
            fx:controller="com.example.demo.controller.HomeController">
     <BorderPane>
         <stylesheets>
-            <URL value="@styleCss/style.css"/>
+            <URL value="@../../styleCss/style.css"/>
         </stylesheets>
         <center>
             <StackPane>

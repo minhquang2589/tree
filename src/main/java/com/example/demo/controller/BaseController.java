@@ -7,7 +7,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -20,15 +19,8 @@ public class BaseController {
 
     @FXML
     public Label welcomeLabel;
+    @FXML
     public StackPane rootPaneDashboard;
-    @FXML
-    private Button dashboardMenuItem;
-    @FXML
-    private Button userMenuItem;
-    @FXML
-    private Button settingsMenuItem;
-    @FXML
-    private Button logoutMenuItem;
     @FXML
     private AnchorPane mainContent;
 
@@ -39,66 +31,37 @@ public class BaseController {
         setMainContent("/com/example/demo/controller/auth/view/admin/dashboard/dashboard-view.fxml");
         UserModel user = PreferencesUtils.getUser();
         assert user != null;
-        welcomeLabel.setText(String.format("Welcome, %s!", user.getName()));
-
-        if (dashboardMenuItem != null) {
-            dashboardMenuItem.setOnAction(event -> {
-                try {
-                    setMainContent("/com/example/demo/controller/auth/view/admin/dashboard/dashboard-view.fxml");
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-
-            });
-        }
-
-        if (userMenuItem != null) {
-            userMenuItem.setOnAction(event -> {
-                try {
-                    setMainContent("/com/example/demo/controller/auth/view/admin/account/account-view.fxml");
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-
-            });
-        }
-
-        if (settingsMenuItem != null) {
-            settingsMenuItem.setOnAction(event -> {
-                try {
-                    setMainContent("/com/example/demo/controller/auth/view/admin/settings/setting-view.fxml");
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            });
-        }
-
-        if (logoutMenuItem != null) {
-            logoutMenuItem.setOnAction(event -> {
-                PreferencesUtils.clearAll();
-                handleNavigator(event, "/com/example/demo/controller/auth/login-view.fxml", false);
-            });
-        }
+        welcomeLabel.setText(String.format("Xin chào, %s!", user.getName()));
     }
 
 
     public void setMainContent(String fxmlPath) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
         Parent content = loader.load();
+        AnchorPane.setTopAnchor(content, 0.0);
+        AnchorPane.setBottomAnchor(content, 0.0);
+        AnchorPane.setLeftAnchor(content, 0.0);
+        AnchorPane.setRightAnchor(content, 0.0);
         mainContent.getChildren().clear();
         mainContent.getChildren().add(content);
     }
 
+
     @FXML
     public void onDashboardButtonClick(ActionEvent actionEvent) throws IOException {
+        setMainContent("/com/example/demo/controller/auth/view/admin/dashboard/dashboard-view.fxml");
+
     }
 
     @FXML
     public void onUsersButtonClick(ActionEvent actionEvent) throws IOException {
+        setMainContent("/com/example/demo/controller/auth/view/admin/account/account-view.fxml");
+
     }
 
     @FXML
-    public void onSettingsButtonClick(ActionEvent actionEvent) {
+    public void onSettingsButtonClick(ActionEvent actionEvent) throws IOException {
+        setMainContent("/com/example/demo/controller/auth/view/admin/settings/setting-view.fxml");
     }
 
     @FXML

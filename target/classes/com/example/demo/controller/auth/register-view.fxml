@@ -23,28 +23,28 @@
                                     AnchorPane.topAnchor="0">
                             <fx:include source="components/back-button.fxml"/>
                         </AnchorPane>
-                        <Label text="Full Name:" GridPane.rowIndex="1"/>
+                        <Label text="Họ và Tên:" GridPane.rowIndex="1"/>
                         <TextField fx:id="fullNameField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
-                        <Label text="Phone Number:" GridPane.rowIndex="2"/>
+                        <Label text="Số điện thoại:" GridPane.rowIndex="2"/>
                         <TextField fx:id="phoneField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
-                        <Label text="Password:" GridPane.rowIndex="3"/>
+                        <Label text="Mật khẩu:" GridPane.rowIndex="3"/>
                         <PasswordField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
 
-                        <Label text="Confirm Password:" GridPane.rowIndex="4"/>
+                        <Label text="Xác nhận mật khẩu:" GridPane.rowIndex="4"/>
                         <PasswordField fx:id="confirmPasswordField" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
 
 
-                        <Label text="Gender:" GridPane.rowIndex="5"/>
+                        <Label text="Giới tính:" GridPane.rowIndex="5"/>
                         <ComboBox fx:id="genderComboBox" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
 
-                        <Label text="Birthday:" GridPane.rowIndex="6"/>
+                        <Label text="Ngày sinh:" GridPane.rowIndex="6"/>
                         <DatePicker fx:id="dobDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
 
                         <Label text="Email:" GridPane.rowIndex="7"/>
                         <TextField fx:id="emailField" GridPane.columnIndex="1" GridPane.rowIndex="7"/>
-                        <Label text="Address:" GridPane.rowIndex="8"/>
+                        <Label text="Địa chỉ:" GridPane.rowIndex="8"/>
                         <TextField fx:id="addressField" GridPane.columnIndex="1" GridPane.rowIndex="8"/>
                         <Button fx:id="registerButton" text="Đăng Ký" GridPane.columnIndex="1" GridPane.rowIndex="9"
                                 onAction="#handleRegister"/>

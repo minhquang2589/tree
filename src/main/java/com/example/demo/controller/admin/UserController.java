@@ -19,6 +19,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+
 import java.sql.SQLException;
 import java.util.Objects;
 
@@ -83,14 +84,18 @@ public class UserController {
             }
         });
 
+
+
         actionColumn.setCellFactory(new Callback<TableColumn<UserModel, String>, TableCell<UserModel, String>>() {
             @Override
             public TableCell<UserModel, String> call(TableColumn<UserModel, String> param) {
                 return new TableCell<UserModel, String>() {
-                    private final Button deleteButton = new Button("Delete");
-                    private final Button editButton = new Button("Edit");
+                    private final Button deleteButton = new Button("Xoá");
+                    private final Button editButton = new Button("Sửa");
 
                     {
+                        deleteButton.getStyleClass().add("delete-button");
+                        editButton.getStyleClass().add("edit-button");
                         deleteButton.setOnAction(event -> handleDeleteUser(getTableRow().getItem()));
                         editButton.setOnAction(event -> handleEditUser(getTableRow().getItem()));
                     }
@@ -142,19 +147,19 @@ public class UserController {
             imageView.setFitWidth(100);
             imageView.setFitHeight(100);
 
-            Button chooseImageButton = new Button("Choose Image");
+            Button chooseImageButton = new Button("Chọn ảnh");
             chooseImageButton.setOnAction(event -> {
                 FileChooser fileChooser = new FileChooser();
                 fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg"));
                 Stage stage = (Stage) chooseImageButton.getScene().getWindow();
                 java.io.File file = fileChooser.showOpenDialog(stage);
                 if (file != null) {
-                    String savedImagePath = Config.saveImage( file.getName(), file);
+                    String savedImagePath = Config.saveImage(file.getName(), file);
                     if (savedImagePath != null) {
                         selectedUser.setImage(savedImagePath);
                         imageView.setImage(new Image("file:" + savedImagePath));
                     } else {
-                        System.out.println("Failed to save image");
+                        Modal.showAlert(null);
                     }
                 }
             });
@@ -162,15 +167,15 @@ public class UserController {
 
             VBox vbox = new VBox(10);
             vbox.getChildren().addAll(
-                    new Label("Name:"), nameField,
+                    new Label("Họ và tên:"), nameField,
                     new Label("Email:"), emailField,
-                    new Label("Phone:"), phoneField,
-                    new Label("Gender:"), genderComboBox,
+                    new Label("Số điện thoại:"), phoneField,
+                    new Label("Giới tính:"), genderComboBox,
                     new Label("Role:"), roleComboBox,
                     chooseImageButton, imageView
             );
 
-            Button saveButton = new Button("Save");
+            Button saveButton = new Button("Lưu");
             saveButton.setOnAction(event -> {
                 boolean checkPhone = Config.isPhoneNumberValid(phoneField.getText());
                 boolean checkEmail = Config.isEmailValid(emailField.getText());
@@ -189,11 +194,11 @@ public class UserController {
                     }
                     ((Stage) saveButton.getScene().getWindow()).close();
                 } else {
-                    Modal.showAlert("Thất bại", "Xin vui lòng nhập đúng thông tin và thử lại sau!", null, null, null);
+                    Modal.showAlert("Xin vui lòng nhập đúng thông tin và thử lại sau!");
                 }
             });
 
-            Button cancelButton = new Button("Cancel");
+            Button cancelButton = new Button("Huỷ");
             cancelButton.setOnAction(event -> {
                 ((Stage) cancelButton.getScene().getWindow()).close();
             });
@@ -204,7 +209,7 @@ public class UserController {
 
             Scene modalScene = new Scene(vbox, 700, 600);
             Stage modalStage = new Stage();
-            modalStage.setTitle("Edit User");
+            modalStage.setTitle("Sửa thông tin");
             modalStage.setScene(modalScene);
             modalStage.show();
         }
@@ -212,10 +217,10 @@ public class UserController {
 
     public void handleDeleteUser(UserModel selectedUser) {
         if (!Objects.equals(user.getRole(), "admin")) {
-            Modal.showAlert("Thất bại", "Bạn không có quyền xoá dữ liệu này!", null, null, null);
+            Modal.showAlert("Bạn không có quyền xoá dữ liệu này");
         } else {
             if (user.getId() == selectedUser.getId()) {
-                Modal.showAlert("Thất bại", "Lỗi. Xin vui lòng thử lại sau!", null, null, null);
+                Modal.showAlert(null);
             } else {
                 Modal.showAlert(
                         null,
@@ -228,7 +233,7 @@ public class UserController {
                                 loadUserData();
                             } catch (SQLException e) {
                                 e.printStackTrace();
-                                Modal.showAlert("Thất bại", "Xoá người dùng không thành cônh. vui lòng thử lại sai", null, null, null);
+                                Modal.showAlert( "Xoá người dùng không thành cônh. vui lòng thử lại sai");
                             }
                         },
                         null
