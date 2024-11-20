@@ -49,8 +49,8 @@ public class StoreViewController {
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
         addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
-        startColumn.setCellValueFactory(new PropertyValueFactory<>("start_date"));
-        addressColumn.setCellValueFactory(new PropertyValueFactory<>("end_date"));
+        startColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+        addressColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
         endColumn.setCellValueFactory(new PropertyValueFactory<>("image"));
 
         imageColumn.setCellFactory(new Callback<TableColumn<StoreModel, String>, TableCell<StoreModel, String>>() {
