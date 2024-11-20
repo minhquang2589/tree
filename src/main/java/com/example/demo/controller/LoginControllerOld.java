@@ -5,12 +5,12 @@ import com.example.demo.Utils.Modal;
 import com.example.demo.Utils.PreferencesUtils;
 import com.example.demo.config.MySQLConnection;
 import com.example.demo.config.loading.LoadingOverlay;
+import com.example.demo.model.UserModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
-import com.example.demo.model.UserModel;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,7 +19,7 @@ import java.sql.SQLException;
 
 import static com.example.demo.config.button.ButtonHandler.handleNavigator;
 
-public class HomeController {
+public class LoginControllerOld {
 
     @FXML
     public PasswordField passwordField;

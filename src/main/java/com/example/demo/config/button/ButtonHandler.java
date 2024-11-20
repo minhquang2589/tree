@@ -22,28 +22,39 @@ public class ButtonHandler {
 
     public static void handleNavigator(ActionEvent actionEvent, String fxmlPath, Boolean isZoom) {
         try {
-
-            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            double currentWidth = stage.getWidth();
-            double currentHeight = stage.getHeight();
-            Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-            double screenWidth = screenBounds.getWidth();
-            Scene currentScene = stage.getScene();
-            stage.setUserData(currentScene);
-            stage.setWidth(isZoom ? (screenWidth * 0.9) : currentWidth);
-            stage.setHeight(isZoom ? 800 :currentHeight);
+            Stage stage;
+            if (fxmlPath.equals("/com/example/demo/controller/auth/login-view.fxml")) {
+                stage = new Stage();
+                stage.setWidth(700);
+                stage.setHeight(550);
+                Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+                stage.setX((screenBounds.getWidth() - 700) / 2);
+                stage.setY((screenBounds.getHeight() - 550) / 2);
+                ((Stage) ((Node) actionEvent.getSource()).getScene().getWindow()).close();
+            } else {
+                stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+                double currentWidth = stage.getWidth();
+                double currentHeight = stage.getHeight();
+                double screenWidth = screenBounds.getWidth();
+                stage.setWidth(isZoom ? (screenWidth * 0.9) : currentWidth);
+                stage.setHeight(isZoom ? 800 : currentHeight);
+                double centerX = (screenBounds.getWidth() - stage.getWidth()) / 2;
+                double centerY = (screenBounds.getHeight() - stage.getHeight()) / 2;
+                stage.setX(centerX);
+                stage.setY(centerY);
+            }
             FXMLLoader loader = new FXMLLoader(ButtonHandler.class.getResource(fxmlPath));
             Parent root = loader.load();
             Scene newScene = new Scene(root);
-            double centerX = (screenBounds.getWidth() - stage.getWidth()) / 2;
-            double centerY = (screenBounds.getHeight() - stage.getHeight()) / 2;
-            stage.setX(centerX);
-            stage.setY(centerY);
             stage.setScene(newScene);
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+
 
 
 }

@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import static com.example.demo.controller.HomeController.handleLogin;
+import static com.example.demo.controller.LoginController.handleLogin;
 
 public class MyApplication extends Application {
 
@@ -45,12 +45,12 @@ public class MyApplication extends Application {
     private void loadScene(Stage stage, String fxmlFilePath, boolean isLoggedIn) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MyApplication.class.getResource(fxmlFilePath));
         Parent root = fxmlLoader.load();
-        Scene scene = new Scene(root, 620, 500);
+        Scene scene = new Scene(root, 600, 600);
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
         double screenWidth = screenBounds.getWidth();
-        double windowWidth = screenWidth * (isLoggedIn ? 0.9 : 0.6);
+        double windowWidth = screenWidth * (isLoggedIn ? 0.7 : 0.46);
         stage.setWidth(windowWidth);
-        stage.setHeight(isLoggedIn ? 800 : 500);
+        stage.setHeight(isLoggedIn ? 800 : 550);
 
         stage.setScene(scene);
         stage.show();
