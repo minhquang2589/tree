@@ -1,33 +1,33 @@
 package com.example.demo.controller.admin;
-
+import com.example.demo.DAO.StoreDAO;
 import com.example.demo.Utils.Modal;
 import com.example.demo.model.StoreModel;
+import com.example.demo.model.UserModel;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import javafx.util.Callback;
-import javafx.fxml.FXMLLoader;
 
 import java.io.IOException;
 import java.sql.SQLException;
 
 public class StoreViewController {
 
-
     @FXML
     private TableColumn actionColumn;
     @FXML
     private TableColumn<StoreModel, String> nameColumn;
     @FXML
+    private TableView<StoreModel> storeTable;
+    @FXML
+
     private TableColumn<StoreModel, String> phoneColumn;
     @FXML
     private TableColumn<StoreModel, String> addressColumn;
@@ -40,15 +40,18 @@ public class StoreViewController {
     @FXML
     private TableColumn<StoreModel, String> endColumn;
 
+    private final ObservableList<StoreModel> StoreList = FXCollections.observableArrayList();
+
+
     @FXML
     public void initialize() throws SQLException {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
         addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
-        addressColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
-        addressColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
-        addressColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
-        imageColumn.setCellValueFactory(new PropertyValueFactory<>("image"));
+        statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+        startColumn.setCellValueFactory(new PropertyValueFactory<>("start_date"));
+        addressColumn.setCellValueFactory(new PropertyValueFactory<>("end_date"));
+        endColumn.setCellValueFactory(new PropertyValueFactory<>("image"));
 
         imageColumn.setCellFactory(new Callback<TableColumn<StoreModel, String>, TableCell<StoreModel, String>>() {
             @Override
@@ -105,6 +108,13 @@ public class StoreViewController {
                 };
             }
         });
+        loadData();
+    }
+
+    private void loadData() throws SQLException {
+        StoreDAO storeDAO = new StoreDAO();
+        StoreList.setAll(storeDAO.getAllStore());
+        storeTable.setItems(StoreList);
     }
 
 

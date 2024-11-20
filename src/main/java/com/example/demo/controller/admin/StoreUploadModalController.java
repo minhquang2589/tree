@@ -40,7 +40,7 @@ public class StoreUploadModalController {
         String name = nameField.getText();
         String phone = phoneField.getText();
         String address = addressField.getText();
-        String status = statusComboBox.toString();
+        String status = (String) statusComboBox.getValue();
         LocalDate startDate = startDatePicker.getValue();
         LocalDate endDate = endDatePicker.getValue();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

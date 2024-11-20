@@ -11,7 +11,7 @@ public class StoreModel {
     private String status = "";
 
 
-    public StoreModel(int store_id, String name, String phone, String address, String startDate, String endDate, String image) {
+    public StoreModel(int store_id, String name, String phone, String address, String startDate, String endDate, String image, String status) {
         this.store_id = store_id;
         this.name = name;
         this.phone = phone;
