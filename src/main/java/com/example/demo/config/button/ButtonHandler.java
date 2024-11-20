@@ -26,6 +26,7 @@ public class ButtonHandler {
 
     public static void handleNavigator(ActionEvent actionEvent, String fxmlPath, Boolean isZoom) {
         try {
+
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             double currentWidth = stage.getWidth();
             double currentHeight = stage.getHeight();
@@ -38,6 +39,10 @@ public class ButtonHandler {
             FXMLLoader loader = new FXMLLoader(ButtonHandler.class.getResource(fxmlPath));
             Parent root = loader.load();
             Scene newScene = new Scene(root);
+            double centerX = (screenBounds.getWidth() - stage.getWidth()) / 2;
+            double centerY = (screenBounds.getHeight() - stage.getHeight()) / 2;
+            stage.setX(centerX);
+            stage.setY(centerY);
             stage.setScene(newScene);
         } catch (IOException e) {
             e.printStackTrace();

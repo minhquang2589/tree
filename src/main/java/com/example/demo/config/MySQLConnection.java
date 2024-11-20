@@ -7,7 +7,7 @@ public class MySQLConnection {
     public static Connection connect() {
         if (connection == null) {
             try {
-                String url = "jdbc:mariadb://localhost:3306/?useSSL=false&serverTimezone=UTC";
+                String url = "jdbc:mysql://localhost:3306";
                 String user = "root";
                 String password = "";
                 connection = DriverManager.getConnection(url, user, password);
@@ -17,7 +17,7 @@ public class MySQLConnection {
                     stmt.executeUpdate(createDB);
                 }
 
-                String dbUrl = "jdbc:mariadb://localhost:3306/plants?useSSL=false&serverTimezone=UTC";
+                String dbUrl = "jdbc:mysql://localhost:3306/plants";
                 connection = DriverManager.getConnection(dbUrl, user, password);
                 createTable();
 
