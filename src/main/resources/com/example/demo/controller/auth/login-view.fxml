@@ -165,7 +165,7 @@
                         </Button>
                     </children>
                 </AnchorPane>
-                <AnchorPane fx:id="side_form" layoutY="1.0" prefHeight="600.0" prefWidth="350.0" styleClass="gradient" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <AnchorPane fx:id="side_form" layoutY="1.0" prefHeight="600.0" prefWidth="350.0" styleClass="gradient" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
                         <Button fx:id="side_alreadyHave" contentDisplay="RIGHT" layoutX="49.0" layoutY="348.0" onAction="#switchForm" prefHeight="41.0" prefWidth="250.0" styleClass="create-btn" text="Đã có tài khoản" visible="false" AnchorPane.bottomAnchor="10.0">
                             <font>
