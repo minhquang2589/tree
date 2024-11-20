@@ -19,7 +19,7 @@
     <children>
         <AnchorPane>
             <children>
-                <AnchorPane fx:id="si_loginForm" layoutX="350.0" prefHeight="600.0" prefWidth="350.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <AnchorPane fx:id="si_loginForm" layoutX="350.0" prefHeight="600.0" prefWidth="350.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
                         <Label layoutX="28.0" layoutY="121.0" styleClass="head-label" text="Đăng nhập" textFill="#0d0d0d">
                             <font>
@@ -49,7 +49,7 @@
                         </Button>
                     </children>
                 </AnchorPane>
-                <AnchorPane fx:id="fp_inputform" layoutX="350.0" prefHeight="600.0" prefWidth="350.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="350.0" AnchorPane.topAnchor="0.0">
+                <AnchorPane fx:id="fp_inputform" layoutX="350.0" prefHeight="600.0" prefWidth="350.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="350.0" AnchorPane.topAnchor="0.0">
                     <children>
                         <Label layoutX="28.0" layoutY="121.0" styleClass="head-label" text="Quên mật khẩu" textFill="#0d0d0d">
                             <font>
