@@ -69,4 +69,9 @@ public class BaseController {
         PreferencesUtils.clearAll();
         handleNavigator(actionEvent, "/com/example/demo/controller/auth/login-view.fxml", false);
     }
+
+    @FXML
+    public void onStoreButtonClick(ActionEvent actionEvent) throws IOException {
+        setMainContent("/com/example/demo/controller/auth/view/admin/store/store-view.fxml");
+    }
 }

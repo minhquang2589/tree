@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.collections.FXCollections?>
+
+<?import java.lang.String?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.demo.controller.admin.StoreUploadModalController"
+      alignment="CENTER" spacing="10" prefHeight="500.0" prefWidth="600.0"
+      stylesheets="@../../../../styleCss/style.css" style="-fx-padding: 20px; -fx-margin: 30px;">
+    <TextField fx:id="nameField" promptText="Tên cửa hàng" styleClass="form-fill" />
+    <TextField fx:id="phoneField" promptText="Số điện thoại" styleClass="form-fill" />
+    <TextField fx:id="addressField" promptText="Địa chỉ" styleClass="form-fill" />
+    <DatePicker fx:id="startDatePicker" promptText="Ngày mở cửa" />
+    <DatePicker fx:id="endDatePicker" promptText="Ngày đóng cửa" />
+    <Button onAction="#openSelectImage"  fx:id="chooseImageButton" />
+    <ComboBox fx:id="statusComboBox" promptText="Trạng thái" styleClass="combo-box">
+        <items>
+            <FXCollections fx:factory="observableArrayList">
+                <String fx:value="Hoạt động" />
+                <String fx:value="Ngừng hoạt động" />
+            </FXCollections>
+        </items>
+    </ComboBox>
+    <Button text="Lưu" onAction="#saveStore" />
+    <Button text="Đóng" onAction="#closeModal" />
+</VBox>

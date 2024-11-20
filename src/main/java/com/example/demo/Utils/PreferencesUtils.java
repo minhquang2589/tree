@@ -1,7 +1,5 @@
 package com.example.demo.Utils;
-
 import com.example.demo.model.UserModel;
-
 import java.util.prefs.Preferences;
 
 
