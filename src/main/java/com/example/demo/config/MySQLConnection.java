@@ -70,6 +70,18 @@ public class MySQLConnection {
                 """;
 
 
+        String createImagesTable = """
+                CREATE TABLE IF NOT EXISTS images (
+                    image_id INT AUTO_INCREMENT PRIMARY KEY,
+                    image_path VARCHAR(400) NOT NULL,
+                    product_id INT NOT NULL,
+                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                    FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
+                );
+                """;
+
+
+
         String createCategoriesTable = """
                 CREATE TABLE IF NOT EXISTS categories (
                     category_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -121,6 +133,7 @@ public class MySQLConnection {
                     quantity INT NOT NULL,
                     price DECIMAL(10, 2) NOT NULL,
                     discount_id INT,
+                    barcode_image_path VARCHAR(255) UNIQUE NOT NULL,
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                     FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE,
                     FOREIGN KEY (size_id) REFERENCES sizes(size_id) ON DELETE CASCADE,
@@ -229,6 +242,10 @@ public class MySQLConnection {
 
             statement.execute(createPlantsTable);
             System.out.println("Table 'products' created successfully.");
+
+            statement.execute(createImagesTable);
+            System.out.println("Table 'images' created successfully.");
+
 
             statement.execute(createSizesTable);
             System.out.println("Table 'sizes' created successfully.");
