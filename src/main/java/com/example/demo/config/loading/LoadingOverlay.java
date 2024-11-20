@@ -16,7 +16,6 @@ public class LoadingOverlay {
         overlay.setVisible(false);
     }
 
-
     public void addTo(StackPane parent) {
         if (!parent.getChildren().contains(overlay)) {
             parent.getChildren().add(overlay);

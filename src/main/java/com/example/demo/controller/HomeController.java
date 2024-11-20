@@ -3,7 +3,6 @@ package com.example.demo.controller;
 import com.example.demo.Utils.Config;
 import com.example.demo.Utils.Modal;
 import com.example.demo.Utils.PreferencesUtils;
-import com.example.demo.Utils.SceneManager;
 import com.example.demo.config.MySQLConnection;
 import com.example.demo.config.loading.LoadingOverlay;
 import javafx.event.ActionEvent;

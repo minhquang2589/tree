@@ -20,6 +20,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.Objects;
 
@@ -85,7 +86,6 @@ public class UserController {
         });
 
 
-
         actionColumn.setCellFactory(new Callback<TableColumn<UserModel, String>, TableCell<UserModel, String>>() {
             @Override
             public TableCell<UserModel, String> call(TableColumn<UserModel, String> param) {
@@ -106,7 +106,7 @@ public class UserController {
                         if (empty) {
                             setGraphic(null);
                         } else {
-                            HBox hBox = new HBox(30);
+                            HBox hBox = new HBox(3);
                             hBox.setAlignment(Pos.CENTER);
                             editButton.setMaxWidth(Double.MAX_VALUE);
                             deleteButton.setMaxWidth(Double.MAX_VALUE);
@@ -129,6 +129,7 @@ public class UserController {
     }
 
     public void handleEditUser(UserModel selectedUser) {
+
         if (selectedUser != null) {
             TextField nameField = new TextField(selectedUser.getName());
             TextField emailField = new TextField(selectedUser.getEmail());
@@ -136,7 +137,7 @@ public class UserController {
             ComboBox<String> genderComboBox = new ComboBox<>();
             ComboBox<String> roleComboBox = new ComboBox<>();
             genderComboBox.getItems().addAll("male", "female", "other");
-            roleComboBox.getItems().addAll("user", "admin", "moderator");
+            roleComboBox.getItems().addAll("user", "admin", "moderator", "supervisor");
             genderComboBox.setValue(selectedUser.getGender());
             roleComboBox.setValue(selectedUser.getRole());
 
@@ -148,13 +149,11 @@ public class UserController {
             imageView.setFitHeight(100);
 
             Button chooseImageButton = new Button("Chọn ảnh");
+
             chooseImageButton.setOnAction(event -> {
-                FileChooser fileChooser = new FileChooser();
-                fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg"));
-                Stage stage = (Stage) chooseImageButton.getScene().getWindow();
-                java.io.File file = fileChooser.showOpenDialog(stage);
-                if (file != null) {
-                    String savedImagePath = Config.saveImage(file.getName(), file);
+                File selectedFile = Config.showFileChooser((Stage) chooseImageButton.getScene().getWindow());
+                if (selectedFile != null) {
+                    String savedImagePath = Config.saveImage(selectedFile.getName(), selectedFile);
                     if (savedImagePath != null) {
                         selectedUser.setImage(savedImagePath);
                         imageView.setImage(new Image("file:" + savedImagePath));
@@ -163,7 +162,6 @@ public class UserController {
                     }
                 }
             });
-
 
             VBox vbox = new VBox(10);
             vbox.getChildren().addAll(
@@ -233,7 +231,7 @@ public class UserController {
                                 loadUserData();
                             } catch (SQLException e) {
                                 e.printStackTrace();
-                                Modal.showAlert( "Xoá người dùng không thành cônh. vui lòng thử lại sai");
+                                Modal.showAlert("Xoá người dùng không thành cônh. vui lòng thử lại sai");
                             }
                         },
                         null
