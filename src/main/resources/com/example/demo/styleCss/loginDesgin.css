@@ -43,7 +43,3 @@
 .create-btn:hover{
 -fx-background-color: linear-gradient(to bottom right, #0fb565, #399a8f);
 }
-
-.container{
-    -fx-alignment: auto;
-}
