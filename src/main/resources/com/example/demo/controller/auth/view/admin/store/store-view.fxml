@@ -9,7 +9,7 @@
       fx:controller="com.example.demo.controller.admin.StoreViewController"
       spacing="10" prefHeight="600.0" prefWidth="800.0">
     <Button text="Thêm cửa hàng mới" styleClass="edit-button" onAction="#uploadButtonOnClick"/>
-    <TableView prefHeight="500.0" prefWidth="800.0">
+    <TableView prefHeight="500.0" prefWidth="800.0" fx:id="storeTable">
         <stylesheets>
             <URL value="@../../../../../styleCss/customStyle.css"/>
         </stylesheets>
