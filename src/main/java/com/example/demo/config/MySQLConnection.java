@@ -16,14 +16,19 @@ public class MySQLConnection {
                 try (Statement stmt = connection.createStatement()) {
                     stmt.executeUpdate(createDB);
                 }
+<<<<<<< Updated upstream
 
                 String dbUrl = "jdbc:mariadb://localhost:3306/plants?useSSL=false&serverTimezone=UTC";
+=======
+                String dbUrl = "jdbc:mysql://localhost:3306/plants";
+>>>>>>> Stashed changes
                 connection = DriverManager.getConnection(dbUrl, user, password);
                 createTable();
 
             } catch (SQLException e) {
                 System.err.println("Không thể kết nối đến MySQL: " + e.getMessage());
                 e.printStackTrace();
+                return null;
             }
         }
         return connection;
@@ -55,8 +60,21 @@ public class MySQLConnection {
                     email VARCHAR(100) UNIQUE NOT NULL,
                     birthday DATE,
                     image VARCHAR(255),
-                    role ENUM('admin', 'user', 'moderator') DEFAULT 'user',
+                    role ENUM('admin', 'user', 'moderator','supervisor') DEFAULT 'user',
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                );
+                """;
+
+        String createStoreTable = """
+                CREATE TABLE IF NOT EXISTS stores (
+                    store_id INT AUTO_INCREMENT PRIMARY KEY,
+                    name VARCHAR(100) NOT NULL,
+                    phone VARCHAR(15) UNIQUE NOT NULL,
+                    address VARCHAR(1000),
+                    start_date DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                    end_date DATE,
+                    image VARCHAR(255),
+                    status VARCHAR(255)
                 );
                 """;
 
@@ -133,13 +151,13 @@ public class MySQLConnection {
         String createStoreInventoryTable = """
                 CREATE TABLE IF NOT EXISTS store_inventory (
                     inventory_id INT AUTO_INCREMENT PRIMARY KEY,
-                    user_id INT NOT NULL,
+                    store_id INT NOT NULL,
                     product_id INT NOT NULL,
                     size_id INT NOT NULL,
                     category_id INT NOT NULL,
                     quantity INT NOT NULL,
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+                    FOREIGN KEY (store_id) REFERENCES stores(store_id) ON DELETE CASCADE,
                     FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE,
                     FOREIGN KEY (size_id) REFERENCES sizes(size_id) ON DELETE CASCADE,
                     FOREIGN KEY (category_id) REFERENCES categories(category_id) ON DELETE CASCADE
@@ -151,26 +169,26 @@ public class MySQLConnection {
                     transfer_id INT AUTO_INCREMENT PRIMARY KEY,
                     product_id INT NOT NULL,
                     from_warehouse_id INT,
-                    to_user_id INT NOT NULL,
+                    store_id INT NOT NULL,
                     quantity INT NOT NULL,
                     status VARCHAR(255),
                     note TEXT,
                     transfer_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE,
-                    FOREIGN KEY (to_user_id) REFERENCES users(user_id) ON DELETE CASCADE
+                    FOREIGN KEY (store_id) REFERENCES stores(store_id) ON DELETE CASCADE
                 );
                 """;
 
         String createSalesTable = """
                 CREATE TABLE IF NOT EXISTS sales (
                     sale_id INT AUTO_INCREMENT PRIMARY KEY,
-                    user_id INT NOT NULL,
+                    store_id INT NOT NULL,
                     warehouse_id INT NOT NULL,
                     product_id INT NOT NULL,
                     quantity_sold INT NOT NULL,
                     total_price DECIMAL(10, 2),
                     sale_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+                    FOREIGN KEY (store_id) REFERENCES stores(store_id) ON DELETE CASCADE,
                     FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE,
                     FOREIGN KEY (warehouse_id) REFERENCES warehouse(warehouse_id) ON DELETE CASCADE
                 );
@@ -213,7 +231,24 @@ public class MySQLConnection {
                     FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE,
                     FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE,
                     FOREIGN KEY (payment_method_id) REFERENCES payment_methods(payment_method_id) ON DELETE CASCADE,
+<<<<<<< Updated upstream
                     FOREIGN KEY (voucher_id) REFERENCES vouchers(voucher_id) ON DELETE SET NULL  -- Liên kết với bảng vouchers
+=======
+                    FOREIGN KEY (voucher_id) REFERENCES vouchers(voucher_id) ON DELETE SET NULL
+                );
+                """;
+
+        String createOrderItemsTable = """
+                CREATE TABLE IF NOT EXISTS order_items (
+                    order_items_id INT AUTO_INCREMENT PRIMARY KEY,
+                    order_id INT NOT NULL,
+                    warehouse_id INT NOT NULL,
+                    quantity INT NOT NULL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE,
+                    FOREIGN KEY (warehouse_id) REFERENCES warehouse(warehouse_id) ON DELETE CASCADE
+                
+>>>>>>> Stashed changes
                 );
                 """;
 
@@ -223,6 +258,9 @@ public class MySQLConnection {
 
             statement.execute(createUsersTable);
             System.out.println("Table 'users' created successfully.");
+
+            statement.execute(createStoreTable);
+            System.out.println("Table 'stores' created successfully.");
 
             statement.execute(createCategoriesTable);
             System.out.println("Table 'categories' created successfully.");

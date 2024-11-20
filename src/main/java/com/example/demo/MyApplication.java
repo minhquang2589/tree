@@ -1,17 +1,20 @@
 package com.example.demo;
 
+import com.example.demo.Utils.Modal;
 import com.example.demo.Utils.PreferencesUtils;
 import com.example.demo.model.UserModel;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import com.example.demo.config.MySQLConnection;
 import javafx.scene.Parent;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import static com.example.demo.controller.HomeController.handleLogin;
@@ -20,8 +23,13 @@ public class MyApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException, SQLException {
+        Connection connect = MySQLConnection.connect();
+        if (connect == null) {
+            Modal.showAlert(null, "Không thể kết nối với cơ sở dữ liệu. Xin vui lòng thử lại sau!",
+                    Alert.AlertType.ERROR, null, null);
+            return;
+        }
         String fxmlPath = "/com/example/demo/controller/auth/login-view.fxml";
-        MySQLConnection.connect();
         boolean isLoggedIn = (boolean) PreferencesUtils.get("isLoggedIn", false);
         UserModel user = PreferencesUtils.getUser();
         if (isLoggedIn && user != null) {
