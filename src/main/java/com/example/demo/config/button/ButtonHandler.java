@@ -1,6 +1,4 @@
 package com.example.demo.config.button;
-
-import com.example.demo.Utils.SceneManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -9,12 +7,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 
 public class ButtonHandler {
 
-    private final SceneManager sceneManager = SceneManager.getInstance();
 
     public void handleBack(ActionEvent actionEvent) {
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();

@@ -1,5 +1,9 @@
 package com.example.demo.Utils;
 
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -82,5 +86,14 @@ public class Config {
         }
         return System.currentTimeMillis() + extension;
     }
+
+
+    public static File showFileChooser(Stage stage) {
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg");
+        fileChooser.getExtensionFilters().add(filter);
+        return fileChooser.showOpenDialog(stage);
+    }
+
 
 }

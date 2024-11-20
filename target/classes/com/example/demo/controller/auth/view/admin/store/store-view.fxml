@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import java.net.URL?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.demo.controller.admin.StoreViewController"
+      spacing="10" prefHeight="600.0" prefWidth="800.0">
+    <Button text="Thêm cửa hàng mới" styleClass="edit-button" onAction="#uploadButtonOnClick"/>
+    <TableView prefHeight="500.0" prefWidth="800.0">
+        <stylesheets>
+            <URL value="@../../../../../styleCss/customStyle.css"/>
+        </stylesheets>
+        <columns>
+            <TableColumn text="Tên cửa hàng" fx:id="nameColumn" prefWidth="200" maxWidth="250"/>
+            <TableColumn text="Số điện thoại" fx:id="phoneColumn" prefWidth="200" maxWidth="250"/>
+            <TableColumn text="Địa chỉ" fx:id="addressColumn" prefWidth="50" maxWidth="100"/>
+            <TableColumn text="Ảnh" fx:id="imageColumn" prefWidth="100" maxWidth="150">
+                <cellValueFactory>
+                    <PropertyValueFactory property="image"/>
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn text="Trạng thái" fx:id="statusColumn" prefWidth="110" maxWidth="150"/>
+            <TableColumn text="Ngày mở cửa" fx:id="startColumn" prefWidth="200" maxWidth="300"/>
+            <TableColumn text="Ngày đóng cửa" fx:id="endColumn" prefWidth="50" maxWidth="100"/>
+            <TableColumn text="Action" fx:id="actionColumn" prefWidth="150" maxWidth="150"/>
+        </columns>
+    </TableView>
+</VBox>
