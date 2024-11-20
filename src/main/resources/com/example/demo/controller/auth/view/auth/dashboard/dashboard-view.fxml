@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<ScrollPane fitToHeight="true" fitToWidth="true" xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.demo.controller.admin.ChartController">
+    <VBox spacing="20" alignment="CENTER">
+        <HBox spacing="20" alignment="CENTER">
+            <BarChart fx:id="revenueChart" title="Doanh thu">
+                <xAxis>
+                    <CategoryAxis fx:id="xAxis"/>
+                </xAxis>
+                <yAxis>
+                    <NumberAxis fx:id="yAxis"/>
+                </yAxis>
+            </BarChart>
+            <LineChart fx:id="lineChart" title="Doanh thu theo tháng">
+                <xAxis>
+                    <CategoryAxis fx:id="lineXAxis"/>
+                </xAxis>
+                <yAxis>
+                    <NumberAxis fx:id="lineYAxis"/>
+                </yAxis>
+            </LineChart>
+        </HBox>
+        <VBox spacing="20" alignment="CENTER">
+            <PieChart fx:id="pieChart" title="Phân bổ doanh thu">
+            </PieChart>
+        </VBox>
+    </VBox>
+</ScrollPane>

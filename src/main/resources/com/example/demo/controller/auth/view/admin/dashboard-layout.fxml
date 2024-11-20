@@ -9,7 +9,6 @@
     </stylesheets>
     <SplitPane AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
                dividerPositions="0.2">
-        <!-- Sidebar -->
         <ScrollPane style="-fx-padding: 0; -fx-background-color: #f7f7f7;" minWidth="236" maxWidth="350">
             <VBox alignment="TOP_CENTER" minWidth="237" maxWidth="350" styleClass="sidebar">
                 <Button text="Bảng điều khiển" onAction="#onDashboardButtonClick" styleClass="button"/>
@@ -27,7 +26,6 @@
         </ScrollPane>
 
         <VBox>
-            <!-- header -->
             <HBox alignment="CENTER_LEFT" spacing="5" style="-fx-background-color: #ffffff; -fx-padding: 5;">
                 <Label fx:id="welcomeLabel"
                        style="-fx-font-size: 18px; -fx-text-fill: black; -fx-font-weight: bold;"
@@ -37,7 +35,6 @@
             </HBox>
             <Region style="-fx-background-color: #e0e0e0; -fx-min-height: 1; -fx-max-height: 1;"/>
 
-            <!--main Content -->
             <StackPane fx:id="rootPaneDashboard" style="-fx-background-color: white; -fx-padding: 10px 1px 10px 1px;">
                 <AnchorPane fx:id="mainContent" style="-fx-background-color: white;">
                 </AnchorPane>

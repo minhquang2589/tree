@@ -16,7 +16,7 @@
         <columns>
             <TableColumn text="Tên cửa hàng" fx:id="nameColumn" prefWidth="200" maxWidth="250"/>
             <TableColumn text="Số điện thoại" fx:id="phoneColumn" prefWidth="200" maxWidth="250"/>
-            <TableColumn text="Địa chỉ" fx:id="addressColumn" prefWidth="50" maxWidth="100"/>
+            <TableColumn text="Địa chỉ" fx:id="addressColumn" prefWidth="200" maxWidth="200"/>
             <TableColumn text="Ảnh" fx:id="imageColumn" prefWidth="100" maxWidth="150">
                 <cellValueFactory>
                     <PropertyValueFactory property="image"/>

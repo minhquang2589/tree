@@ -2,7 +2,6 @@ package com.example.demo.controller.admin;
 import com.example.demo.DAO.StoreDAO;
 import com.example.demo.Utils.Modal;
 import com.example.demo.model.StoreModel;
-import com.example.demo.model.UserModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,7 +13,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
-
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -48,10 +46,7 @@ public class StoreViewController {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
         addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
-        statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
-        startColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
-        addressColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
-        endColumn.setCellValueFactory(new PropertyValueFactory<>("image"));
+
 
         imageColumn.setCellFactory(new Callback<TableColumn<StoreModel, String>, TableCell<StoreModel, String>>() {
             @Override
@@ -75,6 +70,10 @@ public class StoreViewController {
                 };
             }
         });
+
+        statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+        startColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+        endColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
 
 
         actionColumn.setCellFactory(new Callback<TableColumn<StoreModel, String>, TableCell<StoreModel, String>>() {

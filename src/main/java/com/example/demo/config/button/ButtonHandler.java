@@ -1,16 +1,19 @@
 package com.example.demo.config.button;
+import com.example.demo.Utils.Modal;
+import com.example.demo.Utils.PreferencesUtils;
+import com.example.demo.model.UserModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import java.io.IOException;
 
 public class ButtonHandler {
-
 
     public void handleBack(ActionEvent actionEvent) {
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -19,6 +22,7 @@ public class ButtonHandler {
             stage.setScene(previousScene);
         }
     }
+
 
     public static void handleNavigator(ActionEvent actionEvent, String fxmlPath, Boolean isZoom) {
         try {
@@ -53,8 +57,6 @@ public class ButtonHandler {
             e.printStackTrace();
         }
     }
-
-
 
 
 }

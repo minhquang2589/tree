@@ -18,6 +18,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 
 import static com.example.demo.config.button.ButtonHandler.handleNavigator;
 
@@ -141,7 +142,13 @@ public class LoginController {
             PreferencesUtils.saveUser(user);
             PreferencesUtils.save("isLoggedIn", true);
             loadingOverlay.hide();
-            handleNavigator(actionEvent, "/com/example/demo/controller/auth/view/admin/dashboard-layout.fxml", true);
+            if (Objects.equals(user.getRole(), "admin")) {
+                handleNavigator(actionEvent, "/com/example/demo/controller/auth/view/admin/dashboard-layout.fxml", true);
+
+            } else {
+                handleNavigator(actionEvent, "/com/example/demo/controller/auth/view/auth/user-dashboard-layout.fxml", true);
+            }
+
         } else {
             loadingOverlay.hide();
             Modal.showAlert("Email, Mật khẩu không đúng hoặc đã xảy ra lỗi. Xin vui lòng thử lại sau!");
@@ -207,7 +214,6 @@ public class LoginController {
             Modal.showAlert("Email không hợp lệ!");
             return;
         }
-
         boolean isSuccess = insertUser(fullName, phone, Config.hashPassword(password), gender, dob, email, address);
         String hassPass = Config.hashPassword(password);
         loadingOverlay.hide();
@@ -216,7 +222,11 @@ public class LoginController {
             if (user != null) {
                 PreferencesUtils.saveUser(user);
                 PreferencesUtils.save("isLoggedIn", true);
-                handleNavigator(actionEvent, "/com/example/demo/controller/auth/view/admin/dashboard-layout.fxml", true);
+                if (Objects.equals(user.getRole(), "admin")) {
+                    handleNavigator(actionEvent, "/com/example/demo/controller/auth/view/admin/dashboard-layout.fxml", true);
+                } else {
+                    handleNavigator(actionEvent, "/com/example/demo/controller/auth/view/auth/user-dashboard-layout.fxml", true);
+                }
             } else {
                 handleNavigator(actionEvent, "/com/example/demo/controller/auth/login-view.fxml", false);
             }
@@ -236,7 +246,7 @@ public class LoginController {
             checkStatement.setString(2, phone);
             ResultSet resultSet = checkStatement.executeQuery();
             if (resultSet.next() && resultSet.getInt(1) > 0) {
-                Modal.showAlert( "Email hoặc số điện thoại đã tồn tại!");
+                Modal.showAlert("Email hoặc số điện thoại đã tồn tại!");
                 return false;
             }
             PreparedStatement insertStatement = connection.prepareStatement(insertSql);
@@ -252,7 +262,6 @@ public class LoginController {
         }
         return false;
     }
-
 
 
     public void handleForgotPassword(ActionEvent actionEvent) throws SQLException {
@@ -403,7 +412,6 @@ public class LoginController {
             slider.play();
         }
     }
-
 
 
 }
