@@ -5,7 +5,7 @@
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.demo.controller.BaseController">
     <stylesheets>
-        <URL value="@../../../../styleCss/dashboard.css"/>
+        <URL value="@../../../../styleCss/customStyle.css"/>
     </stylesheets>
     <SplitPane AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
                dividerPositions="0.2">
@@ -18,7 +18,7 @@
                 <Button text="Xuất hàng" styleClass="button"/>
                 <Button text="Quản lý kho" styleClass="button"/>
                 <Button text="Doanh thu các của hàng" styleClass="button"/>
-                <Button text="Cửa hàng" styleClass="button"/>
+                <Button text="Cửa hàng" styleClass="button" onAction="#onStoreButtonClick"/>
                 <Button text="Cửa hàng" styleClass="button"/>
                 <Button text="Cửa hàng" styleClass="button"/>
                 <Button text="Cửa hàng" styleClass="button"/>
