@@ -43,7 +43,6 @@ public class MySQLConnection {
 
     public static void createTable() throws SQLException {
 
-
         String createUsersTable = """
                 CREATE TABLE IF NOT EXISTS users (
                     user_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -79,7 +78,6 @@ public class MySQLConnection {
                     FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
                 );
                 """;
-
 
 
         String createCategoriesTable = """
@@ -122,7 +120,6 @@ public class MySQLConnection {
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 );
                 """;
-
 
         String createWarehouseTable = """
                 CREATE TABLE IF NOT EXISTS warehouse (
@@ -209,24 +206,34 @@ public class MySQLConnection {
                 );
                 """;
 
-
         String createOrderTable = """
                 CREATE TABLE IF NOT EXISTS orders (
                     order_id INT AUTO_INCREMENT PRIMARY KEY,
-                    customer_id INT NOT NULL,
-                    product_id INT NOT NULL,
+                    customer_id INT,
                     voucher_id INT,
                     payment_method_id INT NOT NULL,
-                    discount DECIMAL(5, 2) DEFAULT 0.00,
+                    discount DECIMAL(10, 2) DEFAULT 0.00,
                     total_price DECIMAL(10, 2) NOT NULL,
                     purchase_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                    quantity INT NOT NULL,
-                    status VARCHAR(255),
+                    status VARCHAR(255) DEFAULT 'pending',
+                    order_reference VARCHAR(255),
                     note VARCHAR(2000),
                     FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE,
-                    FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE,
                     FOREIGN KEY (payment_method_id) REFERENCES payment_methods(payment_method_id) ON DELETE CASCADE,
-                    FOREIGN KEY (voucher_id) REFERENCES vouchers(voucher_id) ON DELETE SET NULL  -- Liên kết với bảng vouchers
+                    FOREIGN KEY (voucher_id) REFERENCES vouchers(voucher_id) ON DELETE SET NULL
+                );
+                """;
+
+        String createOrderItemsTable = """
+                CREATE TABLE IF NOT EXISTS order_items (
+                    order_items_id INT AUTO_INCREMENT PRIMARY KEY,
+                    order_id INT NOT NULL,
+                    warehouse_id INT NOT NULL,
+                    quantity INT NOT NULL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE,
+                    FOREIGN KEY (warehouse_id) REFERENCES warehouse(warehouse_id) ON DELETE CASCADE
+
                 );
                 """;
 
@@ -276,6 +283,9 @@ public class MySQLConnection {
 
             statement.execute(createOrderTable);
             System.out.println("Table 'orders' created successfully.");
+
+            statement.execute(createOrderItemsTable);
+            System.out.println("Table 'order_items' created successfully.");
         }
     }
 
