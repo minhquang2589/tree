@@ -65,25 +65,25 @@ public class RegisterController {
 
         if (phone.isEmpty() || fullName.isEmpty() || password.isEmpty() || confirmPass.isEmpty() || gender.isEmpty() || dob.isEmpty() || email.isEmpty() || address.isEmpty()) {
             loadingOverlay.hide();
-            Modal.showAlert(null, "Xin vui lòng nhập đủ thông tin và thử lại!", null, null, null);
+            Modal.showAlert("Xin vui lòng nhập đủ thông tin và thử lại!");
             return;
         }
 
         if (!password.equals(confirmPass)) {
             loadingOverlay.hide();
-            Modal.showAlert(null, "Mật khẩu và xác nhận mật khẩu không giống nhau. Xin vui lòng nhập lại!", null, null, null);
+            Modal.showAlert("Mật khẩu và xác nhận mật khẩu không giống nhau. Xin vui lòng nhập lại!");
             return;
         }
 
         if (Config.isPhoneNumberValid(phone)) {
             loadingOverlay.hide();
-            Modal.showAlert(null, "Số điện thoại không hợp lệ!", null, null, null);
+            Modal.showAlert("Số điện thoại không hợp lệ!");
             return;
         }
 
         if (!Config.isEmailValid(email)) {
             loadingOverlay.hide();
-            Modal.showAlert(null, "Email không hợp lệ!", null, null, null);
+            Modal.showAlert("Email không hợp lệ!");
             return;
         }
 
@@ -100,7 +100,7 @@ public class RegisterController {
                 handleNavigator(actionEvent, "/com/example/demo/controller/auth/login-view.fxml", false);
             }
         } else {
-            Modal.showAlert(null, "Lỗi, xin vui lòng thử lại sau!", null, null, null);
+            Modal.showAlert("Lỗi, xin vui lòng thử lại sau!");
         }
     }
 
@@ -115,7 +115,7 @@ public class RegisterController {
             checkStatement.setString(2, phone);
             ResultSet resultSet = checkStatement.executeQuery();
             if (resultSet.next() && resultSet.getInt(1) > 0) {
-                Modal.showAlert(null, "Email hoặc số điện thoại đã tồn tại!", null, null, null);
+                Modal.showAlert( "Email hoặc số điện thoại đã tồn tại!");
                 return false;
             }
             PreparedStatement insertStatement = connection.prepareStatement(insertSql);

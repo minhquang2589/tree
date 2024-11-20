@@ -12,10 +12,12 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import com.example.demo.model.UserModel;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import static com.example.demo.config.button.ButtonHandler.handleNavigator;
 
 public class HomeController {
@@ -48,28 +50,28 @@ public class HomeController {
         String passWord = passwordField.getText();
         if (phone.isEmpty() || passWord.isEmpty()) {
             loadingOverlay.hide();
-            Modal.showAlert("thất bại", "Xin vui lòng điền đủ thông tin và thử lại!", null, null, null);
+            Modal.showAlert("Xin vui lòng điền đủ thông tin và thử lại!");
             return;
         }
         if (Config.isPhoneNumberValid(phone)) {
             loadingOverlay.hide();
-            Modal.showAlert(null, "Số điện thoại không hợp lệ!", null, null, null);
+            Modal.showAlert("Số điện thoại không hợp lệ!");
             return;
         }
         if (Config.isValidPassword(passWord)) {
             loadingOverlay.hide();
-            Modal.showAlert(null, "Mật khẩu không hợp lệ!", null, null, null);
+            Modal.showAlert("Mật khẩu không hợp lệ!");
             return;
         }
-        UserModel user = handleLogin(phone,  Config.hashPassword(passWord));
+        UserModel user = handleLogin(phone, Config.hashPassword(passWord));
         if (user != null) {
             PreferencesUtils.saveUser(user);
             PreferencesUtils.save("isLoggedIn", true);
             loadingOverlay.hide();
-            handleNavigator(actionEvent, "/com/example/demo/controller/auth/view/admin/dashboard-layout.fxml",  true);
+            handleNavigator(actionEvent, "/com/example/demo/controller/auth/view/admin/dashboard-layout.fxml", true);
         } else {
             loadingOverlay.hide();
-            Modal.showAlert("thất bại", "Email, Mật khẩu không đúng hoặc đã xảy ra lỗi. Xin vui lòng thử lại sau!", null, null, null);
+            Modal.showAlert("Email, Mật khẩu không đúng hoặc đã xảy ra lỗi. Xin vui lòng thử lại sau!");
         }
     }
 
@@ -91,7 +93,7 @@ public class HomeController {
                 String role = resultSet.getString("role");
                 String image = resultSet.getString("image");
                 String address = resultSet.getString("address");
-                return new UserModel(id, fullName, email, phoneNumber, gender, role, birthday, image,password, address);
+                return new UserModel(id, fullName, email, phoneNumber, gender, role, birthday, image, password, address);
             }
         }
         return null;

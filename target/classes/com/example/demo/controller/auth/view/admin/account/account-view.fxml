@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
 <?import javafx.scene.control.cell.PropertyValueFactory?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.demo.controller.admin.UserController">
-    <ScrollPane AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
-        <TableView fx:id="userTable" prefHeight="600" prefWidth="1200" style="-fx-background-color: white;">
-            <columns>
-                <TableColumn text="Username" fx:id="usernameColumn" prefWidth="200"/>
-                <TableColumn text="Email" fx:id="emailColumn" prefWidth="200"/>
-                <TableColumn text="Role" fx:id="roleColumn" prefWidth="50"/>
-                <TableColumn text="Phone" fx:id="phoneColumn" prefWidth="100"/>
-                <TableColumn text="Address" fx:id="addressColumn" prefWidth="200"/>
-                <TableColumn text="Gender" fx:id="genderColumn" prefWidth="50"/>
-                <TableColumn text="Birthday" fx:id="birthdayColumn" prefWidth="110"/>
-                <TableColumn text="Image" fx:id="imageColumn" prefWidth="100">
-                    <cellValueFactory>
-                        <PropertyValueFactory property="image"/>
-                    </cellValueFactory>
-                </TableColumn>
-                <TableColumn text="Action" fx:id="actionColumn" prefWidth="200"/>
-            </columns>
-        </TableView>
-    </ScrollPane>
-</AnchorPane>
+<?import java.net.URL?>
+
+<TableView fx:id="userTable" style="-fx-background-color: white;"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.example.demo.controller.admin.UserController"
+           maxHeight="550"
+           minHeight="550"
+>
+    <stylesheets>
+        <URL value="@../../../../../styleCss/dashboard.css"/>
+    </stylesheets>
+    <columns>
+        <TableColumn text="Tên" fx:id="usernameColumn" prefWidth="200" maxWidth="250"/>
+        <TableColumn text="Email" fx:id="emailColumn" prefWidth="200" maxWidth="250"/>
+        <TableColumn text="Role" fx:id="roleColumn" prefWidth="50" maxWidth="100"/>
+        <TableColumn text="Số điện thoại" fx:id="phoneColumn" prefWidth="100" maxWidth="150"/>
+        <TableColumn text="Địa chỉ" fx:id="addressColumn" prefWidth="200" maxWidth="300"/>
+        <TableColumn text="Giới tính" fx:id="genderColumn" prefWidth="50" maxWidth="100"/>
+        <TableColumn text="Sinh nhật" fx:id="birthdayColumn" prefWidth="110" maxWidth="150"/>
+        <TableColumn text="Ảnh" fx:id="imageColumn" prefWidth="100" maxWidth="150">
+            <cellValueFactory>
+                <PropertyValueFactory property="image"/>
+            </cellValueFactory>
+        </TableColumn>
+        <TableColumn text="Action" fx:id="actionColumn" prefWidth="200" maxWidth="250"/>
+    </columns>
+</TableView>
+

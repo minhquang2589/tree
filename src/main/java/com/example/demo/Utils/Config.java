@@ -52,7 +52,7 @@ public class Config {
 
 
     public static String saveImage(String originalFileName, java.io.File file) {
-        Path targetDir = Paths.get("src/assets/images");
+        Path targetDir = Paths.get("src/main/resources/assets/images");
         if (!Files.exists(targetDir)) {
             try {
                 Files.createDirectories(targetDir);

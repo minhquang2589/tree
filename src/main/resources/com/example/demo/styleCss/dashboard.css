@@ -1,0 +1,110 @@
+.sidebar {
+    -fx-padding: 15px 5px 5px 5px ;
+    -fx-pref-width: 100%;
+    -fx-spacing: 9px;
+    -fx-height: 100%;
+    -fx-border-radius: 18px;
+}
+
+
+.sidebar .button {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #333333;
+    -fx-font-size: 16px;
+    -fx-padding: 10px;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-border-width: 1;
+    -fx-pref-width: 200px;
+    -fx-alignment: center-left;
+    -fx-font-weight: bold;
+    -fx-transition: background-color 0.3s ease, -fx-transform 0.3s ease;
+}
+
+.sidebar .button:hover {
+    -fx-background-color: #f0f0f0;
+    -fx-cursor: hand;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.sidebar .label {
+    -fx-text-fill: #333333;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px;
+    -fx-alignment: center;
+    -fx-opacity: 0.9;
+}
+
+.sidebar .button.logout {
+    -fx-background-color: #ff3b30;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+}
+
+.sidebar .button.logout:hover {
+    -fx-background-color: #ff1c1c;
+}
+
+.sidebar .button.logout:pressed {
+    -fx-background-color: #d12a2a;
+}
+
+.sidebar .button:focused {
+    -fx-background-color: #cccccc;
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+}
+
+
+.sidebar box {
+    -fx-background-color: #f8f8f8;
+    -fx-padding: 10px;
+    -fx-border-radius: 20px;
+}
+
+
+.logout-button {
+    -fx-background-color: #ff4d4d;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 5px 10px;
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+}
+
+
+.delete-button {
+    -fx-background-color: #ff4d4d;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 15px;
+    -fx-border-radius: 15px;
+}
+
+.delete-button:hover {
+    -fx-background-color: #ff6666;
+}
+
+.edit-button {
+    -fx-background-color: #1E90FF;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 15px;
+    -fx-border-radius: 15px;
+}
+
+.edit-button:hover {
+    -fx-background-color: #3a9bdc;
+}
+
+.logout-button:hover {
+    -fx-background-color: #ff1a1a;
+}
+
+
+#mainContent {
+    -fx-background-color: #ffffff;
+    -fx-border-radius: 20px;
+}

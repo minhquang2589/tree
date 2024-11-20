@@ -9,7 +9,7 @@ public class Modal {
         Alert alert = new Alert(type != null ? type : Alert.AlertType.NONE);
         alert.setTitle(title != null ? title : "Thông báo");
         alert.setHeaderText(null);
-        alert.setContentText(message);
+        alert.setContentText(message != null ? message : "Lỗi. Xin vui lòng thử lại sau");
         if (type == null) {
             alert.getButtonTypes().add(ButtonType.CLOSE);
         }
@@ -24,5 +24,9 @@ public class Modal {
                 }
             }
         });
+    }
+
+    public static void showAlert(String message) {
+        showAlert("Thông báo", message != null ? message : "Lỗi. Xin vui lòng thử lại sau", Alert.AlertType.INFORMATION, null, null);
     }
 }

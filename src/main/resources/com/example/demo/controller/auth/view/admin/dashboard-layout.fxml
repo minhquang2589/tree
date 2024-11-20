@@ -1,35 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import java.net.URL?>
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.demo.controller.BaseController">
-    <!-- Sidebar -->
-    <VBox alignment="TOP_CENTER" spacing="20" prefWidth="250" style="-fx-background-color: #2F4F4F;"
-          AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0">
-        <Button text="Dashboard" fx:id="dashboardMenuItem" onAction="#onDashboardButtonClick"
-                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16px;"/>
-        <Button text="User Managements" fx:id="userMenuItem" onAction="#onUsersButtonClick"
-                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16px;"/>
-        <Button text="Settings" fx:id="settingsMenuItem" onAction="#onSettingsButtonClick"
-                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 16px;"/>
-        <Button text="Logout" onAction="#onLogoutButtonClick"
-                style="-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-size: 16px;"/>
-    </VBox>
+    <stylesheets>
+        <URL value="@../../../../styleCss/dashboard.css"/>
+    </stylesheets>
+    <SplitPane AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
+               dividerPositions="0.2">
+        <!-- Sidebar -->
+        <ScrollPane style="-fx-padding: 0; -fx-background-color: #f7f7f7;" minWidth="250" maxWidth="350">
+            <VBox alignment="TOP_CENTER" minWidth="230" maxWidth="350" styleClass="sidebar">
+                <Button text="Bảng điều khiển" onAction="#onDashboardButtonClick" styleClass="button"/>
+                <Button text="Quản lý tài khoản" onAction="#onUsersButtonClick" styleClass="button"/>
+                <Button text="Nhập hàng" onAction="#onSettingsButtonClick" styleClass="button"/>
+                <Button text="Xuất hàng" styleClass="button"/>
+                <Button text="Quản lý kho" styleClass="button"/>
+                <Button text="Doanh thu các của hàng" styleClass="button"/>
+                <Button text="Cửa hàng" styleClass="button"/>
+                <Button text="Cửa hàng" styleClass="button"/>
+                <Button text="Cửa hàng" styleClass="button"/>
+                <Button text="Cửa hàng" styleClass="button"/>
+                <Button text="Cửa hàng" styleClass="button"/>
+            </VBox>
+        </ScrollPane>
 
-    <!-- Main Content Area -->
-    <VBox layoutX="250" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="250"
-          AnchorPane.rightAnchor="0">
-        <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-background-color: #4CAF50; -fx-padding: 10;"
-              HBox.hgrow="ALWAYS">
-            <Label fx:id="welcomeLabel" style="-fx-font-size: 18px; -fx-text-fill: white; -fx-font-weight: bold;"
-                   HBox.hgrow="ALWAYS"/>
-        </HBox>
+        <VBox>
+            <!-- header -->
+            <HBox alignment="CENTER_LEFT" spacing="5" style="-fx-background-color: #ffffff; -fx-padding: 5;">
+                <Label fx:id="welcomeLabel"
+                       style="-fx-font-size: 18px; -fx-text-fill: black; -fx-font-weight: bold;"
+                       HBox.hgrow="ALWAYS"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button text="Đăng xuất" onAction="#onLogoutButtonClick" styleClass="logout-button"/>
+            </HBox>
+            <Region style="-fx-background-color: #e0e0e0; -fx-min-height: 1; -fx-max-height: 1;"/>
 
-        <!-- Main content should fill all available space -->
-        <StackPane fx:id="rootPaneDashboard" VBox.vgrow="ALWAYS">
-            <AnchorPane fx:id="mainContent" AnchorPane.topAnchor="0" AnchorPane.leftAnchor="0"
-                        AnchorPane.rightAnchor="0" AnchorPane.bottomAnchor="0">
-            </AnchorPane>
-        </StackPane>
-    </VBox>
+            <!--main Content -->
+            <StackPane fx:id="rootPaneDashboard" style="-fx-background-color: white; -fx-padding: 10px 1px 10px 1px;">
+                <AnchorPane fx:id="mainContent" style="-fx-background-color: white;">
+                </AnchorPane>
+            </StackPane>
+        </VBox>
+    </SplitPane>
 </AnchorPane>
+
+
