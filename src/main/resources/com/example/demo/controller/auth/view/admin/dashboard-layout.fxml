@@ -10,8 +10,8 @@
     <SplitPane AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
                dividerPositions="0.2">
         <!-- Sidebar -->
-        <ScrollPane style="-fx-padding: 0; -fx-background-color: #f7f7f7;" minWidth="250" maxWidth="350">
-            <VBox alignment="TOP_CENTER" minWidth="230" maxWidth="350" styleClass="sidebar">
+        <ScrollPane style="-fx-padding: 0; -fx-background-color: #f7f7f7;" minWidth="236" maxWidth="350">
+            <VBox alignment="TOP_CENTER" minWidth="237" maxWidth="350" styleClass="sidebar">
                 <Button text="Bảng điều khiển" onAction="#onDashboardButtonClick" styleClass="button"/>
                 <Button text="Quản lý tài khoản" onAction="#onUsersButtonClick" styleClass="button"/>
                 <Button text="Nhập hàng" onAction="#onSettingsButtonClick" styleClass="button"/>
