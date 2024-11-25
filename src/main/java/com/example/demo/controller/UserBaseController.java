@@ -59,4 +59,7 @@ public class UserBaseController {
     public void imPortOnClick(ActionEvent actionEvent) throws IOException {
         setMainContent("/com/example/demo/controller/auth/view/admin/settings/setting-view.fxml");
     }
+    public void onSales(ActionEvent actionEvent){
+        handleNavigator(actionEvent, "/com/example/demo/controller/auth/view/auth/salesdashboardlayout/sales-dashboard-layout.fxml", false);
+    }
 }

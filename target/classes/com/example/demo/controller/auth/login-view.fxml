@@ -148,7 +148,7 @@
                         </PasswordField>
                   <ComboBox fx:id="su_gender" editable="true" layoutX="49.0" layoutY="255.0" prefHeight="32.0" prefWidth="250.0" promptText="Giới tính" styleClass="textfield" stylesheets="@../../styleCss/loginDesgin.css" />
                   <DatePicker fx:id="su_date" layoutX="49.0" layoutY="300.0" prefHeight="32.0" prefWidth="250.0" promptText="Ngày Sinh" />
-                        <TextField fx:id="su_email" layoutX="49.0" layoutY="344.0" prefHeight="15.0" prefWidth="250.0" promptText="Số điện thoại" styleClass="textfield">
+                        <TextField fx:id="su_email" layoutX="49.0" layoutY="344.0" prefHeight="15.0" prefWidth="250.0" promptText="Email" styleClass="textfield">
                      <font>
                         <Font size="15.0" />
                      </font></TextField>
