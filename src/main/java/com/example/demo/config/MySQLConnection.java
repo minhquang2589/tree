@@ -156,16 +156,32 @@ public class MySQLConnection {
         String createStoreInventoryTable = """
                 CREATE TABLE IF NOT EXISTS store_inventory (
                     inventory_id INT AUTO_INCREMENT PRIMARY KEY,
-                    store_id INT NOT NULL,
                     product_id INT NOT NULL,
                     size_id INT NOT NULL,
                     category_id INT NOT NULL,
                     quantity INT NOT NULL,
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                    FOREIGN KEY (store_id) REFERENCES stores(store_id) ON DELETE CASCADE,
                     FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE,
                     FOREIGN KEY (size_id) REFERENCES sizes(size_id) ON DELETE CASCADE,
                     FOREIGN KEY (category_id) REFERENCES categories(category_id) ON DELETE CASCADE
+                );
+                """;
+
+        String createReturnProductsTable = """
+                CREATE TABLE IF NOT EXISTS return_products (
+                    return_product_id INT AUTO_INCREMENT PRIMARY KEY,
+                    store_id INT NOT NULL,
+                    product_id INT NOT NULL,
+                    size_id INT NOT NULL,
+                    category_id INT NOT NULL,
+                    quantity INT NOT NULL,
+                    warehouse_id INT NOT NULL,
+                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                    FOREIGN KEY (store_id) REFERENCES stores(store_id) ON DELETE CASCADE,
+                    FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE,
+                    FOREIGN KEY (size_id) REFERENCES sizes(size_id) ON DELETE CASCADE,
+                    FOREIGN KEY (category_id) REFERENCES categories(category_id) ON DELETE CASCADE,
+                    FOREIGN KEY (warehouse_id) REFERENCES warehouse(warehouse_id) ON DELETE CASCADE
                 );
                 """;
 
@@ -173,14 +189,17 @@ public class MySQLConnection {
                 CREATE TABLE IF NOT EXISTS transfer_logs (
                     transfer_id INT AUTO_INCREMENT PRIMARY KEY,
                     product_id INT NOT NULL,
-                    from_warehouse_id INT,
                     store_id INT NOT NULL,
+                    size_id INT NOT NULL,
+                    category_id INT NOT NULL,
                     quantity INT NOT NULL,
                     status VARCHAR(255),
                     note TEXT,
                     transfer_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE,
-                    FOREIGN KEY (store_id) REFERENCES stores(store_id) ON DELETE CASCADE
+                    FOREIGN KEY (store_id) REFERENCES stores(store_id) ON DELETE CASCADE,
+                    FOREIGN KEY (size_id) REFERENCES sizes(size_id) ON DELETE CASCADE,
+                    FOREIGN KEY (category_id) REFERENCES categories(category_id) ON DELETE CASCADE
                 );
                 """;
 
@@ -189,12 +208,10 @@ public class MySQLConnection {
                     sale_id INT AUTO_INCREMENT PRIMARY KEY,
                     store_id INT NOT NULL,
                     warehouse_id INT NOT NULL,
-                    product_id INT NOT NULL,
                     quantity_sold INT NOT NULL,
                     total_price DECIMAL(10, 2),
                     sale_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     FOREIGN KEY (store_id) REFERENCES stores(store_id) ON DELETE CASCADE,
-                    FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE,
                     FOREIGN KEY (warehouse_id) REFERENCES warehouse(warehouse_id) ON DELETE CASCADE
                 );
                 """;
@@ -269,7 +286,6 @@ public class MySQLConnection {
             statement.execute(createImagesTable);
             System.out.println("Table 'images' created successfully.");
 
-
             statement.execute(createSizesTable);
             System.out.println("Table 'sizes' created successfully.");
 
@@ -299,6 +315,9 @@ public class MySQLConnection {
 
             statement.execute(createOrderTable);
             System.out.println("Table 'orders' created successfully.");
+
+            statement.execute(createReturnProductsTable);
+            System.out.println("Table 'return products' created successfully.");
 
             statement.execute(createOrderItemsTable);
             System.out.println("Table 'order_items' created successfully.");

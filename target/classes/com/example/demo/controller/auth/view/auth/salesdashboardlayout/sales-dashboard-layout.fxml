@@ -21,7 +21,7 @@
                <children>
                   <AnchorPane layoutY="14.0" prefHeight="50.0" prefWidth="199.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <Label alignment="CENTER" layoutX="14.0" layoutY="17.0" prefWidth="170.0" text="ShopTree" textAlignment="CENTER" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="14.0">
+                        <Label alignment="CENTER" layoutX="14.0" layoutY="17.0" prefWidth="170.0" text="ShopTree" textAlignment="CENTER" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -58,12 +58,7 @@
                   <Button layoutX="10.0" layoutY="188.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="178.0" styleClass="login-btn" stylesheets="@../../../../../styleCss/loginDesgin.css" text="Button" />
                   <Button layoutX="10.0" layoutY="246.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="178.0" styleClass="login-btn" stylesheets="@../../../../../styleCss/loginDesgin.css" text="Button" />
                   <Button layoutX="11.0" layoutY="304.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="178.0" styleClass="login-btn" stylesheets="@../../../../../styleCss/loginDesgin.css" text="Button" />
-                  <Button  text="Sign Out" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="10.0">
-                     <font>
-                        <Font size="15.0" />
-                     </font>
-                  </Button>
-                  <fx:include source="../../../components/back-button.fxml"></fx:include>
+                  <fx:include source="../../../components/back-button.fxml" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="0.0" />
                </children>
             </AnchorPane>
          </left>
