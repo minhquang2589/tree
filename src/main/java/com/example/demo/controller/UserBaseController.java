@@ -7,6 +7,7 @@ import com.example.demo.config.loading.LoadingOverlay;
 import com.example.demo.model.UserModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
