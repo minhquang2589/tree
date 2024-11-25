@@ -10,7 +10,7 @@
 -fx-padding: 0 0 0 5px;
 }
 .login-btn{
--fx-background-color: linear-gradient(to bottom right, #098c53, #246861);
+-fx-background-color: linear-gradient(to bottom right, #098c53, #286155);
 -fx-background-radius: 5px;
 -fx-cursor: hand;
 -fx-text-fill: #fff;

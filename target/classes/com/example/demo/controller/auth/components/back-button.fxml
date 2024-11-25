@@ -4,5 +4,5 @@
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8"
             fx:controller="com.example.demo.config.button.ButtonHandler">
-    <Button text="Quay lại" onAction="#handleBack" layoutX="10" layoutY="10"/>
+    <Button mnemonicParsing="false" styleClass="login-btn" stylesheets="@../../../styleCss/loginDesgin.css" text="Quay lại" onAction="#handleBack" layoutX="10" layoutY="10"/>
 </AnchorPane>
