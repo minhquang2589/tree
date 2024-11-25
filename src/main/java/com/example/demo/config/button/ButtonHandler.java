@@ -1,14 +1,10 @@
 package com.example.demo.config.button;
-import com.example.demo.Utils.Modal;
-import com.example.demo.Utils.PreferencesUtils;
-import com.example.demo.model.UserModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import java.io.IOException;
@@ -19,6 +15,7 @@ public class ButtonHandler {
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         Scene previousScene = (Scene) stage.getUserData();
         if (previousScene != null) {
+            stage.setUserData(null);
             stage.setScene(previousScene);
         }
     }
@@ -37,6 +34,7 @@ public class ButtonHandler {
                 ((Stage) ((Node) actionEvent.getSource()).getScene().getWindow()).close();
             } else {
                 stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                stage.setUserData(stage.getScene());
                 Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
                 double currentWidth = stage.getWidth();
                 double currentHeight = stage.getHeight();
