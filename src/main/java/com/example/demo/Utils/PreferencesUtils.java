@@ -26,21 +26,15 @@ public class PreferencesUtils {
     }
 
     public static Object get(String key, Object defaultValue) {
-        if (defaultValue instanceof String) {
-            return preferences.get(key, (String) defaultValue);
-        } else if (defaultValue instanceof Boolean) {
-            return preferences.getBoolean(key, (Boolean) defaultValue);
-        } else if (defaultValue instanceof Integer) {
-            return preferences.getInt(key, (Integer) defaultValue);
-        } else if (defaultValue instanceof Double) {
-            return preferences.getDouble(key, (Double) defaultValue);
-        } else if (defaultValue instanceof Long) {
-            return preferences.getLong(key, (Long) defaultValue);
-        } else if (defaultValue == null) {
-            return null;
-        } else {
-            throw new IllegalArgumentException(String.valueOf(defaultValue.getClass()));
-        }
+        return switch (defaultValue) {
+            case String s -> preferences.get(key, s);
+            case Boolean b -> preferences.getBoolean(key, b);
+            case Integer i -> preferences.getInt(key, i);
+            case Double v -> preferences.getDouble(key, v);
+            case Long l -> preferences.getLong(key, l);
+            case null -> null;
+            default -> throw new IllegalArgumentException(String.valueOf(defaultValue.getClass()));
+        };
     }
 
     public static void remove(String key) {

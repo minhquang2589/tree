@@ -92,6 +92,17 @@ public class MySQLConnection {
                 );
                 """;
 
+        String createBarcodeTable = """
+            CREATE TABLE IF NOT EXISTS barcode (
+                barcode_id INT AUTO_INCREMENT PRIMARY KEY,
+                status VARCHAR(255),
+                barcode VARCHAR(255) UNIQUE NOT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+            );
+        """;
+
+
 
         String createCategoriesTable = """
                 CREATE TABLE IF NOT EXISTS categories (
@@ -143,13 +154,11 @@ public class MySQLConnection {
                     quantity INT NOT NULL,
                     price DECIMAL(10, 2) NOT NULL,
                     discount_id INT,
-                    barcode_image_path VARCHAR(255) UNIQUE NOT NULL,
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                     FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE,
                     FOREIGN KEY (size_id) REFERENCES sizes(size_id) ON DELETE CASCADE,
                     FOREIGN KEY (category_id) REFERENCES categories(category_id) ON DELETE CASCADE,
                     FOREIGN KEY (discount_id) REFERENCES discounts(discount_id) ON DELETE CASCADE
-                
                 );
                 """;
 
@@ -279,6 +288,9 @@ public class MySQLConnection {
 
             statement.execute(createCategoriesTable);
             System.out.println("Table 'categories' created successfully.");
+
+            statement.execute(createBarcodeTable);
+            System.out.println("Table 'barcode' created successfully.");
 
             statement.execute(createPlantsTable);
             System.out.println("Table 'products' created successfully.");
