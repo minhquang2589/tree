@@ -20,6 +20,7 @@ public class ButtonHandler {
         Scene previousScene = (Scene) stage.getUserData();
         if (previousScene != null) {
             stage.setScene(previousScene);
+            System.out.println("sdsad");
         }
     }
 
