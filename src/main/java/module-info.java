@@ -5,6 +5,7 @@ module com.example.demo {
     requires javafx.graphics;
     requires java.desktop;
     requires java.prefs;
+    requires batik.util;
 
     opens com.example.demo to javafx.fxml;
     exports com.example.demo;
