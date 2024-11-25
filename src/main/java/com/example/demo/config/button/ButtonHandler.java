@@ -20,7 +20,7 @@ public class ButtonHandler {
         Scene previousScene = (Scene) stage.getUserData();
         if (previousScene != null) {
             stage.setUserData(null);
-            stage.setScene(previousScene);
+//            stage.setScene(previousScene);
         }
     }
 
