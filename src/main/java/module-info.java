@@ -18,4 +18,6 @@ module com.example.demo {
     exports com.example.demo.controller.admin;
     opens com.example.demo.controller.admin to javafx.fxml;
     opens com.example.demo.model to javafx.base;
+    exports com.example.demo.controller.user;
+    opens com.example.demo.controller.user to javafx.fxml;
 }
