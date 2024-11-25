@@ -21,6 +21,7 @@ public class SalesDashboardLayout   {
 
     @FXML
     public void onBack(ActionEvent actionEvent){
+//        quang dan
     }
 
 }
