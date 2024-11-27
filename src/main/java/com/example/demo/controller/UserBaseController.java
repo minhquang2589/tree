@@ -1,5 +1,7 @@
 package com.example.demo.controller;
+import java.io.IOException;
 import com.example.demo.Utils.PreferencesUtils;
+import static com.example.demo.config.button.ButtonHandler.handleNavigator;
 import com.example.demo.config.loading.LoadingOverlay;
 import com.example.demo.model.UserModel;
 import javafx.event.ActionEvent;
@@ -9,10 +11,6 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-
-import java.io.IOException;
-
-import static com.example.demo.config.button.ButtonHandler.handleNavigator;
 
 public class UserBaseController {
 
@@ -44,7 +42,6 @@ public class UserBaseController {
         mainContent.getChildren().add(content);
     }
 
-
     @FXML
     public void onDashboardButtonClick(ActionEvent actionEvent) throws IOException {
         setMainContent("/com/example/demo/controller/auth/view/auth/dashboard/dashboard-view.fxml");
@@ -59,7 +56,8 @@ public class UserBaseController {
     public void imPortOnClick(ActionEvent actionEvent) throws IOException {
         setMainContent("/com/example/demo/controller/auth/view/admin/settings/setting-view.fxml");
     }
-    public void onSales(ActionEvent actionEvent){
+
+    public void onSales(ActionEvent actionEvent) {
         handleNavigator(actionEvent, "/com/example/demo/controller/auth/view/auth/salesdashboardlayout/sales-dashboard-layout.fxml", false);
     }
 }

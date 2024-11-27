@@ -18,3 +18,39 @@
 -fx-background-radius: 8px;
 }
 
+.scroll-pane {
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-padding: 0;
+}
+
+.scroll-pane .viewport {
+    -fx-background-radius: 8px;
+    -fx-background-color: #fff;
+}
+
+.scroll-bar {
+    -fx-background-radius: 8px;
+    -fx-pref-width: 15px;
+    -fx-pref-height: 15px;
+}
+
+.scroll-bar .increment-button,
+.scroll-bar .decrement-button,
+.scroll-bar .thumb{
+    -fx-background-radius: 8px;
+}
+.scroll-pane .corner {
+    -fx-background-radius: 8px;
+    -fx-background-color: #ffffff;
+    -fx-border-radius: 8px;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1px;
+}
+
+.table-view {
+-fx-background-color: #fff;
+-fx-background-radius: 8px;
+-fx-border-radius: 8px 0 8px 0;
+}
+
