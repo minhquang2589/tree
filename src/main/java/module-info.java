@@ -20,4 +20,6 @@ module com.example.demo {
     opens com.example.demo.model to javafx.base;
     exports com.example.demo.controller.user;
     opens com.example.demo.controller.user to javafx.fxml;
+    exports com.example.demo.controller.user.paymentprocessing;
+    opens com.example.demo.controller.user.paymentprocessing to javafx.fxml;
 }
