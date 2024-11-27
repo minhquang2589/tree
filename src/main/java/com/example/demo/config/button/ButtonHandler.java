@@ -19,6 +19,7 @@ public class ButtonHandler {
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         Scene previousScene = (Scene) stage.getUserData();
         if (previousScene != null) {
+            stage.setUserData(null);
             stage.setScene(previousScene);
         }
     }
@@ -37,6 +38,7 @@ public class ButtonHandler {
                 ((Stage) ((Node) actionEvent.getSource()).getScene().getWindow()).close();
             } else {
                 stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                stage.setUserData(stage.getScene());
                 Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
                 double currentWidth = stage.getWidth();
                 double currentHeight = stage.getHeight();
