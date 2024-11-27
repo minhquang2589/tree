@@ -1,11 +1,14 @@
 package com.example.demo.Utils;
 
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Modality;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import java.io.IOException;
 
@@ -44,6 +47,13 @@ public class Modal {
         modalStage.setTitle(title);
         modalStage.setScene(new Scene(root));
         modalStage.setResizable(true);
+        Platform.runLater(() -> {
+            Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+            double centerX = (screenBounds.getWidth() - modalStage.getWidth()) / 2;
+            double centerY = (screenBounds.getHeight() - modalStage.getHeight()) / 2;
+            modalStage.setX(centerX);
+            modalStage.setY(centerY);
+        });
         modalStage.showAndWait();
     }
 }

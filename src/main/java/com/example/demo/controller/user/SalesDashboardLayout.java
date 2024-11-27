@@ -1,5 +1,6 @@
 package com.example.demo.controller.user;
 
+import com.example.demo.Utils.Modal;
 import com.example.demo.Utils.PreferencesUtils;
 import com.example.demo.config.button.ButtonHandler;
 import com.example.demo.config.loading.LoadingOverlay;
@@ -21,4 +22,7 @@ import static com.example.demo.config.button.ButtonHandler.handleNavigator;
 
 
 public class SalesDashboardLayout   {
+    public void onPayment(ActionEvent actionEvent) throws IOException {
+        Modal.showModal("/com/example/demo/controller/auth/view/auth/paymentprocessing/PaymentProcessing.fxml","Chọn các hình thức thanh toán bằng cách bấm vào ô tương ứng.");
+    }
 }
