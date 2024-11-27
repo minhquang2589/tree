@@ -360,10 +360,8 @@ public class MySQLConnection {
             statement.execute(createDistrictsTable);
             System.out.println("Table 'districts' created successfully.");
 
-
             statement.execute(createWardsTable);
             System.out.println("Table 'wards' created successfully.");
-
 
             statement.execute(createUsersTable);
             System.out.println("Table 'users' created successfully.");
