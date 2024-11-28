@@ -22,4 +22,20 @@ module com.example.demo {
     opens com.example.demo.controller.user to javafx.fxml;
     exports com.example.demo.controller.user.paymentprocessing;
     opens com.example.demo.controller.user.paymentprocessing to javafx.fxml;
+    exports com.example.demo.controller.user.orderlist;
+    opens com.example.demo.controller.user.orderlist to javafx.fxml;
+    exports com.example.demo.controller.user.report;
+    opens com.example.demo.controller.user.report to javafx.fxml;
+    exports  com.example.demo.controller.user.translation;
+    opens com.example.demo.controller.user.translation to javafx.fxml;
+    exports com.example.demo.controller.user.report.showreport;
+    opens com.example.demo.controller.user.report.showreport to javafx.fxml;
+    exports com.example.demo.controller.user.member;
+    opens com.example.demo.controller.user.member to javafx.fxml;
+    exports com.example.demo.controller.user.checkprice;
+    opens com.example.demo.controller.user.checkprice to javafx.fxml;
+    exports com.example.demo.controller.user.closeshift;
+    opens com.example.demo.controller.user.closeshift to javafx.fxml;
+    exports com.example.demo.controller.user.addproduct;
+    opens com.example.demo.controller.user.addproduct to javafx.fxml;
 }
