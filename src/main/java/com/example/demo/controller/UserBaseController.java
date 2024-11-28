@@ -60,4 +60,7 @@ public class UserBaseController {
     public void onSales(ActionEvent actionEvent) {
         handleNavigator(actionEvent, "/com/example/demo/controller/auth/view/auth/salesdashboardlayout/sales-dashboard-layout.fxml", false);
     }
+    public void onAddProduct(ActionEvent actionEvent) throws IOException {
+        setMainContent("/com/example/demo/controller/auth/view/auth/addproduct/addproduct.fxml");
+    }
 }

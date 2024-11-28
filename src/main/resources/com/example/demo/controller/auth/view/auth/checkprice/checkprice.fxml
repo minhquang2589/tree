@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controller.user.checkprice.CheckPriceController">
+    <children>
+        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <Text layoutX="23.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tên sản phẩm" wrappingWidth="99.15390014648438" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="20.0">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Text>
+            <Text layoutX="263.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ngay hiện lực" wrappingWidth="99.15390014648438">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Text>
+            <Text layoutX="471.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Số điện thoại" wrappingWidth="99.15390014648438">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Text>
+            <TextField layoutX="15.0" layoutY="41.0" prefHeight="27.0" prefWidth="239.0" styleClass="textfield" stylesheets="@../../../../../styleCss/loginDesgin.css" />
+            <DatePicker layoutX="264.0" layoutY="42.0" prefHeight="27.0" prefWidth="197.0" styleClass="textfield" stylesheets="@../../../../../styleCss/loginDesgin.css" />
+            <TextField layoutX="471.0" layoutY="41.0" prefHeight="27.0" prefWidth="239.0" styleClass="textfield" stylesheets="@../../../../../styleCss/loginDesgin.css" />
+            <Button layoutX="775.0" layoutY="20.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="80.0" text="Tìm" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="20.0" />
+            <Separator layoutY="101.0" prefHeight="0.0" prefWidth="900.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="101.0" />
+            <TableView layoutX="7.0" layoutY="112.0" prefHeight="588.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="112.0">
+              <columns>
+                <TableColumn prefWidth="229.60000002384186" text="Tên sản phẩm" />
+                <TableColumn prefWidth="135.199951171875" text="C2" />
+                  <TableColumn prefWidth="124.800048828125" text="C2" />
+                  <TableColumn prefWidth="81.60006713867188" text="C2" />
+                  <TableColumn prefWidth="108.79998779296875" text="C2" />
+                  <TableColumn prefWidth="77.5999755859375" text="C2" />
+                  <TableColumn prefWidth="143.2000732421875" text="Giá sau KM" />
+              </columns>
+            </TableView>
+         </children></AnchorPane>
+    </children>
+</StackPane>
