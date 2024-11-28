@@ -26,8 +26,6 @@
                 <Button styleClass="button" text="Doanh thu các của hàng" />
                 <Button onAction="#onSales" styleClass="button" text="Bàn hàng" />
                 <Button onAction="#onAddProduct" styleClass="button" text="Thêm sản phẩm" />
-                <Button styleClass="button" text="Chỉnh sửa sản phẩm" />
-                <Button styleClass="button" text="Xoá sản phẩm" />
             </VBox>
         </ScrollPane>
 
