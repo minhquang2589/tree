@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="763.0" prefWidth="1370.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controller.user.SalesDashboardLayout">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="763.0" prefWidth="1370.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controller.user.SalesDashboardLayoutController">
    <children>
       <BorderPane prefHeight="200.0" prefWidth="200.0">
          <center>
@@ -83,19 +83,19 @@
                         <Button layoutX="88.0" layoutY="300.6" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="8" AnchorPane.bottomAnchor="261.0" />
                         <Button layoutX="171.0" layoutY="300.6" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="9" AnchorPane.bottomAnchor="261.0" />
                         <Button layoutX="254.0" layoutY="383.8" mnemonicParsing="false" prefHeight="80.0" prefWidth="75.0" text="Xoá" AnchorPane.bottomAnchor="177.8" />
-                        <Button onAction="#onCheckPrice" layoutX="254.0" layoutY="300.6" mnemonicParsing="false" prefHeight="80.0" prefWidth="75.0" text="Tra giá" AnchorPane.bottomAnchor="261.0" />
-                        <Button onAction="#onMember" layoutX="4.8" layoutY="217.40000000000003" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="Hội viên" AnchorPane.bottomAnchor="344.2" AnchorPane.leftAnchor="4.8" />
+                        <Button layoutX="254.0" layoutY="300.6" mnemonicParsing="false" onAction="#onCheckPrice" prefHeight="80.0" prefWidth="75.0" text="Tra giá" AnchorPane.bottomAnchor="261.0" />
+                        <Button layoutX="4.8" layoutY="217.40000000000003" mnemonicParsing="false" onAction="#onMember" prefHeight="80.0" prefWidth="80.0" text="Hội viên" AnchorPane.bottomAnchor="344.2" AnchorPane.leftAnchor="4.8" />
                         <Button layoutX="88.0" layoutY="217.40000000000003" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="Số lượng" AnchorPane.bottomAnchor="344.2" />
                         <Button layoutX="171.0" layoutY="217.40000000000003" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="Huỷ dòng" AnchorPane.bottomAnchor="344.2" />
-                        <Button onAction="#onOrderList" ellipsisString="" layoutX="254.0" layoutY="217.40000000000003" mnemonicParsing="false" prefHeight="80.0" prefWidth="75.0" text="Danh sách" textAlignment="CENTER" wrapText="true" AnchorPane.bottomAnchor="344.2" />
+                        <Button ellipsisString="" layoutX="254.0" layoutY="217.40000000000003" mnemonicParsing="false" onAction="#onOrderList" prefHeight="80.0" prefWidth="75.0" text="Danh sách" textAlignment="CENTER" wrapText="true" AnchorPane.bottomAnchor="344.2" />
                         <Button layoutX="4.0" layoutY="133.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="Treo phiếu" />
                         <Button layoutX="88.0" layoutY="133.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="Gọi phiếu" />
-                        <Button onAction="#onReport" layoutX="171.0" layoutY="133.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="Báo cáo" />
-                        <Button onAction="#onCloseshift" ellipsisString="" layoutX="254.0" layoutY="133.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="75.0" text="Kết ca" textAlignment="CENTER" />
-                        <Button onAction="#onTranslation" layoutX="4.0" layoutY="50.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="Dịch vụ" />
-                        <Button layoutX="88.0" layoutY="50.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="Bắt đầu ngày" textAlignment="CENTER" wrapText="true" />
-                        <Button layoutX="171.0" layoutY="50.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="Đăng xuất" textAlignment="CENTER" wrapText="true" />
-                        <Button onAction="#onOut" ellipsisString="" layoutX="254.0" layoutY="50.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="75.0" text="Thoát ứng dụng" textAlignment="CENTER" wrapText="true" />
+                        <Button layoutX="171.0" layoutY="133.0" mnemonicParsing="false" onAction="#onReport" prefHeight="80.0" prefWidth="80.0" text="Báo cáo" />
+                        <Button ellipsisString="" layoutX="254.0" layoutY="133.0" mnemonicParsing="false" onAction="#onCloseshift" prefHeight="80.0" prefWidth="75.0" text="Kết ca" textAlignment="CENTER" />
+                        <Button layoutX="4.0" layoutY="50.0" mnemonicParsing="false" onAction="#onTranslation" prefHeight="80.0" prefWidth="80.0" text="Dịch vụ" />
+                        <Button layoutX="88.0" layoutY="50.0" mnemonicParsing="false" onAction="#onStartTheDay" prefHeight="80.0" prefWidth="80.0" text="Bắt đầu ngày" textAlignment="CENTER" wrapText="true" />
+                        <Button layoutX="171.0" layoutY="50.0" mnemonicParsing="false" onAction="#onOut" prefHeight="80.0" prefWidth="80.0" text="Đăng xuất" textAlignment="CENTER" wrapText="true" />
+                        <Button ellipsisString="" layoutX="254.0" layoutY="50.0" mnemonicParsing="false" onAction="#onExitApplication" prefHeight="80.0" prefWidth="75.0" text="Thoát ứng dụng" textAlignment="CENTER" wrapText="true" />
                         <Text layoutX="9.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Phiếu treo: ">
                            <font>
                               <Font name="System Bold" size="15.0" />
@@ -103,17 +103,19 @@
                         </Text>
                      </children>
                   </AnchorPane>
-                  <AnchorPane layoutX="1019.2" layoutY="497.8" prefHeight="96.0" prefWidth="300.0" stylesheets="@../../../../../styleCss/sales.css" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="1024.0" AnchorPane.rightAnchor="10.0">
+                  <AnchorPane layoutX="1019.2" layoutY="497.8" prefHeight="96.0" prefWidth="335.0" stylesheets="@../../../../../styleCss/sales.css" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
                      <styleClass>
                         <String fx:value="white-bg" />
                         <String fx:value="radius" />
                         <String fx:value="shadow" />
                      </styleClass>
                      <children>
+                        <Button fx:id="sl_sales" layoutX="20.0" layoutY="45.2" mnemonicParsing="false" onAction="#onSales" prefHeight="0.0" prefWidth="90.0" text="Bán hàng" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                        <Button fx:id="sl_sales2" layoutX="114.0" layoutY="14.8" mnemonicParsing="false" prefHeight="0.0" prefWidth="100.0" AnchorPane.bottomAnchor="5.0" AnchorPane.topAnchor="5.0" />
 <!--                        <Button layoutX="230.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="100.0" text="Back" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />-->
                         <fx:include source="../../../components/back-button.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                        <Button layoutX="114.0" layoutY="4.8" mnemonicParsing="false" onAction="#onPayment" prefHeight="0.0" prefWidth="100.0" text="Tính tiền" AnchorPane.bottomAnchor="4.799999999999997" AnchorPane.topAnchor="4.8" />
-                        <Button layoutX="10.0" layoutY="35.2" mnemonicParsing="false" prefHeight="0.0" prefWidth="90.0" text="Huỷ giao dịch" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                        <Button fx:id="sl_CancelTransaction" layoutX="10.0" layoutY="35.2" mnemonicParsing="false" prefHeight="0.0" prefWidth="90.0" text="Huỷ giao dịch" visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.topAnchor="5.0" />
+                        <Button fx:id="sl_Payment" layoutX="114.0" layoutY="4.8" mnemonicParsing="false" onAction="#onPayment" prefHeight="0.0" prefWidth="100.0" text="Tính tiền" visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.topAnchor="5.0" />
                      </children>
                   </AnchorPane>
                </children>

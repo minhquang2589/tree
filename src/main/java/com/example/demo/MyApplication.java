@@ -33,11 +33,25 @@ public class MyApplication extends Application {
         if (isLoggedIn && user != null) {
             System.out.println(user.toString());
             UserModel login = handleLogin(user.getPhone(), user.getPassword());
-            if (login != null && Objects.equals(user.getRole(), "admin")) {
-                fxmlPath = "/com/example/demo/controller/auth/view/admin/dashboard-layout.fxml";
-            } else {
-                fxmlPath = "/com/example/demo/controller/auth/view/auth/user-dashboard-layout.fxml";
+            if (login != null) {
+                String role = user.getRole();
+                switch (role){
+                    case "admin":
+                        fxmlPath = "/com/example/demo/controller/auth/view/admin/dashboard-layout.fxml";
+                        break;
+                    case "user":
+                        fxmlPath = "/com/example/demo/controller/auth/view/auth/salesdashboardlayout/sales-dashboard-layout.fxml";
+                        break;
+                    case "supervisor":
+                        fxmlPath = "/com/example/demo/controller/auth/view/auth/user-dashboard-layout.fxml";
+                        break;
+                    default:
+                        Modal.showAlert(null, "Quyền không hợp lệ!", Alert.AlertType.ERROR, null, null);
+                        return;
+                }
+
             }
+
         }
         loadScene(stage, fxmlPath, isLoggedIn);
     }

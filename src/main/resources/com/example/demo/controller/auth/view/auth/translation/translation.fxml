@@ -10,6 +10,7 @@
          <children>
             <Button layoutX="32.0" layoutY="42.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="Phí vận chuyển xe máy" textAlignment="CENTER" wrapText="true" />
             <Button layoutX="143.0" layoutY="42.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="Phí vận chuyển xe ba gác" textAlignment="CENTER" wrapText="true" />
+            <Button layoutX="515.0" layoutY="348.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" text="OK" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0" />
          </children>
       </AnchorPane>
    </children>

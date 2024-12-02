@@ -81,6 +81,7 @@ public class MySQLConnection {
                 CREATE TABLE IF NOT EXISTS categories (
                     category_id INT AUTO_INCREMENT PRIMARY KEY,
                     category VARCHAR(100) NOT NULL,
+                    image VARCHAR(400),
                     description TEXT
                 );
                 """;
@@ -200,6 +201,7 @@ public class MySQLConnection {
                     FOREIGN KEY (voucher_id) REFERENCES vouchers(voucher_id) ON DELETE SET NULL
                 );
                 """;
+
         // sản phẩm order
         String createOrderItemsTable = """
                 CREATE TABLE IF NOT EXISTS order_items (
