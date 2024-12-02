@@ -38,4 +38,8 @@ module com.example.demo {
     opens com.example.demo.controller.user.closeshift to javafx.fxml;
     exports com.example.demo.controller.user.addproduct;
     opens com.example.demo.controller.user.addproduct to javafx.fxml;
+    exports com.example.demo.controller.user.starttheday;
+    opens com.example.demo.controller.user.starttheday to javafx.fxml;
+    exports com.example.demo.controller.user.starttheday.startthedaysuccess;
+    opens com.example.demo.controller.user.starttheday.startthedaysuccess to javafx.fxml;
 }

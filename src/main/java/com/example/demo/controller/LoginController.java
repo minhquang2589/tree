@@ -141,12 +141,16 @@ public class LoginController {
         if (user != null) {
             PreferencesUtils.saveUser(user);
             PreferencesUtils.save("isLoggedIn", true);
+            String role = user.getRole();
             loadingOverlay.hide();
-            if (Objects.equals(user.getRole(), "admin")) {
+            if (Objects.equals(role, "admin")) {
                 handleNavigator(actionEvent, "/com/example/demo/controller/auth/view/admin/dashboard-layout.fxml", true);
-
-            } else {
+            } else if (Objects.equals(role, "supervisor")) {
                 handleNavigator(actionEvent, "/com/example/demo/controller/auth/view/auth/user-dashboard-layout.fxml", true);
+            } else if (Objects.equals(role, "user")) {
+                handleNavigator(actionEvent, "/com/example/demo/controller/auth/view/auth/salesdashboardlayout/sales-dashboard-layout.fxml", true);
+            } else {
+                Modal.showAlert("Quyền không xác định, liên hệ quản trị viên để được hỗ trợ.");
             }
 
         } else {
