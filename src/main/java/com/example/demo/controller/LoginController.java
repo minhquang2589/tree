@@ -13,7 +13,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,8 +22,6 @@ import java.util.Objects;
 import static com.example.demo.config.button.ButtonHandler.handleNavigator;
 
 public class LoginController {
-    @FXML
-    private Button fp_back;
 
     @FXML
     private TextField fp_inputemail;
@@ -34,16 +31,6 @@ public class LoginController {
 
     @FXML
     private TextField fp_inputuser;
-
-    @FXML
-    private Button fp_proceedBtn;
-
-    @FXML
-    private Button np_back;
-
-    @FXML
-    private Button np_changePassBtn;
-
     @FXML
     private PasswordField np_comfirmPassword;
 
@@ -53,11 +40,6 @@ public class LoginController {
     @FXML
     private PasswordField np_newPassword;
 
-    @FXML
-    private Hyperlink si_forgotPass;
-
-    @FXML
-    private Button si_loginBtn;
 
     @FXML
     private AnchorPane si_loginForm;
@@ -96,12 +78,6 @@ public class LoginController {
     private TextField su_phone;
     @FXML
     private TextField su_email;
-
-    @FXML
-    private Button su_signupBtn;
-
-    @FXML
-    private AnchorPane su_signupForm;
 
     @FXML
     private TextField su_username;
@@ -151,7 +127,7 @@ public class LoginController {
 
         } else {
             loadingOverlay.hide();
-            Modal.showAlert("Email, Mật khẩu không đúng hoặc đã xảy ra lỗi. Xin vui lòng thử lại sau!");
+            Modal.showAlert("Số điện thoại, Mật khẩu không đúng hoặc đã xảy ra lỗi. Xin vui lòng thử lại sau!");
         }
 
     }
