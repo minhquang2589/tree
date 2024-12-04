@@ -1,7 +1,7 @@
 package com.example.demo.DAO;
 
 import com.example.demo.config.MySQLConnection;
-import com.example.demo.model.UserModel;
+import com.example.demo.model.User;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -9,8 +9,8 @@ import java.util.List;
 
 public class UserDAO {
 
-    public List<UserModel> getAllUsers() throws SQLException {
-        List<UserModel> users = new ArrayList<>();
+    public List<User> getUsers() throws SQLException {
+        List<User> users = new ArrayList<>();
         String query = "SELECT * FROM users";
         Connection connection = MySQLConnection.connect();
         PreparedStatement checkStatement = connection.prepareStatement(query);
@@ -26,7 +26,7 @@ public class UserDAO {
             String image = rs.getString("image");
             String password = rs.getString("password");
             String address = rs.getString("address");
-            users.add(new UserModel(id, name, email, phone, gender, role, birthday, image,password,address));
+            users.add(new User(id, name, email, phone, gender, role, birthday, image,password,address));
         }
         return users;
     }
@@ -52,7 +52,7 @@ public class UserDAO {
     }
 
 
-    public void updateUser(UserModel user) throws SQLException {
+    public void updateUser(User user) throws SQLException {
         String query = "UPDATE users SET name = ?, email = ?, phone = ?, gender = ?, role = ?, image = ? WHERE user_id = ?";
         Connection connection = MySQLConnection.connect();
         try (PreparedStatement stmt = connection.prepareStatement(query)) {

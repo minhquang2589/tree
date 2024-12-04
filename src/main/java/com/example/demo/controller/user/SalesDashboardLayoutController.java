@@ -55,7 +55,7 @@ public class SalesDashboardLayoutController {
         Modal.showModal("/com/example/demo/controller/auth/view/auth/checkprice/checkprice.fxml", "Kiểm tra giá sản phẩm");
     }
     public void onOut(ActionEvent actionEvent) {
-        PreferencesUtils.clearAll();
+        PreferencesUtils.clearUser();
         handleNavigator(actionEvent, "/com/example/demo/controller/auth/login-view.fxml", false);
     }
     public void onCloseshift(ActionEvent actionEvent) throws IOException{

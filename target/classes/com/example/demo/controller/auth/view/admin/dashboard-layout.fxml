@@ -13,18 +13,10 @@
             <VBox alignment="TOP_CENTER" minWidth="237" maxWidth="350" styleClass="sidebar">
                 <Button text="Bảng điều khiển" onAction="#onDashboardButtonClick" styleClass="button"/>
                 <Button text="Quản lý tài khoản" onAction="#onUsersButtonClick" styleClass="button"/>
-                <Button text="Nhập hàng" onAction="#onSettingsButtonClick" styleClass="button"/>
-                <Button text="Xuất hàng" styleClass="button"/>
-                <Button text="Quản lý kho" styleClass="button"/>
-                <Button text="Doanh thu các của hàng" styleClass="button"/>
-                <Button text="Cửa hàng" styleClass="button" onAction="#onStoreButtonClick"/>
-                <Button text="Cửa hàng" styleClass="button"/>
-                <Button text="Cửa hàng" styleClass="button"/>
-                <Button text="Cửa hàng" styleClass="button"/>
-                <Button text="Cửa hàng" styleClass="button"/>
+                <Button text="Nhập hàng" onAction="#onProductsButtonClick" styleClass="button"/>
+                <Button text="Phân loại" onAction="#onCategoryButtonClick" styleClass="button"/>
             </VBox>
         </ScrollPane>
-
         <VBox>
             <HBox alignment="CENTER_LEFT" spacing="5" style="-fx-background-color: #ffffff; -fx-padding: 5;">
                 <Label fx:id="welcomeLabel"

@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 
 <ScrollPane fitToHeight="true" fitToWidth="true" xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.demo.controller.admin.ChartController">
+            fx:controller="com.example.demo.controller.admin.dashboard.DashboardController">
     <VBox spacing="20" alignment="CENTER">
         <HBox spacing="20" alignment="CENTER">
             <BarChart fx:id="revenueChart" title="Doanh thu">
