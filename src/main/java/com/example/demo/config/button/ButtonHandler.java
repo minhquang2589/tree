@@ -1,4 +1,7 @@
 package com.example.demo.config.button;
+
+import com.example.demo.Utils.PreferencesUtils;
+import com.example.demo.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -7,16 +10,23 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+
 import java.io.IOException;
+import java.sql.SQLException;
+
+import static com.example.demo.controller.LoginController.handleCheckRole;
 
 public class ButtonHandler {
 
-    public void handleBack(ActionEvent actionEvent) {
+    public void handleBack(ActionEvent actionEvent) throws SQLException {
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         Scene previousScene = (Scene) stage.getUserData();
         if (previousScene != null) {
             stage.setUserData(null);
             stage.setScene(previousScene);
+        } else {
+            User user = PreferencesUtils.getUser();
+            handleNavigator(actionEvent, handleCheckRole(user), true);
         }
     }
 
