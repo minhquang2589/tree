@@ -1,7 +1,6 @@
 package com.example.demo.Utils;
 
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
@@ -65,7 +64,6 @@ public class Modal {
             modalStage.setX(centerX);
             modalStage.setY(centerY);
         });
-
         modalStage.showAndWait();
     }
 

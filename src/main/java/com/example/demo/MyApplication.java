@@ -2,6 +2,7 @@ package com.example.demo;
 
 import com.example.demo.Utils.Modal;
 import com.example.demo.Utils.PreferencesUtils;
+import com.example.demo.model.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -15,7 +16,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import static com.example.demo.controller.user.LoginController.*;
+import static com.example.demo.controller.LoginController.*;
 
 public class MyApplication extends Application {
     @Override
@@ -27,10 +28,11 @@ public class MyApplication extends Application {
             return;
         }
         boolean isLoggedIn = false;
-        String fxmlPath = handleCheckRole();
+        User user = PreferencesUtils.getUser();
+        String fxmlPath = handleCheckRole(user);
         if (fxmlPath.equals("/com/example/demo/controller/auth/login-view.fxml")) {
             PreferencesUtils.clearUser();
-        }else{
+        } else {
             isLoggedIn = true;
         }
         loadScene(stage, fxmlPath, isLoggedIn);

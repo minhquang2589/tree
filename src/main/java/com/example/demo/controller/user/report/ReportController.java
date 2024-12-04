@@ -8,6 +8,6 @@ import java.io.IOException;
 public class ReportController {
 
     public void onShowReport(ActionEvent actionEvent) throws IOException {
-        Modal.showModal("/com/example/demo/controller/auth/view/auth/report/showreport/showreport.fxml", "Tính tiền");
+        Modal.showModal("/com/example/demo/controller/auth/view/user/report/showreport/showreport.fxml", "Tính tiền");
     }
 }
