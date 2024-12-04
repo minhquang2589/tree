@@ -5,7 +5,7 @@
 <?import java.net.URL?>
 <TableView fx:id="userTable" style="-fx-background-color: white;"
            xmlns:fx="http://javafx.com/fxml"
-           fx:controller="com.example.demo.controller.admin.UserController"
+           fx:controller="com.example.demo.controller.admin.user.UserController"
            maxHeight="550"
            minHeight="550"
 >

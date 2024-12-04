@@ -1,7 +1,7 @@
 package com.example.demo;
+
 import com.example.demo.Utils.Modal;
 import com.example.demo.Utils.PreferencesUtils;
-import com.example.demo.model.UserModel;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -14,11 +14,10 @@ import javafx.scene.Parent;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Objects;
-import static com.example.demo.controller.LoginController.handleLogin;
+
+import static com.example.demo.controller.user.LoginController.*;
 
 public class MyApplication extends Application {
-
     @Override
     public void start(Stage stage) throws IOException, SQLException {
         Connection connect = MySQLConnection.connect();
@@ -27,31 +26,12 @@ public class MyApplication extends Application {
                     Alert.AlertType.ERROR, null, null);
             return;
         }
-        String fxmlPath = "/com/example/demo/controller/auth/login-view.fxml";
-        boolean isLoggedIn = (boolean) PreferencesUtils.get("isLoggedIn", false);
-        UserModel user = PreferencesUtils.getUser();
-        if (isLoggedIn && user != null) {
-            System.out.println(user.toString());
-            UserModel login = handleLogin(user.getPhone(), user.getPassword());
-            if (login != null) {
-                String role = user.getRole();
-                switch (role){
-                    case "admin":
-                        fxmlPath = "/com/example/demo/controller/auth/view/admin/dashboard-layout.fxml";
-                        break;
-                    case "user":
-                        fxmlPath = "/com/example/demo/controller/auth/view/auth/salesdashboardlayout/sales-dashboard-layout.fxml";
-                        break;
-                    case "supervisor":
-                        fxmlPath = "/com/example/demo/controller/auth/view/auth/user-dashboard-layout.fxml";
-                        break;
-                    default:
-                        Modal.showAlert(null, "Quyền không hợp lệ!", Alert.AlertType.ERROR, null, null);
-                        return;
-                }
-
-            }
-
+        boolean isLoggedIn = false;
+        String fxmlPath = handleCheckRole();
+        if (fxmlPath.equals("/com/example/demo/controller/auth/login-view.fxml")) {
+            PreferencesUtils.clearUser();
+        }else{
+            isLoggedIn = true;
         }
         loadScene(stage, fxmlPath, isLoggedIn);
     }

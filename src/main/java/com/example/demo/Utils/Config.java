@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.nio.file.Path;
@@ -78,12 +79,8 @@ public class Config {
 
 
     public static String generateFileNameWithTimestamp(String originalFileName) {
-        String extension = "";
-        int i = originalFileName.lastIndexOf('.');
-        if (i > 0) {
-            extension = originalFileName.substring(i);
-        }
-        return System.currentTimeMillis() + extension;
+        String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+        return System.currentTimeMillis() + "_" + UUID.randomUUID().toString() + fileExtension;
     }
 
 
