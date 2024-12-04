@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<?import java.net.URL?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.demo.controller.admin.voucher.VoucherController"
+            prefHeight="600.0" prefWidth="800.0">
+
+    <stylesheets>
+        <URL value="@../../../../../styleCss/customStyle.css"/>
+    </stylesheets>
+    <Button onAction="#uploadOnClick" text="Tải lên phiếu giảm giá" styleClass="edit-button"/>
+    <TableView fx:id="voucherTable" layoutX="10" layoutY="40" prefHeight="380.0" prefWidth="800.0">
+        <columns>
+            <TableColumn fx:id="voucherIdColumn" text="ID" prefWidth="50"/>
+            <TableColumn fx:id="voucherCodeColumn" text="Code" prefWidth="200"/>
+            <TableColumn fx:id="voucherPercentageColumn" text="Percentage" prefWidth="100"/>
+            <TableColumn fx:id="voucherQuantityColumn" text="Quantity" prefWidth="100"/>
+            <TableColumn fx:id="startDateColumn" text="Start Date" prefWidth="150"/>
+            <TableColumn fx:id="endDateColumn" text="End Date" prefWidth="150"/>
+            <TableColumn fx:id="statusColumn" text="Status" prefWidth="100"/>
+        </columns>
+    </TableView>
+
+</AnchorPane>

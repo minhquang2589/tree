@@ -8,6 +8,8 @@
            fx:controller="com.example.demo.controller.admin.account.AccountController"
            maxHeight="550"
            minHeight="550"
+           minWidth="600"
+           maxWidth="600"
 >
     <stylesheets>
         <URL value="@../../../../../styleCss/customStyle.css"/>

@@ -43,8 +43,8 @@ public class PreferencesUtils {
         preferences.remove(key);
     }
 
-
-    public static void clearAllFromPreAll() {
+    // không dùng
+    public static void clearAll() {
         try {
             preferences.clear();
         } catch (Exception e) {

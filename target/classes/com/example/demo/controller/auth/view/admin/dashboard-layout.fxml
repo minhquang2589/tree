@@ -25,6 +25,7 @@
                 <Button styleClass="button" text="Quản lý kho" />
                 <Button styleClass="button" text="Doanh thu các của hàng" />
                 <Button onAction="#onSales" styleClass="button" text="Bàn hàng" />
+                <Button onAction="#voucherOnClick" styleClass="button" text="Phiếu giảm giá" />
                 <Button onAction="#onAddProduct" styleClass="button" text="Thêm sản phẩm" />
                 <Button text="Quản lý tài khoản" onAction="#onUsersButtonClick" styleClass="button"/>
             </VBox>

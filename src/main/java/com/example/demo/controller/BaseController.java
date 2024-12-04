@@ -10,9 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-
 import java.io.IOException;
-
 import static com.example.demo.config.button.ButtonHandler.handleNavigator;
 
 public class BaseController {
@@ -84,5 +82,9 @@ public class BaseController {
 
     public void onAddProduct(ActionEvent actionEvent) throws IOException {
         setMainContent("/com/example/demo/controller/auth/view/admin/addproduct/addproduct.fxml");
+    }
+
+    public void voucherOnClick(ActionEvent actionEvent) throws IOException {
+        setMainContent("/com/example/demo/controller/auth/view/admin/voucher/voucher-view.fxml");
     }
 }

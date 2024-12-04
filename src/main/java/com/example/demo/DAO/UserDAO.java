@@ -31,7 +31,6 @@ public class UserDAO {
         return users;
     }
 
-
     public String deleteUser(int userId) throws SQLException {
         String query = "DELETE FROM users WHERE user_id = ?";
         Connection connection = null;
