@@ -5,7 +5,7 @@ import com.example.demo.Utils.Modal;
 import com.example.demo.Utils.PreferencesUtils;
 import com.example.demo.config.MySQLConnection;
 import com.example.demo.config.loading.LoadingOverlay;
-import com.example.demo.model.UserModel;
+import com.example.demo.model.User;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,11 +13,11 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Objects;
 
 import static com.example.demo.config.button.ButtonHandler.handleNavigator;
 
@@ -94,6 +94,22 @@ public class LoginController {
     }
 
 
+    public static String handleCheckRole(User user) throws SQLException {
+        boolean isLoggedIn = (boolean) PreferencesUtils.get("isLoggedIn", false);
+        if (isLoggedIn && user != null) {
+            System.out.println(user.toString());
+            String role = user.getRole();
+            return switch (role) {
+                case "user" ->
+                        "/com/example/demo/controller/auth/view/user/salesdashboardlayout/sales-dashboard-layout.fxml";
+                case "admin" -> "/com/example/demo/controller/auth/view/admin/dashboard-layout.fxml";
+                default -> "/com/example/demo/controller/auth/login-view.fxml";
+            };
+        }
+        return "/com/example/demo/controller/auth/login-view.fxml";
+    }
+
+
     public void handleLogin(ActionEvent actionEvent) throws SQLException {
         loadingOverlay.show();
         String phone = si_phone.getText();
@@ -113,22 +129,12 @@ public class LoginController {
             Modal.showAlert("Mật khẩu không hợp lệ!");
             return;
         }
-        UserModel user = handleLogin(phone, Config.hashPassword(passWord));
+        User user = login(phone, Config.hashPassword(passWord));
         if (user != null) {
             PreferencesUtils.saveUser(user);
             PreferencesUtils.save("isLoggedIn", true);
-            String role = user.getRole();
             loadingOverlay.hide();
-            if (Objects.equals(role, "admin")) {
-                handleNavigator(actionEvent, "/com/example/demo/controller/auth/view/admin/dashboard-layout.fxml", true);
-            } else if (Objects.equals(role, "supervisor")) {
-                handleNavigator(actionEvent, "/com/example/demo/controller/auth/view/auth/user-dashboard-layout.fxml", true);
-            } else if (Objects.equals(role, "user")) {
-                handleNavigator(actionEvent, "/com/example/demo/controller/auth/view/auth/salesdashboardlayout/sales-dashboard-layout.fxml", true);
-            } else {
-                Modal.showAlert("Quyền không xác định, liên hệ quản trị viên để được hỗ trợ.");
-            }
-
+            handleNavigator(actionEvent, handleCheckRole(user), true);
         } else {
             loadingOverlay.hide();
             Modal.showAlert("Số điện thoại, Mật khẩu không đúng hoặc đã xảy ra lỗi. Xin vui lòng thử lại sau!");
@@ -136,7 +142,7 @@ public class LoginController {
 
     }
 
-    public static UserModel handleLogin(String phone, String password) throws SQLException {
+    public static User login(String phone, String password) throws SQLException {
         String query = "SELECT * FROM users WHERE phone = ? AND password = ?";
         Connection connection = MySQLConnection.connect();
         if (connection != null) {
@@ -154,7 +160,7 @@ public class LoginController {
                 String role = resultSet.getString("role");
                 String image = resultSet.getString("image");
                 String address = resultSet.getString("address");
-                return new UserModel(id, fullName, email, phoneNumber, gender, role, birthday, image, password, address);
+                return new User(id, fullName, email, phoneNumber, gender, role, birthday, image, password, address);
             }
         }
         return null;
@@ -198,15 +204,11 @@ public class LoginController {
         String hassPass = Config.hashPassword(password);
         loadingOverlay.hide();
         if (isSuccess) {
-            UserModel user = handleLogin(phone, hassPass);
+            User user = login(phone, hassPass);
             if (user != null) {
                 PreferencesUtils.saveUser(user);
                 PreferencesUtils.save("isLoggedIn", true);
-                if (Objects.equals(user.getRole(), "admin")) {
-                    handleNavigator(actionEvent, "/com/example/demo/controller/auth/view/admin/dashboard-layout.fxml", true);
-                } else {
-                    handleNavigator(actionEvent, "/com/example/demo/controller/auth/view/auth/user-dashboard-layout.fxml", true);
-                }
+                handleNavigator(actionEvent, handleCheckRole(user), true);
             } else {
                 handleNavigator(actionEvent, "/com/example/demo/controller/auth/login-view.fxml", false);
             }
@@ -216,19 +218,30 @@ public class LoginController {
     }
 
     public static boolean insertUser(String fullName, String phone, String password, String gender, String dob, String email, String address) throws SQLException {
+        String countQuery = "SELECT COUNT(*) AS user_count FROM users";
         String checkSql = "SELECT COUNT(*) FROM users WHERE email = ? OR phone = ?";
-        String insertSql = "INSERT INTO users (name, phone, password, gender, birthday, email, address) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String insertSql = "INSERT INTO users (name, phone, password, gender, birthday, email, address, role) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
         Connection connection = MySQLConnection.connect();
 
         if (connection != null) {
+            PreparedStatement countStatement = connection.prepareStatement(countQuery);
+            ResultSet countResult = countStatement.executeQuery();
+            int userCount = 0;
+            if (countResult.next()) {
+                userCount = countResult.getInt("user_count");
+            }
+
+            String role = (userCount == 0) ? "admin" : "user";
             PreparedStatement checkStatement = connection.prepareStatement(checkSql);
             checkStatement.setString(1, email);
             checkStatement.setString(2, phone);
             ResultSet resultSet = checkStatement.executeQuery();
             if (resultSet.next() && resultSet.getInt(1) > 0) {
-                Modal.showAlert("Email hoặc số điện thoại đã tồn tại!");
+                Modal.showAlert("Email hoặc số điện thoại đã tồn tại. Vui lòng đăng nhập!");
                 return false;
             }
+
             PreparedStatement insertStatement = connection.prepareStatement(insertSql);
             insertStatement.setString(1, fullName);
             insertStatement.setString(2, phone);
@@ -237,6 +250,8 @@ public class LoginController {
             insertStatement.setString(5, dob);
             insertStatement.setString(6, email);
             insertStatement.setString(7, address);
+            insertStatement.setString(8, role);
+
             int rowsAffected = insertStatement.executeUpdate();
             return rowsAffected > 0;
         }
@@ -327,25 +342,6 @@ public class LoginController {
     public void switchForgotPass() {
         fp_inputform.setVisible(true);
         si_loginForm.setVisible(false);
-    }
-
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-    private void clearForm() {
-        su_username.clear();
-        su_phone.clear();
-        su_password.clear();
-        su_comfirmpassword.clear();
-        su_gender.setValue(null);
-        su_date.setValue(null);
-        su_email.clear();
-        su_address.clear();
     }
 
     public void backToLoginForm() {

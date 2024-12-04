@@ -2,7 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.Utils.PreferencesUtils;
 import com.example.demo.config.loading.LoadingOverlay;
-import com.example.demo.model.UserModel;
+import com.example.demo.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,7 +29,7 @@ public class BaseController {
         LoadingOverlay loadingOverlay = new LoadingOverlay();
         loadingOverlay.addTo(rootPaneDashboard);
         setMainContent("/com/example/demo/controller/auth/view/admin/dashboard/dashboard-view.fxml");
-        UserModel user = PreferencesUtils.getUser();
+        User user = PreferencesUtils.getUser();
         assert user != null;
         welcomeLabel.setText(String.format("Xin chào, %s!", user.getName()));
     }
@@ -60,18 +60,29 @@ public class BaseController {
     }
 
     @FXML
-    public void onSettingsButtonClick(ActionEvent actionEvent) throws IOException {
-        setMainContent("/com/example/demo/controller/auth/view/admin/settings/setting-view.fxml");
-    }
-
-    @FXML
     public void onLogoutButtonClick(ActionEvent actionEvent) {
-        PreferencesUtils.clearAll();
+        PreferencesUtils.clearUser();
         handleNavigator(actionEvent, "/com/example/demo/controller/auth/login-view.fxml", false);
     }
+    @FXML
+    public void onProductsButtonClick(ActionEvent actionEvent) throws IOException {
+        setMainContent("/com/example/demo/controller/auth/view/admin/product/product-view.fxml");
+    }
 
     @FXML
-    public void onStoreButtonClick(ActionEvent actionEvent) throws IOException {
-        setMainContent("/com/example/demo/controller/auth/view/admin/store/store-view.fxml");
+    public void onCategoryButtonClick(ActionEvent actionEvent) throws IOException {
+        setMainContent("/com/example/demo/controller/auth/view/admin/category/category-view.fxml");
+    }
+
+
+    public void imPortOnClick(ActionEvent actionEvent) throws IOException {
+        setMainContent("/com/example/demo/controller/auth/view/admin/settings/setting-view.fxml");
+    }
+    public void onSales(ActionEvent actionEvent) {
+        handleNavigator(actionEvent, "/com/example/demo/controller/auth/view/user/salesdashboardlayout/sales-dashboard-layout.fxml", false);
+    }
+
+    public void onAddProduct(ActionEvent actionEvent) throws IOException {
+        setMainContent("/com/example/demo/controller/auth/view/admin/addproduct/addproduct.fxml");
     }
 }

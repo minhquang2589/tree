@@ -8,6 +8,6 @@ import java.io.IOException;
 public class StartTheDay {
 
     public void onStartTheDaySuccess(ActionEvent actionEvent) throws IOException {
-        Modal.showModal("/com/example/demo/controller/auth/view/auth/starttheday/startthedaysuccess/startthedaysuccess.fxml", "");
+        Modal.showModal("/com/example/demo/controller/auth/view/user/starttheday/startthedaysuccess/startthedaysuccess.fxml", "");
     }
 }

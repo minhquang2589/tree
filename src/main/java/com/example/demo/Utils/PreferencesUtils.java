@@ -1,5 +1,7 @@
 package com.example.demo.Utils;
-import com.example.demo.model.UserModel;
+
+import com.example.demo.model.User;
+
 import java.util.prefs.Preferences;
 
 
@@ -41,7 +43,8 @@ public class PreferencesUtils {
         preferences.remove(key);
     }
 
-    public static void clearAll() {
+
+    public static void clearAllFromPreAll() {
         try {
             preferences.clear();
         } catch (Exception e) {
@@ -49,7 +52,7 @@ public class PreferencesUtils {
         }
     }
 
-    public static void saveUser(UserModel user) {
+    public static void saveUser(User user) {
         save("user_id", user.getId());
         save("user_fullName", user.getName());
         save("user_email", user.getEmail());
@@ -62,7 +65,21 @@ public class PreferencesUtils {
         save("user_address", user.getAddress());
     }
 
-    public static UserModel getUser() {
+    public static void clearUser() {
+        remove("user_id");
+        remove("user_fullName");
+        remove("user_email");
+        remove("user_phone");
+        remove("user_gender");
+        remove("user_role");
+        remove("user_birthday");
+        remove("user_image");
+        remove("user_password");
+        remove("user_address");
+        remove("isLoggedIn");
+    }
+
+    public static User getUser() {
         int id = (int) get("user_id", 0);
         String fullName = (String) get("user_fullName", "");
         String email = (String) get("user_email", "");
@@ -75,7 +92,7 @@ public class PreferencesUtils {
         String address = (String) get("user_address", "");
 
         if (id != 0 && !fullName.isEmpty()) {
-            return new UserModel(id, fullName, email, phone, gender, role, birthday, image, pass, address);
+            return new User(id, fullName, email, phone, gender, role, birthday, image, pass, address);
         }
 
         return null;

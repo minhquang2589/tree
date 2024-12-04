@@ -15,8 +15,6 @@ module com.example.demo {
     exports com.example.demo.config;
     exports com.example.demo.controller;
     opens com.example.demo.controller to javafx.fxml;
-    exports com.example.demo.controller.admin;
-    opens com.example.demo.controller.admin to javafx.fxml;
     opens com.example.demo.model to javafx.base;
     exports com.example.demo.controller.user;
     opens com.example.demo.controller.user to javafx.fxml;
@@ -36,10 +34,16 @@ module com.example.demo {
     opens com.example.demo.controller.user.checkprice to javafx.fxml;
     exports com.example.demo.controller.user.closeshift;
     opens com.example.demo.controller.user.closeshift to javafx.fxml;
-    exports com.example.demo.controller.user.addproduct;
-    opens com.example.demo.controller.user.addproduct to javafx.fxml;
+    exports com.example.demo.controller.admin.addproduct;
+    opens com.example.demo.controller.admin.addproduct to javafx.fxml;
     exports com.example.demo.controller.user.starttheday;
     opens com.example.demo.controller.user.starttheday to javafx.fxml;
     exports com.example.demo.controller.user.starttheday.startthedaysuccess;
     opens com.example.demo.controller.user.starttheday.startthedaysuccess to javafx.fxml;
+    exports com.example.demo.controller.admin.account;
+    opens com.example.demo.controller.admin.account to javafx.fxml;
+    exports com.example.demo.controller.admin.dashboard;
+    opens com.example.demo.controller.admin.dashboard to javafx.fxml;
+    exports com.example.demo.controller.admin.product;
+    opens com.example.demo.controller.admin.product to javafx.fxml;
 }
