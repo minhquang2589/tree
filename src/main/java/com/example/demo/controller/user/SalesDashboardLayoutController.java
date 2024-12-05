@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import java.io.IOException;
 import static com.example.demo.config.button.ButtonHandler.handleNavigator;
@@ -23,6 +24,12 @@ public class SalesDashboardLayoutController {
 
     @FXML
     public Button sl_Payment;
+
+    @FXML
+    public Button searchButton;
+
+    @FXML
+    public TextField searchTextFiled;
 
     public void onSales(ActionEvent actionEvent) throws IOException {
         sl_sales.setVisible(false);
@@ -82,5 +89,20 @@ public class SalesDashboardLayoutController {
     private void closeApplication(ActionEvent event) {
         Stage stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
         stage.close();
+    }
+
+    @FXML
+    private TextField displayField;
+
+    @FXML
+    private void onNumberClick(ActionEvent event) {
+        Button clickedButton = (Button) event.getSource();
+        String buttonText = clickedButton.getText();
+        displayField.appendText(buttonText);
+    }
+
+    @FXML
+    private void onClear(ActionEvent event) {
+        displayField.clear();
     }
 }
