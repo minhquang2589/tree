@@ -4,7 +4,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.demo.controller.admin.voucher.UploadController"
+            fx:controller="com.example.demo.controller.admin.voucher.VoucherController"
             prefHeight="500.0" prefWidth="600.0"
             style="-fx-background-color: #f0f4f7;">
 

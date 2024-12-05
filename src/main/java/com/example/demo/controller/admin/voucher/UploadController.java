@@ -6,12 +6,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
-
 import static com.example.demo.Utils.Modal.showAlert;
 
 public class UploadController {
@@ -26,6 +24,14 @@ public class UploadController {
     @FXML
     public DatePicker endDatePicker;
 
+    private void clearForm() {
+        voucherCodeField.clear();
+        voucherPercentageField.clear();
+        voucherQuantityField.clear();
+        startDatePicker.setValue(null);
+        endDatePicker.setValue(null);
+    }
+
     @FXML
     public void handleUpload(ActionEvent actionEvent) throws SQLException {
         String voucherCode = voucherCodeField.getText();
@@ -39,22 +45,18 @@ public class UploadController {
             showAlert("Vui lòng nhập đủ thông tin.");
             return;
         }
-        try {
-            double voucherPercentage = Double.parseDouble(voucherPercentageText);
-            int voucherQuantity = Integer.parseInt(voucherQuantityText);
+        double voucherPercentage = Double.parseDouble(voucherPercentageText);
+        int voucherQuantity = Integer.parseInt(voucherQuantityText);
 
-            Voucher newVoucher = new Voucher(0, voucherCode, voucherPercentage, voucherQuantity,
-                    startDate, endDate, "active");
+        Voucher newVoucher = new Voucher(0, voucherCode, voucherPercentage, voucherQuantity,
+                startDate, endDate, "active");
 
-            if (insertVoucher(newVoucher)) {
-                showAlert("Tải lên phiếu giảm giá thành công!");
-            } else {
-                showAlert("Có lỗi xảy ra khi tải lên.");
-            }
-
-        } catch (NumberFormatException e) {
-            showAlert("Vui lòng nhập số hợp lệ cho phần trăm và số lượng.");
+        if (insertVoucher(newVoucher)) {
+            showAlert("Tải lên phiếu giảm giá thành công!", this::clearForm);
+        } else {
+            showAlert(null);
         }
+
     }
 
     private boolean insertVoucher(Voucher voucher) throws SQLException {
@@ -68,8 +70,12 @@ public class UploadController {
                 preparedStatement.setInt(3, voucher.getVoucherQuantity());
                 preparedStatement.setDate(4, java.sql.Date.valueOf(voucher.getStartDate()));
                 preparedStatement.setDate(5, java.sql.Date.valueOf(voucher.getEndDate()));
+
                 int rowsAffected = preparedStatement.executeUpdate();
                 return rowsAffected > 0;
+            } catch (SQLException e) {
+                System.err.println("Error during insert: " + e.getMessage());
+                throw e;
             }
         }
     }
