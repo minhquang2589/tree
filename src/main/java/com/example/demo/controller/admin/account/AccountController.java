@@ -174,7 +174,7 @@ public class AccountController {
             ComboBox<String> roleComboBox = new ComboBox<>();
             roleComboBox.getItems().addAll("user", "admin", "moderator", "supervisor");
             roleComboBox.setValue(selectedUser.getRole());
-            roleComboBox.getStyleClass().add("q-form");
+            roleComboBox.getStyleClass().add("q-label");
 
             gridPane.add(nameLabel, 0, 0);
             gridPane.add(nameField, 1, 0);
@@ -219,7 +219,7 @@ public class AccountController {
             saveButton.setOnAction(event -> {
                 boolean checkPhone = Config.isPhoneNumberValid(phoneField.getText());
                 boolean checkEmail = Config.isEmailValid(emailField.getText());
-                if (checkPhone && checkEmail) {
+                if (!checkPhone && checkEmail) {
                     selectedUser.setName(nameField.getText());
                     selectedUser.setEmail(emailField.getText());
                     selectedUser.setPhone(phoneField.getText());
@@ -237,6 +237,13 @@ public class AccountController {
                     Modal.showAlert("Xin vui lòng nhập đúng thông tin và thử lại sau!");
                 }
             });
+
+            Button cancelButton = new Button("Huỷ");
+            cancelButton.setOnAction(event -> {
+                ((Stage) cancelButton.getScene().getWindow()).close();
+            });
+
+            buttonBox.getChildren().addAll(saveButton, cancelButton);
 
             vbox.getChildren().add(buttonBox);
 
