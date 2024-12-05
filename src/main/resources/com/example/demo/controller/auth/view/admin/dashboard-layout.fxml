@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="600.0" prefWidth="768.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controller.BaseController">
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controller.BaseController">
     <stylesheets>
         <URL value="@../../../../styleCss/customStyle.css" />
     </stylesheets>
@@ -25,8 +25,8 @@
                 <Button styleClass="button" text="Quản lý kho" />
                 <Button styleClass="button" text="Doanh thu các của hàng" />
                 <Button onAction="#onSales" styleClass="button" text="Bàn hàng" />
-                <Button onAction="#voucherOnClick" styleClass="button" text="Phiếu giảm giá" />
                 <Button onAction="#onAddProduct" styleClass="button" text="Thêm sản phẩm" />
+                <Button onAction="#voucherOnClick" styleClass="button" text="Phiếu giảm giá" />
                 <Button text="Quản lý tài khoản" onAction="#onUsersButtonClick" styleClass="button"/>
             </VBox>
         </ScrollPane>

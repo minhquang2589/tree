@@ -1,5 +1,4 @@
 package com.example.demo.controller.admin.voucher;
-
 import com.example.demo.config.MySQLConnection;
 import com.example.demo.model.Voucher;
 import javafx.event.ActionEvent;
@@ -10,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
+
+import static com.example.demo.Utils.Modal.closeModal;
 import static com.example.demo.Utils.Modal.showAlert;
 
 public class UploadController {
@@ -50,9 +51,11 @@ public class UploadController {
 
         Voucher newVoucher = new Voucher(0, voucherCode, voucherPercentage, voucherQuantity,
                 startDate, endDate, "active");
-
         if (insertVoucher(newVoucher)) {
-            showAlert("Tải lên phiếu giảm giá thành công!", this::clearForm);
+            showAlert("Tải lên phiếu giảm giá thành công!", ()-> {
+                clearForm();
+                closeModal();
+            });
         } else {
             showAlert(null);
         }
@@ -62,21 +65,24 @@ public class UploadController {
     private boolean insertVoucher(Voucher voucher) throws SQLException {
         String query = "INSERT INTO vouchers (voucher_code, voucher_percentage, voucher_quantity, " +
                 "start_date, end_date) VALUES (?, ?, ?, ?, ?)";
-        try (Connection connection = MySQLConnection.connect()) {
-            assert connection != null;
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        Connection connection = MySQLConnection.connect();
+        try {
+            if (connection != null) {
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
                 preparedStatement.setString(1, voucher.getVoucherCode());
                 preparedStatement.setDouble(2, voucher.getVoucherPercentage());
                 preparedStatement.setInt(3, voucher.getVoucherQuantity());
                 preparedStatement.setDate(4, java.sql.Date.valueOf(voucher.getStartDate()));
                 preparedStatement.setDate(5, java.sql.Date.valueOf(voucher.getEndDate()));
-
                 int rowsAffected = preparedStatement.executeUpdate();
                 return rowsAffected > 0;
-            } catch (SQLException e) {
-                System.err.println("Error during insert: " + e.getMessage());
-                throw e;
+            }else{
+                showAlert(null);
             }
+        } catch (SQLException e) {
+            showAlert(null);
+            e.printStackTrace();
         }
+        return false;
     }
 }

@@ -1,24 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import java.net.URL?>
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.demo.controller.admin.voucher.VoucherController"
-            prefHeight="500.0" prefWidth="600.0"
-            style="-fx-background-color: #f0f4f7;">
+            fx:controller="com.example.demo.controller.admin.voucher.UploadController"
+            prefHeight="500.0" prefWidth="850.0"
+            style="-fx-background-color: #f7f7f7;">
 
-    <Label text="Upload Voucher Details" layoutX="20.0" layoutY="20.0" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
-    <Label text="Voucher Code:" layoutX="20.0" layoutY="230.0" />
-    <TextField fx:id="voucherCodeField" layoutX="120.0" layoutY="225.0" prefWidth="300.0" />
-    <Label text="Voucher Quantity:" layoutX="20.0" layoutY="270.0" />
-    <TextField fx:id="voucherQuantityField" layoutX="120.0" layoutY="265.0" prefWidth="300.0" />
-    <Label text="Discount Percentage:" layoutX="20.0" layoutY="310.0" />
-    <TextField fx:id="voucherPercentageField" layoutX="180.0" layoutY="305.0" prefWidth="240.0" />
-    <Label text="Start Date:" layoutX="20.0" layoutY="350.0" />
-    <DatePicker fx:id="startDatePicker" layoutX="120.0" layoutY="345.0" prefWidth="300.0" />
-    <Label text="End Date:" layoutX="20.0" layoutY="390.0" />
-    <DatePicker fx:id="endDatePicker" layoutX="120.0" layoutY="385.0" prefWidth="300.0" />
-    <Button text="Upload" layoutX="120.0" layoutY="430.0" onAction="#handleUpload"
-            style="-fx-background-color: #2196F3; -fx-text-fill: white;" />
+    <stylesheets>
+        <URL value="@../../../../../styleCss/customStyle.css"/>
+    </stylesheets>
+    <VBox spacing="20" alignment="CENTER" prefHeight="500.0" prefWidth="850.0">
+
+        <Label text="Tải lên phiếu giảm giá"
+               style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #333; -fx-padding: 20px 0;"/>
+
+        <GridPane hgap="15" vgap="15" alignment="CENTER" style="-fx-padding: 20;">
+            <Label styleClass="q-label" text="Mã phiếu:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <TextField styleClass="q-form" fx:id="voucherCodeField" GridPane.columnIndex="1" GridPane.rowIndex="0"
+                       promptText="Nhập mã phiếu" prefWidth="300.0"/>
+
+            <Label styleClass="q-label" text="Số lượng:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <TextField styleClass="q-form" fx:id="voucherQuantityField" GridPane.columnIndex="1" GridPane.rowIndex="1"
+                       promptText="Nhập số lượng" prefWidth="300.0"/>
+
+            <Label styleClass="q-label" text="Tỷ lệ giảm giá (%):" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <TextField styleClass="q-form" fx:id="voucherPercentageField" GridPane.columnIndex="1" GridPane.rowIndex="2"
+                       promptText="Nhập phần trăm (%)" prefWidth="300.0"/>
+
+            <Label styleClass="q-label" text="Ngày bắt đầu:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+            <DatePicker styleClass="q-form" fx:id="startDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="3"
+                        prefWidth="300.0"/>
+
+            <Label styleClass="q-label" text="Ngày kết thúc:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+            <DatePicker styleClass="q-form" fx:id="endDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="4"
+                        prefWidth="300.0"/>
+        </GridPane>
+
+        <HBox spacing="20" alignment="CENTER" style="-fx-padding: 20px 0;">
+            <Button text="Tải lên" onAction="#handleUpload"
+                    styleClass="save-button"/>
+        </HBox>
+    </VBox>
 </AnchorPane>

@@ -95,6 +95,14 @@
     -fx-border-radius: 15px;
 }
 
+.save-button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+}
+
 .edit-button:hover {
     -fx-background-color: #3a9bdc;
 }
@@ -104,8 +112,66 @@
 }
 
 
+.q-form {
+  -fx-background-color: #ffffff;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 9px;
+    -fx-padding: 5px 10px;
+    -fx-font-size: 14px;
+    -fx-focus-color: #2196F3;
+    -fx-effect: innershadow( gaussian , rgba(0,0,0,0.1), 10, 0, 0, 0 );
+}
+
+
+.q-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+    -fx-padding: 0 0 5px 0;
+}
+
+
+
+
 #mainContent {
-    -fx-background-color: #ffffff;
     -fx-border-radius: 20px;
 }
+.table-view {
+    -fx-border-color: #ddd;
+    -fx-border-width: 1px;
+    -fx-font-size: 14px;
+    -fx-font-family: "Segoe UI", sans-serif;
+
+}
+
+.table-column {
+ -fx-margin-top: 10px;
+    -fx-alignment: CENTER;
+    -fx-font-weight: bold;
+}
+
+.table-column-header {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+}
+
+.table-row-cell {
+    -fx-border-color: #ddd;
+    -fx-border-width: 0.5px;
+}
+
+.table-row-cell:focused {
+    -fx-text-fill: black;
+}
+
+.table-row-cell:selected {
+    -fx-text-fill: black;
+}
+
+.table-cell .number-cell {
+    -fx-text-fill: #2e7d32;
+    -fx-font-weight: bold;
+}
+
+
 
