@@ -64,25 +64,24 @@ public class BaseController {
         PreferencesUtils.clearUser();
         handleNavigator(actionEvent, "/com/example/demo/controller/auth/login-view.fxml", false);
     }
-    @FXML
-    public void onProductsButtonClick(ActionEvent actionEvent) throws IOException {
-        setMainContent("/com/example/demo/controller/auth/view/admin/product/product-view.fxml");
-    }
 
     @FXML
-    public void onCategoryButtonClick(ActionEvent actionEvent) throws IOException {
-        setMainContent("/com/example/demo/controller/auth/view/admin/category/category-view.fxml");
-    }
-
-
     public void imPortOnClick(ActionEvent actionEvent) throws IOException {
         setMainContent("/com/example/demo/controller/auth/view/admin/settings/setting-view.fxml");
     }
+
+    @FXML
     public void onSales(ActionEvent actionEvent) {
         handleNavigator(actionEvent, "/com/example/demo/controller/auth/view/user/salesdashboardlayout/sales-dashboard-layout.fxml", false);
     }
 
+    @FXML
     public void onAddProduct(ActionEvent actionEvent) throws IOException {
         setMainContent("/com/example/demo/controller/auth/view/admin/addproduct/addproduct.fxml");
+    }
+
+    @FXML
+    public void voucherOnClick(ActionEvent actionEvent) throws IOException {
+        setMainContent("/com/example/demo/controller/auth/view/admin/voucher/voucher-view.fxml");
     }
 }

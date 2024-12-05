@@ -2,6 +2,7 @@ package com.example.demo.Utils;
 
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,6 +14,8 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.nio.file.Path;
+import java.time.LocalDate;
+
 
 public class Config {
 
@@ -91,7 +94,8 @@ public class Config {
         return fileChooser.showOpenDialog(stage);
     }
 
-
-
-
+    //Lấy ngày giờ hiện tại
+    public static LocalDate getCurrentDate() {
+        return LocalDate.now();
+    }
 }

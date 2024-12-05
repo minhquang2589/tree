@@ -46,4 +46,6 @@ module com.example.demo {
     opens com.example.demo.controller.admin.dashboard to javafx.fxml;
     exports com.example.demo.controller.admin.product;
     opens com.example.demo.controller.admin.product to javafx.fxml;
+    exports com.example.demo.controller.admin.voucher;
+    opens com.example.demo.controller.admin.voucher to javafx.fxml;
 }

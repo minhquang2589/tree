@@ -1,5 +1,6 @@
 package com.example.demo.Utils;
 
+import com.example.demo.classInterFace.setDataInterface;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -10,6 +11,7 @@ import javafx.scene.control.ButtonType;
 import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 
 public class Modal {
@@ -37,7 +39,7 @@ public class Modal {
         });
     }
 
-    public static void showAlert(String message , Runnable onOkAction) {
+    public static void showAlert(String message, Runnable onOkAction) {
         showAlert("Thông báo", message, Alert.AlertType.INFORMATION, onOkAction, null);
     }
 
@@ -45,7 +47,7 @@ public class Modal {
         showAlert("Thông báo", message != null ? message : "Lỗi. Xin vui lòng thử lại sau", Alert.AlertType.INFORMATION, null, null);
     }
 
-    public static void showModal(String fxmlPath, String title) throws IOException {
+    public static void showModal(String fxmlPath, String title , Runnable onCallback) throws IOException {
         if (currentModalStage != null && currentModalStage.isShowing()) {
             currentModalStage.close();
         }
@@ -64,6 +66,11 @@ public class Modal {
             modalStage.setX(centerX);
             modalStage.setY(centerY);
         });
+        modalStage.setOnHidden(event -> {
+            if (onCallback != null) {
+                onCallback.run();
+            }
+        });
         modalStage.showAndWait();
     }
 
@@ -73,4 +80,28 @@ public class Modal {
             currentModalStage = null;
         }
     }
+
+    public static <T> void showModalWithData(String fxmlPath,  String title,T model,Runnable onCallback) throws IOException {
+        FXMLLoader loader = new FXMLLoader(Modal.class.getResource(fxmlPath));
+        Parent root = loader.load();
+
+        Object controller = loader.getController();
+        if (controller instanceof setDataInterface) {
+            setDataInterface<T> dataController = (setDataInterface<T>) controller;
+            dataController.setData(model);
+        }
+
+        Stage stage = new Stage();
+        stage.setResizable(true);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setTitle(title);
+        stage.setScene(new Scene(root));
+        stage.setOnHidden(event -> {
+            if (onCallback != null) {
+                onCallback.run();
+            }
+        });
+        stage.show();
+    }
+
 }

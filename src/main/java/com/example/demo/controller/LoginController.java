@@ -93,7 +93,6 @@ public class LoginController {
         su_gender.getItems().addAll("male", "female", "other");
     }
 
-
     public static String handleCheckRole(User user) throws SQLException {
         boolean isLoggedIn = (boolean) PreferencesUtils.get("isLoggedIn", false);
         if (isLoggedIn && user != null) {

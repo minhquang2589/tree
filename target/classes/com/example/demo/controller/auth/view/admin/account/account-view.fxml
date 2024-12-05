@@ -6,8 +6,8 @@
 <TableView fx:id="userTable" style="-fx-background-color: white;"
            xmlns:fx="http://javafx.com/fxml"
            fx:controller="com.example.demo.controller.admin.account.AccountController"
-           maxHeight="550"
-           minHeight="550"
+           prefHeight="9999"
+
 >
     <stylesheets>
         <URL value="@../../../../../styleCss/customStyle.css"/>

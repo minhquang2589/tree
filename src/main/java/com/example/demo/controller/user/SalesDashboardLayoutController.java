@@ -33,27 +33,27 @@ public class SalesDashboardLayoutController {
     }
 
     public void onPayment(ActionEvent actionEvent) throws IOException {
-        Modal.showModal("/com/example/demo/controller/auth/view/user/paymentprocessing/paymentProcessing.fxml", "Chọn các hình thức thanh toán bằng cách bấm vào ô tương ứng.");
+        Modal.showModal("/com/example/demo/controller/auth/view/user/paymentprocessing/paymentProcessing.fxml", "Chọn các hình thức thanh toán bằng cách bấm vào ô tương ứng.",  null);
     }
 
     public void onOrderList(ActionEvent actionEvent) throws IOException {
-        Modal.showModal("/com/example/demo/controller/auth/view/user/orderlist/order-list.fxml", "Danh sách đơn hàng");
+        Modal.showModal("/com/example/demo/controller/auth/view/user/orderlist/order-list.fxml", "Danh sách đơn hàng",null);
     }
 
     public void onReport(ActionEvent actionEvent) throws IOException {
-        Modal.showModal("/com/example/demo/controller/auth/view/user/report/report.fxml", "Báo cáo nhanh");
+        Modal.showModal("/com/example/demo/controller/auth/view/user/report/report.fxml", "Báo cáo nhanh",null);
     }
 
     public void onTranslation(ActionEvent actionEvent) throws IOException {
-        Modal.showModal("/com/example/demo/controller/auth/view/user/translation/translation.fxml", "Dịch vụ");
+        Modal.showModal("/com/example/demo/controller/auth/view/user/translation/translation.fxml", "Dịch vụ", null);
     }
 
     public void onMember(ActionEvent actionEvent) throws IOException {
-        Modal.showModal("/com/example/demo/controller/auth/view/user/member/member.fxml", "Thông tin khách hàng");
+        Modal.showModal("/com/example/demo/controller/auth/view/user/member/member.fxml", "Thông tin khách hàng",null);
     }
 
     public void onCheckPrice(ActionEvent actionEvent) throws IOException {
-        Modal.showModal("/com/example/demo/controller/auth/view/user/checkprice/checkprice.fxml", "Kiểm tra giá sản phẩm");
+        Modal.showModal("/com/example/demo/controller/auth/view/user/checkprice/checkprice.fxml", "Kiểm tra giá sản phẩm",null);
     }
 
     public void onOut(ActionEvent actionEvent) {
@@ -62,12 +62,12 @@ public class SalesDashboardLayoutController {
     }
 
     public void onCloseshift(ActionEvent actionEvent) throws IOException {
-        Modal.showModal("/com/example/demo/controller/auth/view/user/closeshift/closeshift.fxml", "Kết thúc ca");
+        Modal.showModal("/com/example/demo/controller/auth/view/user/closeshift/closeshift.fxml", "Kết thúc ca",null);
 
     }
 
     public void onStartTheDay(ActionEvent actionEvent) throws IOException {
-        Modal.showModal("/com/example/demo/controller/auth/view/user/starttheday/starttheday.fxml", "Bắt đầu ngày");
+        Modal.showModal("/com/example/demo/controller/auth/view/user/starttheday/starttheday.fxml", "Bắt đầu ngày",null);
     }
 
     public void onExitApplication(ActionEvent event) {

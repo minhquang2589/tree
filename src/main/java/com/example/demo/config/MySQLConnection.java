@@ -1,10 +1,9 @@
 package com.example.demo.config;
-
 import java.sql.*;
 
 public class MySQLConnection {
-    private static Connection connection;
 
+    private static Connection connection;
 
     public static Connection connect() {
         if (connection == null) {
@@ -30,7 +29,6 @@ public class MySQLConnection {
         }
         return connection;
     }
-
 
     public static void close() {
         try {
@@ -119,19 +117,16 @@ public class MySQLConnection {
                 );
                 """;
 
-
         //Discount
         String createDiscountsTable = """
                 CREATE TABLE IF NOT EXISTS discounts (
                     discount_id INT AUTO_INCREMENT PRIMARY KEY,
-                    product_id INT NOT NULL,
                     discount_percentage DECIMAL(5, 2) NOT NULL,
                     discount_quantity INT NOT NULL,
                     discount_remaining INT,
                     start_date DATE NOT NULL,
                     end_date DATE NOT NULL,
-                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                    FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE
+                    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
                 );
                 """;
 
@@ -156,9 +151,11 @@ public class MySQLConnection {
                     product_id INT NOT NULL,
                     size_id INT NOT NULL,
                     quantity INT,
+                    discount_id INT,
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                     FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE,
-                    FOREIGN KEY (size_id) REFERENCES sizes(size_id) ON DELETE CASCADE
+                    FOREIGN KEY (size_id) REFERENCES sizes(size_id) ON DELETE CASCADE,
+                    FOREIGN KEY (discount_id) REFERENCES discounts(discount_id) ON DELETE CASCADE
                 );
                 """;
 
@@ -222,7 +219,6 @@ public class MySQLConnection {
 
             statement.execute(createUsersTable);
             System.out.println("Table 'users' created successfully.");
-
 
             statement.execute(createCategoriesTable);
             System.out.println("Table 'categories' created successfully.");
