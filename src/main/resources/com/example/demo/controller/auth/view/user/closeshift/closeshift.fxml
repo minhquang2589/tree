@@ -18,7 +18,7 @@
                   <Font size="16.0" />
                </font>
             </Text>
-            <Text layoutX="15.2" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="500 000" wrappingWidth="56.13281250000006" AnchorPane.leftAnchor="15.0">
+            <Text  layoutX="15.2" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="500 000" wrappingWidth="56.13281250000006" AnchorPane.leftAnchor="15.0">
                <font>
                   <Font size="16.0" />
                </font>
@@ -73,17 +73,17 @@
                   <Font size="16.0" />
                </font>
             </Text>
-            <TextField alignment="CENTER_RIGHT" layoutX="85.0" layoutY="308.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="85.0" />
-            <TextField alignment="CENTER_RIGHT" layoutX="85.0" layoutY="273.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="85.0" />
-            <TextField alignment="CENTER_RIGHT" layoutX="85.0" layoutY="378.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="85.0" />
-            <TextField alignment="CENTER_RIGHT" layoutX="85.0" layoutY="413.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="85.0" />
-            <TextField alignment="CENTER_RIGHT" layoutX="85.0" layoutY="343.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="85.0" />
-            <TextField alignment="CENTER_RIGHT" layoutX="85.0" layoutY="203.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="85.0" />
-            <TextField alignment="CENTER_RIGHT" layoutX="85.0" layoutY="98.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="85.0" />
-            <TextField alignment="CENTER_RIGHT" layoutX="85.0" layoutY="133.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="85.0" />
-            <TextField alignment="CENTER_RIGHT" layoutX="85.0" layoutY="168.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="85.0" />
-            <TextField alignment="CENTER_RIGHT" layoutX="85.0" layoutY="238.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="85.0" />
-            <TextField alignment="CENTER_RIGHT" layoutX="85.0" layoutY="63.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="85.0" />
+            <TextField fx:id="textField" onMouseClicked="#selectTextField" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="308.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="85.0" />
+            <TextField fx:id="textField1" onMouseClicked="#selectTextField" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="273.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="85.0" />
+            <TextField fx:id="textField2" onMouseClicked="#selectTextField" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="378.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="85.0" />
+            <TextField fx:id="textField3" onMouseClicked="#selectTextField" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="413.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="85.0" />
+            <TextField fx:id="textField4" onMouseClicked="#selectTextField" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="343.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="85.0" />
+            <TextField fx:id="textField5" onMouseClicked="#selectTextField" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="203.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="85.0" />
+            <TextField fx:id="textField6" onMouseClicked="#selectTextField" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="98.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="85.0" />
+            <TextField fx:id="textField7" onMouseClicked="#selectTextField" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="133.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="85.0" />
+            <TextField fx:id="textField8" onMouseClicked="#selectTextField" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="168.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="85.0" />
+            <TextField fx:id="textField9" onMouseClicked="#selectTextField" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="238.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="85.0" />
+            <TextField fx:id="textField10" onMouseClicked="#selectTextField" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="63.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="85.0" />
             <Separator layoutY="55.4" prefHeight="3.2" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="55.4" />
             <Text layoutX="292.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Số Phong bì" wrappingWidth="100.0">
                <font>
@@ -100,36 +100,36 @@
                   <Font size="16.0" />
                </font>
             </Text>
-            <TextField alignment="CENTER_RIGHT" layoutX="406.6" layoutY="98.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.rightAnchor="15.0" />
-            <TextField alignment="CENTER_RIGHT" layoutX="406.6" layoutY="133.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.rightAnchor="15.0" />
-            <TextField alignment="CENTER_RIGHT" layoutX="406.6" layoutY="63.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.rightAnchor="15.0" />
+            <TextField fx:id="textField11" onMouseClicked="#selectTextField" alignment="CENTER_RIGHT" layoutX="406.6" layoutY="98.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.rightAnchor="15.0" />
+            <TextField fx:id="textField12" onMouseClicked="#selectTextField" alignment="CENTER_RIGHT" layoutX="406.6" layoutY="133.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.rightAnchor="15.0" />
+            <TextField fx:id="textField13" onMouseClicked="#selectTextField" alignment="CENTER_RIGHT" layoutX="406.6" layoutY="63.0" prefHeight="30.0" prefWidth="200.0" AnchorPane.rightAnchor="15.0" />
             <Text layoutX="4.0" layoutY="477.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tổng" AnchorPane.leftAnchor="15.0">
                <font>
                   <Font size="16.0" />
                </font>
             </Text>
-            <TextField alignment="CENTER_RIGHT" layoutX="15.2" layoutY="485.0" prefHeight="30.0" prefWidth="270.0" AnchorPane.leftAnchor="15.2" />
+            <TextField fx:id="textField14" onMouseClicked="#selectTextField" alignment="CENTER_RIGHT" layoutX="15.2" layoutY="485.0" prefHeight="30.0" prefWidth="270.0" AnchorPane.leftAnchor="15.2" />
             <Text layoutX="15.0" layoutY="541.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tiền mặt đầu ca" AnchorPane.leftAnchor="15.0">
                <font>
                   <Font size="16.0" />
                </font>
             </Text>
-            <TextField alignment="CENTER_RIGHT" layoutX="26.0" layoutY="549.0" prefHeight="30.0" prefWidth="270.0" AnchorPane.leftAnchor="15.0" />
-            <Button layoutX="290.0" layoutY="324.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="7" />
-            <Button layoutX="355.0" layoutY="324.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="8" />
-            <Button layoutX="420.0" layoutY="322.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="9" />
-            <Button layoutX="484.79999999999995" layoutY="324.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="100.0" text="Xoá" AnchorPane.rightAnchor="15.200000000000045" />
-            <Button layoutX="290.0" layoutY="389.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="4" />
-            <Button layoutX="355.0" layoutY="389.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="5" />
-            <Button layoutX="420.0" layoutY="389.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="6" />
-            <Button layoutX="484.79999999999995" layoutY="389.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="100.0" text="C" AnchorPane.rightAnchor="15.200000000000045" />
-            <Button layoutX="290.0" layoutY="454.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="1" />
-            <Button layoutX="355.0" layoutY="454.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="2" />
-            <Button layoutX="420.0" layoutY="454.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="3" />
+            <TextField fx:id="textField15" onMouseClicked="#selectTextField" alignment="CENTER_RIGHT" layoutX="26.0" layoutY="549.0" prefHeight="30.0" prefWidth="270.0" AnchorPane.leftAnchor="15.0" />
+            <Button layoutX="290.0" layoutY="324.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="7" onAction="#numberClick" />
+            <Button layoutX="355.0" layoutY="324.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="8" onAction="#numberClick" />
+            <Button layoutX="420.0" layoutY="322.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="9" onAction="#numberClick" />
+            <Button layoutX="484.79999999999995" layoutY="324.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="100.0" text="Xoá" AnchorPane.rightAnchor="15.200000000000045" onAction="#clearText" />
+            <Button layoutX="290.0" layoutY="389.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="4" onAction="#numberClick" />
+            <Button layoutX="355.0" layoutY="389.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="5" onAction="#numberClick" />
+            <Button layoutX="420.0" layoutY="389.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="6" onAction="#numberClick" />
+            <Button layoutX="484.79999999999995" layoutY="389.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="100.0" text="C" AnchorPane.rightAnchor="15.200000000000045" onAction="#clearText1"  />
+            <Button layoutX="290.0" layoutY="454.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="1" onAction="#numberClick" />
+            <Button layoutX="355.0" layoutY="454.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="2" onAction="#numberClick" />
+            <Button layoutX="420.0" layoutY="454.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="3" onAction="#numberClick" />
             <Button layoutX="484.79999999999995" layoutY="454.0" mnemonicParsing="false" prefHeight="125.0" prefWidth="100.0" text="Nhập" AnchorPane.rightAnchor="15.200000000000045" />
-            <Button layoutX="290.0" layoutY="519.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="0" />
-            <Button layoutX="355.0" layoutY="519.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="00" />
-            <Button layoutX="420.0" layoutY="519.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="000" />
+            <Button layoutX="290.0" layoutY="519.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="0" onAction="#numberClick" />
+            <Button layoutX="355.0" layoutY="519.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="00" onAction="#numberClick" />
+            <Button layoutX="420.0" layoutY="519.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="000" onAction="#numberClick" />
             <Separator layoutY="598.0" prefHeight="3.2" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="598.0" />
             <Button layoutX="535.2" layoutY="605.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" text="OK" AnchorPane.rightAnchor="15.0" />
          </children>
