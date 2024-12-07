@@ -2,18 +2,18 @@ package com.example.demo.controller.user;
 
 import com.example.demo.Utils.Modal;
 import com.example.demo.Utils.PreferencesUtils;
-import com.example.demo.controller.user.starttheday.startthedaysuccess.StartTheDaySuccess;
 import com.example.demo.model.StartDay;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+
 import static com.example.demo.config.button.ButtonHandler.handleNavigator;
+
 import com.example.demo.controller.user.starttheday.StartTheDayController;
 
 public class SalesDashboardLayoutController {
@@ -32,7 +32,7 @@ public class SalesDashboardLayoutController {
 
 
     public void onSales(ActionEvent actionEvent) throws IOException {
-        if(StartDay.isStartDay()){
+        if (StartDay.isStartDay()) {
             sl_sales.setVisible(false);
             sl_sales2.setVisible(false);
             sl_CancelTransaction.setVisible(true);
@@ -48,15 +48,15 @@ public class SalesDashboardLayoutController {
     }
 
     public void onPayment(ActionEvent actionEvent) throws IOException {
-        Modal.showModal("/com/example/demo/controller/auth/view/user/paymentprocessing/paymentProcessing.fxml", "Chọn các hình thức thanh toán bằng cách bấm vào ô tương ứng.",  null);
+        Modal.showModal("/com/example/demo/controller/auth/view/user/paymentprocessing/paymentProcessing.fxml", "Chọn các hình thức thanh toán bằng cách bấm vào ô tương ứng.", null);
     }
 
     public void onOrderList(ActionEvent actionEvent) throws IOException {
-        Modal.showModal("/com/example/demo/controller/auth/view/user/orderlist/order-list.fxml", "Danh sách đơn hàng",null);
+        Modal.showModal("/com/example/demo/controller/auth/view/user/orderlist/order-list.fxml", "Danh sách đơn hàng", null);
     }
 
     public void onReport(ActionEvent actionEvent) throws IOException {
-        Modal.showModal("/com/example/demo/controller/auth/view/user/report/report.fxml", "Báo cáo nhanh",null);
+        Modal.showModal("/com/example/demo/controller/auth/view/user/report/report.fxml", "Báo cáo nhanh", null);
     }
 
     public void onTranslation(ActionEvent actionEvent) throws IOException {
@@ -64,11 +64,11 @@ public class SalesDashboardLayoutController {
     }
 
     public void onMember(ActionEvent actionEvent) throws IOException {
-        Modal.showModal("/com/example/demo/controller/auth/view/user/member/member.fxml", "Thông tin khách hàng",null);
+        Modal.showModal("/com/example/demo/controller/auth/view/user/member/member.fxml", "Thông tin khách hàng", null);
     }
 
     public void onCheckPrice(ActionEvent actionEvent) throws IOException {
-        Modal.showModal("/com/example/demo/controller/auth/view/user/checkprice/checkprice.fxml", "Kiểm tra giá sản phẩm",null);
+        Modal.showModal("/com/example/demo/controller/auth/view/user/checkprice/checkprice.fxml", "Kiểm tra giá sản phẩm", null);
     }
 
     public void onOut(ActionEvent actionEvent) {
@@ -77,21 +77,16 @@ public class SalesDashboardLayoutController {
     }
 
     public void onCloseshift(ActionEvent actionEvent) throws IOException {
-        Modal.showModal("/com/example/demo/controller/auth/view/user/closeshift/closeshift.fxml", "Kết thúc ca",null);
+        Modal.showModal("/com/example/demo/controller/auth/view/user/closeshift/closeshift.fxml", "Kết thúc ca", null);
 
     }
 
     public void onStartTheDay(ActionEvent actionEvent) throws IOException {
         StartTheDayController startTheDayController = new StartTheDayController();
-        if (startTheDayController.check_day() == true){
-        Modal.showModal("/com/example/demo/controller/auth/view/user/starttheday/starttheday.fxml", "Bắt đầu ngày", null);
-        }
-        else{
-            Modal.showAlert(
-                    "Thông báo",
-                    "Đã có người check in",
-                    Alert.AlertType.INFORMATION,
-                    null, null      );
+        if (startTheDayController.check_day()) {
+            Modal.showModal("/com/example/demo/controller/auth/view/user/starttheday/starttheday.fxml", "Bắt đầu ngày", null);
+        } else {
+            Modal.showAlert("Đã có người check in");
         }
     }
 

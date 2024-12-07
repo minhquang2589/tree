@@ -27,8 +27,6 @@ public class StartTheDayController {
 
     public boolean check_day() throws IOException {
         Connection connection = connect();
-
-        // Check if a shift for the current user and date already exists
         String checkQuery = "SELECT COUNT(*) FROM shifts WHERE DATE(start_date) = '" + formattedDateTime + "'";
         Statement checkStatement = null;
         ResultSet resultSet = null;

@@ -98,6 +98,7 @@ public class MySQLConnection {
                 CREATE TABLE IF NOT EXISTS products (
                     product_id INT AUTO_INCREMENT PRIMARY KEY,
                     name VARCHAR(100) NOT NULL,
+                    price DECIMAL(10, 2) NOT NULL,
                     is_new TINYINT(1) DEFAULT 0,
                     category_id INT NOT NULL,
                     description TEXT,

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.demo.controller.admin.addproduct.AddProductTestController"
+            prefHeight="600.0" prefWidth="600.0">
+
+    <Label text="Add New Product" layoutX="200.0" layoutY="10.0"/>
+
+    <Label text="Product Name:" layoutX="50.0" layoutY="50.0"/>
+    <TextField fx:id="nameField" layoutX="150.0" layoutY="50.0" prefWidth="400.0"/>
+
+    <Label text="Price:" layoutX="50.0" layoutY="100.0"/>
+    <TextField fx:id="priceField" layoutX="150.0" layoutY="100.0" prefWidth="400.0"/>
+
+    <Label text="Description:" layoutX="50.0" layoutY="150.0"/>
+    <TextArea fx:id="descriptionField" layoutX="150.0" layoutY="150.0" prefWidth="400.0" prefHeight="100.0"/>
+
+    <Label text="Category:" layoutX="50.0" layoutY="270.0"/>
+    <ComboBox fx:id="categoryComboBox" layoutX="150.0" layoutY="270.0" prefWidth="400.0"/>
+
+    <Label text="Product Images:" layoutX="50.0" layoutY="310.0"/>
+    <ListView fx:id="imageListView" layoutX="150.0" layoutY="310.0" prefWidth="400.0" prefHeight="100.0"/>
+    <Button text="Add Image" layoutX="150.0" layoutY="420.0" onAction="#handleAddImage"/>
+
+    <Label text="Sizes and Quantities:" layoutX="50.0" layoutY="460.0"/>
+    <TableView fx:id="sizesTableView" layoutX="150.0" layoutY="460.0" prefWidth="400.0" prefHeight="100.0">
+        <columns>
+            <TableColumn fx:id="sizeColumn" text="Size" prefWidth="150"/>
+            <TableColumn fx:id="quantityColumn" text="Quantity" prefWidth="150"/>
+        </columns>
+    </TableView>
+
+    <Button text="Add Product" layoutX="250.0" layoutY="580.0" onAction="#handleAddProduct"/>
+</AnchorPane>

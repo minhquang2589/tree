@@ -72,10 +72,15 @@ public class BaseController {
     public void onSales(ActionEvent actionEvent) {
         handleNavigator(actionEvent, "/com/example/demo/controller/auth/view/user/salesdashboardlayout/sales-dashboard-layout.fxml", false);
     }
+//
+//    @FXML
+//    public void onAddProduct(ActionEvent actionEvent) throws IOException {
+//        setMainContent("/com/example/demo/controller/auth/view/admin/addproduct/addproduct.fxml");
+//    }
 
     @FXML
     public void onAddProduct(ActionEvent actionEvent) throws IOException {
-        setMainContent("/com/example/demo/controller/auth/view/admin/addproduct/addproduct.fxml");
+        setMainContent("/com/example/demo/controller/auth/view/admin/addproduct/add-product-test-view.fxml");
     }
 
     @FXML

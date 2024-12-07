@@ -1,15 +1,34 @@
 package com.example.demo.model;
-
+import javax.persistence.*;
+import java.util.Date;
 import java.time.LocalDate;
+@Entity
+@Table(name = "vouchers")
 
 public class Voucher {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int voucherId;
-    final private String voucherCode;
-    final private double voucherPercentage;
-    final private int voucherQuantity;
-    final private LocalDate startDate;
-    final private LocalDate endDate;
-    final private String status;
+    @Column(name = "voucher_code", unique = true)
+    private String voucherCode;
+
+    @Column(name = "voucher_percentage")
+    private double voucherPercentage;
+
+    @Column(name = "voucher_quantity")
+    private int voucherQuantity;
+
+    @Column(name = "start_date")
+    private LocalDate startDate;
+
+    @Column(name = "end_date")
+    private LocalDate endDate;
+
+    private String status;
+
+    @Column(name = "created_at", insertable = false, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
 
     public Voucher(int voucherId, String voucherCode, double voucherPercentage, int voucherQuantity,
                    LocalDate startDate, LocalDate endDate, String status) {

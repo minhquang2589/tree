@@ -1,17 +1,26 @@
 package com.example.demo.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "categories")
 public class Category {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int categoryId;
     private String category;
     private String image;
     private String description;
 
-    public Category(String category, String image, String description) {
+    public Category() {}
+
+    public Category(int categoryId, String category, String image, String description) {
+        this.categoryId = categoryId;
         this.category = category;
         this.image = image;
         this.description = description;
     }
-
 
     public int getCategoryId() {
         return categoryId;
@@ -44,5 +53,4 @@ public class Category {
     public void setDescription(String description) {
         this.description = description;
     }
-
 }
