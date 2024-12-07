@@ -213,6 +213,18 @@ public class MySQLConnection {
                 );
                 """;
 
+        // Shift
+
+        String createShiftsTable = """
+                CREATE TABLE IF NOT EXISTS shifts (
+                    shift_id INT AUTO_INCREMENT PRIMARY KEY,
+                    user_id INT NOT NULL,
+                    start_date DATE NOT NULL,
+                    end_date DATE,
+                    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+                );
+                """;
+
         Connection connection = connect();
         if (connection != null) {
             Statement statement = connection.createStatement();
@@ -255,6 +267,9 @@ public class MySQLConnection {
 
             statement.execute(createOrderItemsTable);
             System.out.println("Table 'order_items' created successfully.");
+
+            statement.execute(createShiftsTable);
+            System.out.println("Table 'Shifts' created successfully.");
         }
     }
 

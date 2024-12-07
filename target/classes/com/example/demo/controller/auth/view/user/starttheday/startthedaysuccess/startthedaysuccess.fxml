@@ -12,6 +12,6 @@
             <Font size="20.0" />
          </font>
       </Text>
-      <Button layoutX="521.0" layoutY="355.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" text="OK" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0" />
+      <Button onAction="#closeApplication" layoutX="521.0" layoutY="355.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" text="OK" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0" />
    </children>
 </AnchorPane>
