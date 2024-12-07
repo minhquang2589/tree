@@ -29,9 +29,9 @@
                      <children>
                         <ScrollPane layoutX="80.0" layoutY="122.0" prefHeight="570.0" prefWidth="1001.0" stylesheets="@../../../../../styleCss/sales.css" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="0.0">
                            <content>
-                              <AnchorPane prefHeight="566.0" prefWidth="997.0" styleClass="radius" stylesheets="@../../../../../styleCss/sales.css">
+                              <AnchorPane prefHeight="566.0" prefWidth="997.0" styleClass="radius" stylesheets="@../../../../../styleCss/sales.css" >
                                  <children>
-                                    <TextField layoutX="2.0" layoutY="10.0" prefHeight="30.0" prefWidth="492.0" promptText="Tìm kiếm....." styleClass="textfield" stylesheets="@../../../../../styleCss/sales.css" />
+                                    <TextField fx:id="displayField" layoutX="2.0" layoutY="10.0" prefHeight="30.0" prefWidth="492.0" promptText="Tìm kiếm....." styleClass="textfield" stylesheets="@../../../../../styleCss/sales.css" />
                                     <Separator layoutY="49.0" prefHeight="1.0" prefWidth="1005.0" AnchorPane.leftAnchor="0.0" />
                                     <TextField alignment="CENTER" layoutX="562.0" layoutY="10.0" prefHeight="30.0" prefWidth="35.0" styleClass="textfield" stylesheets="@../../../../../styleCss/sales.css" text="1" />
                                     <TextField alignment="CENTER" layoutX="607.0" layoutY="10.0" prefHeight="30.0" prefWidth="149.0" styleClass="textfield" stylesheets="@../../../../../styleCss/sales.css" text="28-03-1997" />
@@ -69,21 +69,21 @@
                         <String fx:value="shadow" />
                      </styleClass>
                      <children>
-                        <Button layoutX="4.8" layoutY="550.2" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="0" AnchorPane.bottomAnchor="11.399999999999977" AnchorPane.leftAnchor="4.8" />
-                        <Button layoutX="88.0" layoutY="550.2" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="00" AnchorPane.bottomAnchor="11.399999999999977" />
-                        <Button layoutX="171.0" layoutY="550.2" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="000" AnchorPane.bottomAnchor="11.399999999999977" />
-                        <Button layoutX="4.8" layoutY="467.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="1" AnchorPane.bottomAnchor="94.60000000000002" AnchorPane.leftAnchor="4.8" />
-                        <Button layoutX="88.0" layoutY="467.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="2" AnchorPane.bottomAnchor="94.60000000000002" />
-                        <Button layoutX="171.0" layoutY="467.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="3" AnchorPane.bottomAnchor="94.60000000000002" />
-                        <Button layoutX="4.8" layoutY="383.8" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="4" AnchorPane.bottomAnchor="177.8" AnchorPane.leftAnchor="4.8" />
-                        <Button layoutX="88.0" layoutY="383.8" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="5" AnchorPane.bottomAnchor="177.8" />
-                        <Button layoutX="171.0" layoutY="383.8" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="6" AnchorPane.bottomAnchor="177.8" />
+                        <Button layoutX="4.8" layoutY="550.2" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="0" AnchorPane.bottomAnchor="11.399999999999977" AnchorPane.leftAnchor="4.8" onAction="#onNumberClick"/>
+                        <Button layoutX="88.0" layoutY="550.2" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="00" AnchorPane.bottomAnchor="11.399999999999977" onAction="#onNumberClick" />
+                        <Button layoutX="171.0" layoutY="550.2" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="000" AnchorPane.bottomAnchor="11.399999999999977" onAction="#onNumberClick" />
+                        <Button layoutX="4.8" layoutY="467.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="1" AnchorPane.bottomAnchor="94.60000000000002" AnchorPane.leftAnchor="4.8" onAction="#onNumberClick" />
+                        <Button layoutX="88.0" layoutY="467.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="2" AnchorPane.bottomAnchor="94.60000000000002" onAction="#onNumberClick" />
+                        <Button layoutX="171.0" layoutY="467.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="3" AnchorPane.bottomAnchor="94.60000000000002" onAction="#onNumberClick" />
+                        <Button layoutX="4.8" layoutY="383.8" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="4" AnchorPane.bottomAnchor="177.8" AnchorPane.leftAnchor="4.8" onAction="#onNumberClick" />
+                        <Button layoutX="88.0" layoutY="383.8" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="5" AnchorPane.bottomAnchor="177.8" onAction="#onNumberClick" />
+                        <Button layoutX="171.0" layoutY="383.8" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="6" AnchorPane.bottomAnchor="177.8" onAction="#onNumberClick" />
                         <Button layoutX="254.0" layoutY="467.00000000000006" mnemonicParsing="false" prefHeight="163.0" prefWidth="75.0" text="Nhập" AnchorPane.bottomAnchor="11.399999999999977" />
-                        <Button layoutX="4.8" layoutY="300.6" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="7" AnchorPane.bottomAnchor="261.0" AnchorPane.leftAnchor="4.8" />
-                        <Button layoutX="88.0" layoutY="300.6" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="8" AnchorPane.bottomAnchor="261.0" />
-                        <Button layoutX="171.0" layoutY="300.6" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="9" AnchorPane.bottomAnchor="261.0" />
-                        <Button layoutX="254.0" layoutY="383.8" mnemonicParsing="false" prefHeight="80.0" prefWidth="75.0" text="Xoá" AnchorPane.bottomAnchor="177.8" />
-                        <Button layoutX="254.0" layoutY="300.6" mnemonicParsing="false" onAction="#onCheckPrice" prefHeight="80.0" prefWidth="75.0" text="Tra giá" AnchorPane.bottomAnchor="261.0" />
+                        <Button layoutX="4.8" layoutY="300.6" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="7" AnchorPane.bottomAnchor="261.0" AnchorPane.leftAnchor="4.8" onAction="#onNumberClick" />
+                        <Button layoutX="88.0" layoutY="300.6" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="8" AnchorPane.bottomAnchor="261.0" onAction="#onNumberClick" />
+                        <Button layoutX="171.0" layoutY="300.6" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="9" AnchorPane.bottomAnchor="261.0" onAction="#onNumberClick" />
+                        <Button layoutX="254.0" layoutY="383.8" mnemonicParsing="false" prefHeight="80.0" prefWidth="75.0" text="Xoá" AnchorPane.bottomAnchor="177.8" onAction="#onClear" />
+                        <Button layoutX="254.0" layoutY="300.6" mnemonicParsing="false" onAction="#onCheckPrice" prefHeight="80.0" prefWidth="75.0" text="Tra giá" AnchorPane.bottomAnchor="261.0"  />
                         <Button layoutX="4.8" layoutY="217.40000000000003" mnemonicParsing="false" onAction="#onMember" prefHeight="80.0" prefWidth="80.0" text="Hội viên" AnchorPane.bottomAnchor="344.2" AnchorPane.leftAnchor="4.8" />
                         <Button layoutX="88.0" layoutY="217.40000000000003" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="Số lượng" AnchorPane.bottomAnchor="344.2" />
                         <Button layoutX="171.0" layoutY="217.40000000000003" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="Huỷ dòng" AnchorPane.bottomAnchor="344.2" />
