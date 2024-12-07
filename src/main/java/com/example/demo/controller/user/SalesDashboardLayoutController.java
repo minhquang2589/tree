@@ -84,7 +84,7 @@ public class SalesDashboardLayoutController {
     public void onStartTheDay(ActionEvent actionEvent) throws IOException {
         StartTheDayController startTheDayController = new StartTheDayController();
         if (startTheDayController.check_day() == true){
-        Modal.showModal("/com/example/demo/controller/auth/view/user/starttheday/starttheday.fxml", "Bắt đầu ngày");
+        Modal.showModal("/com/example/demo/controller/auth/view/user/starttheday/starttheday.fxml", "Bắt đầu ngày", null);
         }
         else{
             Modal.showAlert(

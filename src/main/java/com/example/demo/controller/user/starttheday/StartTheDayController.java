@@ -1,14 +1,11 @@
 package com.example.demo.controller.user.starttheday;
 
 import com.example.demo.Utils.PreferencesUtils;
-import com.example.demo.config.MySQLConnection;
 import com.example.demo.Utils.Modal;
-import com.example.demo.config.loading.LoadingOverlay;
 import com.example.demo.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
-
 import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -72,6 +69,6 @@ public class StartTheDayController {
 
     public void onStartTheDaySuccess(ActionEvent actionEvent) throws IOException {
         startday();
-        Modal.showModal("/com/example/demo/controller/auth/view/user/starttheday/startthedaysuccess/startthedaysuccess.fxml", "");
+        Modal.showModal("/com/example/demo/controller/auth/view/user/starttheday/startthedaysuccess/startthedaysuccess.fxml", "",null);
     }
 }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
-
 <?import java.net.URL?>
+
 <TableView fx:id="userTable" style="-fx-background-color: white;"
            xmlns:fx="http://javafx.com/fxml"
            fx:controller="com.example.demo.controller.admin.account.AccountController"
