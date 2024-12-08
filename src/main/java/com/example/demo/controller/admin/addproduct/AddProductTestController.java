@@ -6,6 +6,8 @@ import com.example.demo.DAO.SizeDAO;
 import com.example.demo.model.Category;
 import com.example.demo.model.Product;
 import com.example.demo.model.Size;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
@@ -14,12 +16,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.demo.Utils.Modal.showAlert;
+
 public class AddProductTestController {
 
+    public TextField categoryField;
+    public TextField sizeInputField;
+    public TextField quantityInputField;
     @FXML private TextField nameField;
     @FXML private TextField priceField;
     @FXML private TextArea descriptionField;
-    @FXML private ComboBox<Category> categoryComboBox;
     @FXML private ListView<String> imageListView;
     @FXML private TableView<Size> sizesTableView;
     @FXML private TableColumn<Size, String> sizeColumn;
@@ -29,19 +35,13 @@ public class AddProductTestController {
     private final CategoryDAO categoryDAO = new CategoryDAO();
     private SizeDAO sizeDAO = new SizeDAO();
 
-    private List<String> images = new ArrayList<>();
-    private List<Size> sizes = new ArrayList<>();
+    private final List<String> images = new ArrayList<>();
+    private final List<Size> sizes = new ArrayList<>();
 
     @FXML
     public void initialize() {
-        try {
-            categoryComboBox.getItems().addAll(categoryDAO.getAllCategories());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-//        sizeColumn.setCellValueFactory(cellData -> cellData.getValue().sizeProperty());
-//        quantityColumn.setCellValueFactory(cellData -> cellData.getValue().quantityProperty().asObject());
+        sizeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getSize()));
+        quantityColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getQuantity()).asObject());
     }
 
     @FXML
@@ -63,7 +63,7 @@ public class AddProductTestController {
         String productName = nameField.getText();
         String priceText = priceField.getText();
         String description = descriptionField.getText();
-        Category selectedCategory = categoryComboBox.getValue();
+        String selectedCategory = categoryField.getText();
 
         if (productName.isEmpty() || priceText.isEmpty() || description.isEmpty() || selectedCategory == null) {
             showAlert("All fields must be filled!");
@@ -72,7 +72,7 @@ public class AddProductTestController {
 
         try {
             double price = Double.parseDouble(priceText);
-            Product newProduct = new Product(productName, price, description, selectedCategory.getCategoryId());
+            Product newProduct = new Product(productName, price, description, 1);
 
             productDAO.addProduct(newProduct);
 
@@ -89,33 +89,39 @@ public class AddProductTestController {
     }
 
 
-    private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Information");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
+
     @FXML
     private void handleAddSize() {
-        TextInputDialog sizeDialog = new TextInputDialog();
-        sizeDialog.setTitle("Add Size");
-        sizeDialog.setHeaderText("Enter size (e.g. S, M, L):");
-        sizeDialog.showAndWait().ifPresent(sizeText -> {
-            TextInputDialog quantityDialog = new TextInputDialog("1");  // Set default quantity as 1
-            quantityDialog.setTitle("Enter Quantity");
-            quantityDialog.setHeaderText("Enter quantity for " + sizeText + ":");
-            quantityDialog.showAndWait().ifPresent(quantityText -> {
-//                try {
-//                    int quantity = Integer.parseInt(quantityText);
-//                    Size size = new Size(sizeText, quantity);
-//                    sizes.add(size);
-//                    sizesTableView.getItems().add(size);
-//                } catch (NumberFormatException e) {
-//                    showAlert("Invalid quantity!");
-//                }
-            });
-        });
+        String sizeText = sizeInputField.getText();
+        String quantityText = quantityInputField.getText();
+        String descriptionText = descriptionField.getText();
+
+        if (sizeText.isEmpty() || quantityText.isEmpty() || descriptionText.isEmpty()) {
+            showAlert("Size, quantity, and description must be filled!");
+            return;
+        }
+
+        try {
+            int quantity = Integer.parseInt(quantityText);
+            Size size = new Size(0, sizeText, quantity, descriptionText);
+            sizesTableView.getItems().add(size);
+            sizes.add(size);
+            sizeInputField.clear();
+            quantityInputField.clear();
+            descriptionField.clear();
+
+        } catch (NumberFormatException e) {
+            showAlert("Invalid quantity!");
+        }
     }
 
+
+
+    public SizeDAO getSizeDAO() {
+        return sizeDAO;
+    }
+
+    public void setSizeDAO(SizeDAO sizeDAO) {
+        this.sizeDAO = sizeDAO;
+    }
 }

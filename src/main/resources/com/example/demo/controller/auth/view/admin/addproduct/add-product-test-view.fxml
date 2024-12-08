@@ -19,14 +19,20 @@
     <TextArea fx:id="descriptionField" layoutX="150.0" layoutY="150.0" prefWidth="400.0" prefHeight="100.0"/>
 
     <Label text="Category:" layoutX="50.0" layoutY="270.0"/>
-    <ComboBox fx:id="categoryComboBox" layoutX="150.0" layoutY="270.0" prefWidth="400.0"/>
+    <TextField fx:id="categoryField" layoutX="150.0" layoutY="270.0" prefWidth="400.0"/>
 
     <Label text="Product Images:" layoutX="50.0" layoutY="310.0"/>
     <ListView fx:id="imageListView" layoutX="150.0" layoutY="310.0" prefWidth="400.0" prefHeight="100.0"/>
     <Button text="Add Image" layoutX="150.0" layoutY="420.0" onAction="#handleAddImage"/>
 
     <Label text="Sizes and Quantities:" layoutX="50.0" layoutY="460.0"/>
-    <TableView fx:id="sizesTableView" layoutX="150.0" layoutY="460.0" prefWidth="400.0" prefHeight="100.0">
+    <HBox layoutX="150.0" layoutY="460.0" spacing="10">
+        <TextField fx:id="sizeInputField" promptText="Size" prefWidth="150.0"/>
+        <TextField fx:id="quantityInputField" promptText="Quantity" prefWidth="150.0"/>
+        <Button text="Add Size" onAction="#handleAddSize"/>
+    </HBox>
+
+    <TableView fx:id="sizesTableView" layoutX="150.0" layoutY="500.0" prefWidth="400.0" prefHeight="100.0">
         <columns>
             <TableColumn fx:id="sizeColumn" text="Size" prefWidth="150"/>
             <TableColumn fx:id="quantityColumn" text="Quantity" prefWidth="150"/>

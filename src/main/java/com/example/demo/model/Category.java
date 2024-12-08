@@ -9,10 +9,12 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int categoryId;
+
     private String category;
     private String image;
     private String description;
 
+    // Constructors
     public Category() {}
 
     public Category(int categoryId, String category, String image, String description) {
@@ -22,6 +24,7 @@ public class Category {
         this.description = description;
     }
 
+    // Getters and setters
     public int getCategoryId() {
         return categoryId;
     }
