@@ -20,8 +20,10 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+
 import java.io.File;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Objects;
 
 public class AccountController {
@@ -195,17 +197,22 @@ public class AccountController {
             imageView.setFitHeight(100);
             Button chooseImageButton = new Button("Chọn ảnh");
             chooseImageButton.setOnAction(event -> {
-                File selectedFile = Config.showFileChooser((Stage) chooseImageButton.getScene().getWindow());
-                if (selectedFile != null) {
+                Stage currentStage = (Stage) chooseImageButton.getScene().getWindow();
+                List<File> selectedFiles = Config.showFileChooser(currentStage);
+                if (selectedFiles != null && !selectedFiles.isEmpty()) {
+                    File selectedFile = selectedFiles.get(0);
                     String savedImagePath = Config.saveImage(selectedFile.getName(), selectedFile);
                     if (savedImagePath != null) {
                         selectedUser.setImage(savedImagePath);
                         imageView.setImage(new Image("file:" + savedImagePath));
                     } else {
-                        Modal.showAlert(null);
+                        Modal.showAlert("Could not save the image.");
                     }
+                } else {
+                    Modal.showAlert("Please select an image file.");
                 }
             });
+
 
             gridPane.add(chooseImageButton, 0, 5);
             gridPane.add(imageView, 1, 5);

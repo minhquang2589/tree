@@ -25,7 +25,6 @@ public class VariantDAO {
                 try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
                         int variantId = generatedKeys.getInt(1);
-                        System.out.println("Variant added with ID: " + variantId);
                     }
                 }
             }

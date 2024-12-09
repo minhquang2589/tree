@@ -1,9 +1,14 @@
 package com.example.demo.DAO;
 
 import com.example.demo.config.MySQLConnection;
+import com.example.demo.model.Image;
 import com.example.demo.model.Product;
+
+import java.io.File;
 import java.sql.*;
 import java.util.List;
+
+import static com.example.demo.Utils.Config.saveImage;
 
 public class ProductDAO {
 
@@ -39,9 +44,9 @@ public class ProductDAO {
         String query = "INSERT INTO images (image, product_id) VALUES (?, ?)";
         try (
                 PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-
             for (String imagePath : imagePaths) {
-                preparedStatement.setString(1, imagePath);
+                String savedFilePath = saveImage(imagePath, new File(imagePath));
+                preparedStatement.setString(1, savedFilePath);
                 preparedStatement.setInt(2, productId);
                 preparedStatement.executeUpdate();
             }

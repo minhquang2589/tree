@@ -29,13 +29,11 @@ public class SizeDAO {
                     if (generatedKeys.next()) {
                         int sizeId = generatedKeys.getInt(1);
                         size.setSizeId(sizeId);
-                        System.out.println("Size added with ID: " + sizeId);
                         return sizeId;
                     }
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Error adding size: " + e.getMessage());
             throw e;
         }
         return -1;
@@ -43,7 +41,7 @@ public class SizeDAO {
 
     public Size getSizeByName(String sizeText) {
         Size size = null;
-        String query = "SELECT * FROM sizes WHERE size_name = ?";
+        String query = "SELECT * FROM sizes WHERE size = ?";
 
         try (
                 PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -53,7 +51,7 @@ public class SizeDAO {
 
             if (resultSet.next()) {
                 int sizeId = resultSet.getInt("size_id");
-                String sizeName = resultSet.getString("size_name");
+                String sizeName = resultSet.getString("size");
                 String description = resultSet.getString("description");
                 size = new Size(sizeId, sizeName, description);
             }
