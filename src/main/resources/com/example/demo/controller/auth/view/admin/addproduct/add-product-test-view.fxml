@@ -26,18 +26,10 @@
     <Button text="Add Image" layoutX="150.0" layoutY="420.0" onAction="#handleAddImage"/>
 
     <Label text="Sizes and Quantities:" layoutX="50.0" layoutY="460.0"/>
-    <HBox layoutX="150.0" layoutY="460.0" spacing="10">
-        <TextField fx:id="sizeInputField" promptText="Size" prefWidth="150.0"/>
-        <TextField fx:id="quantityInputField" promptText="Quantity" prefWidth="150.0"/>
-        <Button text="Add Size" onAction="#handleAddSize"/>
-    </HBox>
+    <VBox fx:id="sizesVBox" layoutX="150.0" layoutY="460.0" spacing="10">
+    </VBox>
 
-    <TableView fx:id="sizesTableView" layoutX="150.0" layoutY="500.0" prefWidth="400.0" prefHeight="100.0">
-        <columns>
-            <TableColumn fx:id="sizeColumn" text="Size" prefWidth="150"/>
-            <TableColumn fx:id="quantityColumn" text="Quantity" prefWidth="150"/>
-        </columns>
-    </TableView>
-
+    <Button text="Add more Sizes" layoutX="150.0" layoutY="520.0" onAction="#handleAddSize"/>
     <Button text="Add Product" layoutX="250.0" layoutY="580.0" onAction="#handleAddProduct"/>
 </AnchorPane>
+

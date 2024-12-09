@@ -1,32 +1,58 @@
 package com.example.demo.model;
 
-import javax.persistence.*;
-import java.util.Date;
-
-@Entity
-@Table(name = "variants")
 public class Variant {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int variantId;
-
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
-
-    @ManyToOne
-    @JoinColumn(name = "size_id")
-    private Size size;
-
+    private int productId;
+    private int sizeId;
     private int quantity;
+    private int discountId;
 
-    @ManyToOne
-    @JoinColumn(name = "discount_id")
-    private Discount discount;
+    public Variant(int variantId, int productId, int sizeId, int quantity, int discountId) {
+        this.variantId = variantId;
+        this.productId = productId;
+        this.sizeId = sizeId;
+        this.quantity = quantity;
+        this.discountId = discountId;
+    }
 
-    @Column(name = "updated_at", insertable = false, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedAt;
+    public int getVariantId() {
+        return variantId;
+    }
 
+    public void setVariantId(int variantId) {
+        this.variantId = variantId;
+    }
+
+    public int getProductId() {
+        return productId;
+    }
+
+    public void setProductId(int productId) {
+        this.productId = productId;
+    }
+
+    public int getSizeId() {
+        return sizeId;
+    }
+
+    public void setSizeId(int sizeId) {
+        this.sizeId = sizeId;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public int getDiscountId() {
+        return discountId;
+    }
+
+    public void setDiscountId(int discountId) {
+        this.discountId = discountId;
+    }
 }

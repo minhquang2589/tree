@@ -14,9 +14,6 @@ public class Category {
     private String image;
     private String description;
 
-    // Constructors
-    public Category() {}
-
     public Category(int categoryId, String category, String image, String description) {
         this.categoryId = categoryId;
         this.category = category;
@@ -24,10 +21,10 @@ public class Category {
         this.description = description;
     }
 
-    // Getters and setters
     public int getCategoryId() {
         return categoryId;
     }
+
 
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;

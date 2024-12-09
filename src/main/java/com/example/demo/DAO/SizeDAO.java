@@ -4,8 +4,6 @@ import com.example.demo.config.MySQLConnection;
 import com.example.demo.model.Size;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SizeDAO {
 
@@ -17,46 +15,54 @@ public class SizeDAO {
 
     }
 
-    public List<Size> getAllSizes() throws SQLException {
-        List<Size> sizes = new ArrayList<>();
-        String query = "SELECT * FROM sizes";
-        try (
-                Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery(query)) {
-
-//            while (resultSet.next()) {
-//                int sizeId = resultSet.getInt("size_id");
-//                String size = resultSet.getString("size");
-//                String description = resultSet.getString("description");
-//                sizes.add(new Size(sizeId, size, description));
-//            }
-        }
-        return sizes;
-    }
-
-    public void addSize(Size size) throws SQLException {
+    public int addSize(Size size) throws SQLException {
         String query = "INSERT INTO sizes (size, description) VALUES (?, ?)";
         try (
-                PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
             preparedStatement.setString(1, size.getSize());
             preparedStatement.setString(2, size.getDescription());
 
-            preparedStatement.executeUpdate();
+            int affectedRows = preparedStatement.executeUpdate();
+            if (affectedRows > 0) {
+                try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        int sizeId = generatedKeys.getInt(1);
+                        size.setSizeId(sizeId);
+                        System.out.println("Size added with ID: " + sizeId);
+                        return sizeId;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error adding size: " + e.getMessage());
+            throw e;
         }
+        return -1;
     }
 
-//    public Size getSizeById(int sizeId) throws SQLException {
-//        String query = "SELECT * FROM sizes WHERE size_id = ?";
-//        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-//            stmt.setInt(1, sizeId);
-//            ResultSet resultSet = stmt.executeQuery();
-//            if (resultSet.next()) {
-//                String sizeName = resultSet.getString("size");
-//                String description = resultSet.getString("description");
-//                return new Size(sizeId, sizeName, description);
-//            }
-//        }
-//        return null;
-//    }
+    public Size getSizeByName(String sizeText) {
+        Size size = null;
+        String query = "SELECT * FROM sizes WHERE size_name = ?";
+
+        try (
+                PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setString(1, sizeText);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                int sizeId = resultSet.getInt("size_id");
+                String sizeName = resultSet.getString("size_name");
+                String description = resultSet.getString("description");
+                size = new Size(sizeId, sizeName, description);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return size;
+    }
+
 }
