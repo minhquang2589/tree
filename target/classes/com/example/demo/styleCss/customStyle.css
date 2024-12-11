@@ -130,8 +130,11 @@
     -fx-padding: 0 0 5px 0;
 }
 
-
-
+.imageView {
+    -fx-border-color: gray;
+    -fx-border-width: 1px;
+    -fx-border-radius: 2px;
+}
 
 #mainContent {
     -fx-border-radius: 20px;

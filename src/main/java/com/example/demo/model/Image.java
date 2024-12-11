@@ -20,4 +20,6 @@ public class Image {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
+
+
 }

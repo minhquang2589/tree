@@ -6,6 +6,7 @@ module com.example.demo {
     requires java.desktop;
     requires java.prefs;
     requires java.persistence;
+    requires mysql.connector.java;
 
     opens com.example.demo to javafx.fxml;
     exports com.example.demo;
