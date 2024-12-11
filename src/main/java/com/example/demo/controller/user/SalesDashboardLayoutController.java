@@ -2,7 +2,6 @@ package com.example.demo.controller.user;
 
 import com.example.demo.Utils.Modal;
 import com.example.demo.Utils.PreferencesUtils;
-import com.example.demo.model.StartDay;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -32,7 +31,8 @@ public class SalesDashboardLayoutController {
 
 
     public void onSales(ActionEvent actionEvent) throws IOException {
-        if (StartDay.isStartDay()) {
+        StartTheDayController startTheDayController = new StartTheDayController();
+        if (!startTheDayController.check_day()) {
             sl_sales.setVisible(false);
             sl_sales2.setVisible(false);
             sl_CancelTransaction.setVisible(true);
