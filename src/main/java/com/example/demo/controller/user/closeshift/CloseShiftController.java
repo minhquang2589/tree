@@ -72,5 +72,31 @@ public class CloseShiftController {
             }
         }
     }
+    @FXML
+    private void calculateTotal() {
+        try {
+            double total = 0;
+            total += parseInput(textField10.getText()) * 500_000;
+            total += parseInput(textField6.getText()) * 200_000;
+            total += parseInput(textField7.getText()) * 100_000;
+            total += parseInput(textField8.getText()) * 50_000;
+            total += parseInput(textField5.getText()) * 20_000;
+            total += parseInput(textField9.getText()) * 10_000;
+            total += parseInput(textField1.getText()) * 5_000;
+            total += parseInput(textField.getText()) * 2_000;
+            total += parseInput(textField4.getText()) * 1_000;
+            total += parseInput(textField2.getText()) * 500;
+            total += parseInput(textField3.getText()) * 200;
+            textField14.setText(String.format("%,.0f", total));
+        } catch (NumberFormatException e) {
+            textField14.setText("Lỗi nhập liệu");
+        }
+    }
+    private double parseInput(String text) {
+        if (text == null || text.isEmpty()) {
+            return 0;
+        }
+        return Double.parseDouble(text.replace(" ", ""));
+    }
 }
 
