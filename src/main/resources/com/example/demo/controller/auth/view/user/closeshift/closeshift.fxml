@@ -115,23 +115,23 @@
                </font>
             </Text>
             <TextField fx:id="textField15" onMouseClicked="#selectTextField" alignment="CENTER_RIGHT" layoutX="26.0" layoutY="549.0" prefHeight="30.0" prefWidth="270.0" AnchorPane.leftAnchor="15.0" />
-            <Button layoutX="290.0" layoutY="324.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="7" onAction="#numberClick" />
-            <Button layoutX="355.0" layoutY="324.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="8" onAction="#numberClick" />
-            <Button layoutX="420.0" layoutY="322.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="9" onAction="#numberClick" />
-            <Button layoutX="484.79999999999995" layoutY="324.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="100.0" text="Xoá" AnchorPane.rightAnchor="15.200000000000045" onAction="#clearText" />
-            <Button layoutX="290.0" layoutY="389.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="4" onAction="#numberClick" />
-            <Button layoutX="355.0" layoutY="389.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="5" onAction="#numberClick" />
-            <Button layoutX="420.0" layoutY="389.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="6" onAction="#numberClick" />
-            <Button layoutX="484.79999999999995" layoutY="389.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="100.0" text="C" AnchorPane.rightAnchor="15.200000000000045" onAction="#clearText1"  />
-            <Button layoutX="290.0" layoutY="454.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="1" onAction="#numberClick" />
-            <Button layoutX="355.0" layoutY="454.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="2" onAction="#numberClick" />
-            <Button layoutX="420.0" layoutY="454.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="3" onAction="#numberClick" />
-            <Button layoutX="484.79999999999995" layoutY="454.0" mnemonicParsing="false" prefHeight="125.0" prefWidth="100.0" text="Nhập" AnchorPane.rightAnchor="15.200000000000045" onAction="#calculateTotal" />
-            <Button layoutX="290.0" layoutY="519.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="0" onAction="#numberClick" />
-            <Button layoutX="355.0" layoutY="519.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="00" onAction="#numberClick" />
-            <Button layoutX="420.0" layoutY="519.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="000" onAction="#numberClick" />
+            <Button fx:id="button7" layoutX="290.0" layoutY="324.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="7" onAction="#numberClick" />
+            <Button fx:id="button8" layoutX="355.0" layoutY="324.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="8" onAction="#numberClick" />
+            <Button fx:id="button9" layoutX="420.0" layoutY="322.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="9" onAction="#numberClick" />
+            <Button fx:id="buttonxoa" layoutX="484.79999999999995" layoutY="324.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="100.0" text="Xoá" AnchorPane.rightAnchor="15.200000000000045" onAction="#clearText" />
+            <Button fx:id="button4" layoutX="290.0" layoutY="389.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="4" onAction="#numberClick" />
+            <Button fx:id="button5" layoutX="355.0" layoutY="389.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="5" onAction="#numberClick" />
+            <Button fx:id="button6" layoutX="420.0" layoutY="389.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="6" onAction="#numberClick" />
+            <Button fx:id="buttonc" layoutX="484.79999999999995" layoutY="389.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="100.0" text="C" AnchorPane.rightAnchor="15.200000000000045" onAction="#clearText1"  />
+            <Button fx:id="button1" layoutX="290.0" layoutY="454.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="1" onAction="#numberClick" />
+            <Button fx:id="button2" layoutX="355.0" layoutY="454.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="2" onAction="#numberClick" />
+            <Button fx:id="button3" layoutX="420.0" layoutY="454.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="3" onAction="#numberClick" />
+            <Button fx:id="buttonnhap" layoutX="484.79999999999995" layoutY="454.0" mnemonicParsing="false" prefHeight="125.0" prefWidth="100.0" text="Nhập" AnchorPane.rightAnchor="15.200000000000045" onAction="#calculateTotal" />
+            <Button fx:id="button0" layoutX="290.0" layoutY="519.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="0" onAction="#numberClick" />
+            <Button fx:id="button00" layoutX="355.0" layoutY="519.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="00" onAction="#numberClick" />
+            <Button fx:id="button000" layoutX="420.0" layoutY="519.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="000" onAction="#numberClick" />
             <Separator layoutY="598.0" prefHeight="3.2" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="598.0" />
-            <Button layoutX="535.2" layoutY="605.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" text="OK" AnchorPane.rightAnchor="15.0" />
+            <Button fx:id="buttonok" layoutX="535.2" layoutY="605.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" text="OK" AnchorPane.rightAnchor="15.0" />
          </children>
       </AnchorPane>
    </children>
