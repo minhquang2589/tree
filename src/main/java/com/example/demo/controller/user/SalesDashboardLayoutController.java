@@ -9,6 +9,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import java.io.IOException;
 import static com.example.demo.config.button.ButtonHandler.handleNavigator;
@@ -32,6 +34,9 @@ public class SalesDashboardLayoutController {
 
     @FXML
     public TextField searchTextFiled;
+
+    @FXML
+    private TextField startDateField;
 
     public void onSales(ActionEvent actionEvent) throws IOException {
         sl_sales.setVisible(false);
@@ -110,6 +115,12 @@ public class SalesDashboardLayoutController {
         if (currentText != null && !currentText.isEmpty()) {
             displayField.setText(currentText.substring(0, currentText.length() - 1));
         }
+    }
+    @FXML
+    public void onStartDay() {
+        LocalDate currentDate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        startDateField.setText(currentDate.format(formatter));
     }
 }
 
