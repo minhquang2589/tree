@@ -1,5 +1,6 @@
 package com.example.demo.controller.user;
 
+import com.example.demo.Utils.Config;
 import com.example.demo.Utils.Modal;
 import com.example.demo.Utils.PreferencesUtils;
 import javafx.event.ActionEvent;
@@ -30,10 +31,6 @@ public class SalesDashboardLayoutController {
 
     @FXML
     public Button sl_Payment;
-
-
-    @FXML
-    private TextField startDateField;
 
 
     public void onSales(ActionEvent actionEvent) throws IOException {
@@ -131,19 +128,8 @@ public class SalesDashboardLayoutController {
 
     @FXML
     private TextField salesDateField;
-
-    private static SalesDashboardLayoutController instance;
-    public SalesDashboardLayoutController() {
-        instance = this;
-    }
-
-    public static SalesDashboardLayoutController getInstance() {
-        return instance;
-    }
-    public void updateSalesDateField(LocalDate date) {
-        if (date != null) {
-            salesDateField.setText(date.toString());
-        }
+    public void initialize() throws IOException {
+        salesDateField.setText(Config.getCurrentDate());
     }
 }
 
