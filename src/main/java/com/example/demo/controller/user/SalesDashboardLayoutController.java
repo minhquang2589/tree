@@ -38,6 +38,7 @@ public class SalesDashboardLayoutController {
     @FXML
     private TextField startDateField;
 
+
     public void onSales(ActionEvent actionEvent) throws IOException {
         sl_sales.setVisible(false);
         sl_sales2.setVisible(false);
@@ -116,11 +117,22 @@ public class SalesDashboardLayoutController {
             displayField.setText(currentText.substring(0, currentText.length() - 1));
         }
     }
+
     @FXML
-    public void onStartDay() {
-        LocalDate currentDate = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        startDateField.setText(currentDate.format(formatter));
+    private TextField salesDateField;
+
+    private static SalesDashboardLayoutController instance;
+    public SalesDashboardLayoutController() {
+        instance = this;
+    }
+
+    public static SalesDashboardLayoutController getInstance() {
+        return instance;
+    }
+    public void updateSalesDateField(LocalDate date) {
+        if (date != null) {
+            salesDateField.setText(date.toString());
+        }
     }
 }
 

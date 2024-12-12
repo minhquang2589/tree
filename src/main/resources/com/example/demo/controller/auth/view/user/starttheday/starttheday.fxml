@@ -18,13 +18,13 @@
                   <Font size="15.0" />
                </font>
             </Text>
-            <DatePicker layoutX="24.8" layoutY="131.0" prefHeight="30.0" styleClass="textfield" stylesheets="@../../../../../styleCss/loginDesgin.css" AnchorPane.leftAnchor="24.8" AnchorPane.rightAnchor="24.799999999999955" />
+            <DatePicker fx:id="datePicker" layoutX="24.8" layoutY="131.0" prefHeight="30.0" styleClass="textfield" stylesheets="@../../../../../styleCss/loginDesgin.css" AnchorPane.leftAnchor="24.8" AnchorPane.rightAnchor="24.799999999999955" />
             <Text layoutX="24.8" layoutY="227.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tiền đầu ca" AnchorPane.leftAnchor="25.0">
                <font>
                   <Font size="15.0" />
                </font>
             </Text>
-            <TextField alignment="CENTER_RIGHT" layoutX="24.8" layoutY="242.0" prefHeight="30.0" styleClass="textfield" stylesheets="@../../../../../styleCss/loginDesgin.css" AnchorPane.leftAnchor="24.8" AnchorPane.rightAnchor="24.799999999999955" />
+            <TextField fx:id="textFieldDate" alignment="CENTER_RIGHT" layoutX="24.8" layoutY="242.0" prefHeight="30.0" styleClass="textfield" stylesheets="@../../../../../styleCss/loginDesgin.css" AnchorPane.leftAnchor="24.8" AnchorPane.rightAnchor="24.799999999999955" />
         <Button onAction="#onStartTheDaySuccess" layoutX="523.0" layoutY="353.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="80.0" text="Đồng ý" AnchorPane.bottomAnchor="25.0" AnchorPane.rightAnchor="25.0">
                <font>
                   <Font size="15.0" />
