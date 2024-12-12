@@ -69,8 +69,8 @@ public class User {
 
     @Override
     public String toString() {
-        return String.format("User{user_id=%d, name='%s', email='%s', phone='%s', gender='%s', role='%s', birthday='%s', image='%s', password='%s', address='%s'}",
-                user_id, name, email, phone, gender, role, birthday, image, password, address);
+        return String.format("User{user_id=%d, name='%s', email='%s', phone='%s', gender='%s', role='%s', birthday='%s', image='%s', address='%s'}",
+                user_id, name, email, phone, gender, role, birthday, image, address);
     }
 
     public void setName(String text) {

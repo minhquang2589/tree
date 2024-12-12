@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import java.net.URL?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.demo.controller.admin.voucher.VoucherController"
+>
+    <stylesheets>
+        <URL value="@../../../../../styleCss/customStyle.css"/>
+    </stylesheets>
+
+    <Button onAction="#uploadOnClick" text="Tải lên phiếu giảm giá" styleClass="edit-button"
+            AnchorPane.topAnchor="10.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" />
+    <TableView fx:id="voucherTable" prefHeight="9999" AnchorPane.topAnchor="50.0" AnchorPane.bottomAnchor="10.0"
+               AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+        <columns>
+            <TableColumn fx:id="voucherCodeColumn" text="Mã phiếu" prefWidth="200"/>
+            <TableColumn fx:id="voucherPercentageColumn" text="Tỷ lệ giảm giá (%)" prefWidth="150"/>
+            <TableColumn fx:id="voucherQuantityColumn" text="Số lượng" prefWidth="100"/>
+            <TableColumn fx:id="startDateColumn" text="Ngày bắt đầu" prefWidth="170"/>
+            <TableColumn fx:id="endDateColumn" text="Ngày kết thúc" prefWidth="170"/>
+            <TableColumn fx:id="statusColumn" text="Trạng thái" prefWidth="100"/>
+            <TableColumn text="Hành động" fx:id="actionColumn" prefWidth="150" maxWidth="150"/>
+        </columns>
+    </TableView>
+
+
+</AnchorPane>

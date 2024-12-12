@@ -10,11 +10,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.sql.SQLException;
-
-import static com.example.demo.controller.LoginController.handleCheckRole;
 
 public class ButtonHandler {
 
@@ -25,8 +22,7 @@ public class ButtonHandler {
             stage.setUserData(null);
             stage.setScene(previousScene);
         } else {
-            User user = PreferencesUtils.getUser();
-            handleNavigator(actionEvent, handleCheckRole(user), true);
+            handleNavigator(actionEvent, "/com/example/demo/controller/auth/login-view.fxml", false);
         }
     }
 

@@ -22,18 +22,26 @@ public class MyApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException, SQLException {
         Connection connect = MySQLConnection.connect();
+
         if (connect == null) {
             Modal.showAlert(null, "Không thể kết nối với cơ sở dữ liệu. Xin vui lòng thử lại sau!",
                     Alert.AlertType.ERROR, null, null);
             return;
         }
+
         boolean isLoggedIn = false;
+        String fxmlPath = "/com/example/demo/controller/auth/login-view.fxml";
         User user = PreferencesUtils.getUser();
-        String fxmlPath = handleCheckRole(user);
-        if (fxmlPath.equals("/com/example/demo/controller/auth/login-view.fxml")) {
-            PreferencesUtils.clearUser();
+        if (user != null) {
+            User login = login(user.getPhone(), user.getPassword());
+            if (login != null) {
+                PreferencesUtils.saveUser(login);
+                PreferencesUtils.save("isLoggedIn", true);
+                isLoggedIn = true;
+                fxmlPath = handleCheckRole(login);
+            }
         } else {
-            isLoggedIn = true;
+            PreferencesUtils.clearUser();
         }
         loadScene(stage, fxmlPath, isLoggedIn);
     }

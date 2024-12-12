@@ -2,6 +2,7 @@ package com.example.demo.Utils;
 
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -9,10 +10,13 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.nio.file.Path;
+import java.time.LocalDate;
+
 
 public class Config {
 
@@ -84,14 +88,16 @@ public class Config {
     }
 
 
-    public static File showFileChooser(Stage stage) {
+    public static List<File> showFileChooser(Stage stage) {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg");
         fileChooser.getExtensionFilters().add(filter);
-        return fileChooser.showOpenDialog(stage);
+        return fileChooser.showOpenMultipleDialog(stage);
     }
 
 
-
-
+    //Lấy ngày giờ hiện tại
+    public static LocalDate getCurrentDate() {
+        return LocalDate.now();
+    }
 }

@@ -5,6 +5,7 @@ module com.example.demo {
     requires javafx.graphics;
     requires java.desktop;
     requires java.prefs;
+    requires java.persistence;
 
     opens com.example.demo to javafx.fxml;
     exports com.example.demo;
@@ -46,4 +47,6 @@ module com.example.demo {
     opens com.example.demo.controller.admin.dashboard to javafx.fxml;
     exports com.example.demo.controller.admin.product;
     opens com.example.demo.controller.admin.product to javafx.fxml;
+    exports com.example.demo.controller.admin.voucher;
+    opens com.example.demo.controller.admin.voucher to javafx.fxml;
 }
