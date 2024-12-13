@@ -140,6 +140,7 @@ public class CloseShiftController {
             if (currentText.length() > 0) {
                 selectedTextField.deleteText(currentText.length() - 1, currentText.length());
             }
+            calculateTotal();
         }
     }
     @FXML
