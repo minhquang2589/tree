@@ -1,7 +1,5 @@
 package com.example.demo.DAO;
-
 import com.example.demo.config.MySQLConnection;
-import com.example.demo.model.Image;
 import com.example.demo.model.Product;
 
 import java.io.File;
