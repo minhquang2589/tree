@@ -1,10 +1,28 @@
 package com.example.demo.controller.user.closeshift;
 
+import com.example.demo.Utils.Config;
+import com.example.demo.Utils.Modal;
+import com.example.demo.Utils.PreferencesUtils;
+import com.example.demo.controller.user.SalesDashboardLayoutController;
+import com.example.demo.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+import javafx.scene.Parent;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDateTime;
+
+import static com.example.demo.config.MySQLConnection.connect;
 
 public class CloseShiftController {
 
@@ -98,5 +116,31 @@ public class CloseShiftController {
         }
         return Double.parseDouble(text.replace(" ", ""));
     }
+
+    @FXML
+    public void closeshift(ActionEvent actionEvent) throws IOException {
+        endshift();
+        Modal.showModal("/com/example/demo/controller/auth/view/user/closeshift/blankpage.fxml", "", null);
+    }
+
+    public void endshift() throws IOException {
+        Connection connection = connect();
+
+        if (connection != null) {
+            User user = PreferencesUtils.getUser();
+            assert user != null;
+
+
+            String query = "UPDATE shifts SET end_date = '" + LocalDateTime.now() + "' WHERE DATE(start_date) = '" + Config.getCurrentDate() + "'&& end_date IS NULL";
+            Statement statement = null;
+            try {
+                statement = connection.createStatement();
+                statement.executeUpdate(query);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
 }
 

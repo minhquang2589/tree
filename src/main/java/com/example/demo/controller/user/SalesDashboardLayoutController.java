@@ -1,16 +1,26 @@
 package com.example.demo.controller.user;
 
+import com.example.demo.Utils.Config;
 import com.example.demo.Utils.Modal;
 import com.example.demo.Utils.PreferencesUtils;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
+import static com.example.demo.config.MySQLConnection.connect;
 import static com.example.demo.config.button.ButtonHandler.handleNavigator;
 
 import com.example.demo.controller.user.starttheday.StartTheDayController;
@@ -121,6 +131,33 @@ public class SalesDashboardLayoutController {
         if (currentText != null && !currentText.isEmpty()) {
             displayField.setText(currentText.substring(0, currentText.length() - 1));
         }
+    }
+
+    @FXML
+    public TextField saleshiftnumber;
+
+    @FXML
+    public void Countshift() {
+        Connection connection = connect();
+        String checkQuery = "SELECT COUNT(*) FROM shifts WHERE DATE(start_date) = '" + Config.getday() + "'&& end_date IS NOT NULL";
+        Statement checkStatement = null;
+        ResultSet resultSet = null;
+        try {
+            checkStatement = connection.createStatement();
+            resultSet = checkStatement.executeQuery(checkQuery);
+            if (resultSet.next()) {
+                saleshiftnumber.setText(String.valueOf(resultSet.getInt(1) + 1));
+            }
+            else{
+                saleshiftnumber.setText("0");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void initialize() throws IOException {
+        Countshift();
     }
 }
 

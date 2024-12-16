@@ -27,7 +27,7 @@ public class StartTheDayController {
 
     public boolean check_day() throws IOException {
         Connection connection = connect();
-        String checkQuery = "SELECT COUNT(*) FROM shifts WHERE DATE(start_date) = '" + formattedDateTime + "'";
+        String checkQuery = "SELECT COUNT(*) FROM shifts WHERE DATE(start_date) = '" + formattedDateTime + "'&& end_date IS NULL";
         Statement checkStatement = null;
         ResultSet resultSet = null;
         try {

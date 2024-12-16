@@ -10,6 +10,8 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -99,5 +101,12 @@ public class Config {
     //Lấy ngày giờ hiện tại
     public static LocalDate getCurrentDate() {
         return LocalDate.now();
+    }
+
+    public static String getday(){
+        LocalDateTime currentTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedDateTime = currentTime.format(formatter);
+        return formattedDateTime;
     }
 }
