@@ -10,20 +10,14 @@ public class PreferencesUtils {
     private static final Preferences preferences = Preferences.userNodeForPackage(PreferencesUtils.class);
 
     public static void save(String key, Object value) {
-        if (value instanceof String) {
-            preferences.put(key, (String) value);
-        } else if (value instanceof Boolean) {
-            preferences.putBoolean(key, (Boolean) value);
-        } else if (value instanceof Integer) {
-            preferences.putInt(key, (Integer) value);
-        } else if (value instanceof Double) {
-            preferences.putDouble(key, (Double) value);
-        } else if (value instanceof Long) {
-            preferences.putLong(key, (Long) value);
-        } else if (value == null) {
-            preferences.remove(key);
-        } else {
-            throw new IllegalArgumentException(String.valueOf(value.getClass()));
+        switch (value) {
+            case String s -> preferences.put(key, s);
+            case Boolean b -> preferences.putBoolean(key, b);
+            case Integer i -> preferences.putInt(key, i);
+            case Double v -> preferences.putDouble(key, v);
+            case Long l -> preferences.putLong(key, l);
+            case null -> preferences.remove(key);
+            default -> throw new IllegalArgumentException(String.valueOf(value.getClass()));
         }
     }
 

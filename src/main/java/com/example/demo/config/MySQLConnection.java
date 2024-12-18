@@ -153,6 +153,7 @@ public class MySQLConnection {
                     size_id INT NOT NULL,
                     quantity INT,
                     discount_id INT,
+                    code VARCHAR(50),
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                     FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE,
                     FOREIGN KEY (size_id) REFERENCES sizes(size_id) ON DELETE CASCADE,

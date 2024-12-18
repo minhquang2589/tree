@@ -1,5 +1,6 @@
 package com.example.demo.controller.admin.addproduct;
-
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import com.example.demo.DAO.CategoryDAO;
 import com.example.demo.DAO.ProductDAO;
 import com.example.demo.DAO.SizeDAO;
@@ -14,16 +15,13 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
-import java.awt.event.ActionEvent;
 import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.demo.Utils.Config.saveImage;
+import static com.example.demo.Utils.Config.hashCodeSHA;
 import static com.example.demo.Utils.Modal.showAlert;
 
 public class AddProductTestController {
@@ -62,7 +60,6 @@ public class AddProductTestController {
     }
 
 
-
     @FXML
     private void handleAddProduct() {
         System.out.println(sizeQuantities);
@@ -78,7 +75,6 @@ public class AddProductTestController {
 
         try {
             double price = Double.parseDouble(priceText);
-
             Category selectedCategoryObj = categoryDAO.getCategoryByName(selectedCategory);
             if (selectedCategoryObj == null) {
                 Category newCategory = new Category(0, selectedCategory, null, "Category description");
@@ -98,13 +94,15 @@ public class AddProductTestController {
                 Size size = sizeQuantity.getSize();
                 int quantity = sizeQuantity.getQuantity();
                 Size existingSize = sizeDao.getSizeByName(size.getSize());
+                String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMddHHmm"));
+                String uniqueCode = hashCodeSHA(size.getSize() + quantity + timestamp);
 
                 if (existingSize != null) {
-                    variantDAO.addProductVariant(productId, existingSize.getSizeId(), quantity);
+                    variantDAO.addProductVariant(productId, existingSize.getSizeId(), quantity, uniqueCode);
                 } else {
                     int newSizeId = sizeDao.addSize(size);
                     if (newSizeId != -1) {
-                        variantDAO.addProductVariant(productId, newSizeId, quantity);
+                        variantDAO.addProductVariant(productId, newSizeId, quantity, uniqueCode);
                     } else {
                         showAlert("Error adding new size: " + size.getSize());
                         return;
@@ -167,8 +165,6 @@ public class AddProductTestController {
 
     private void updateSizeQuantitiesView() {
         sizesVBox.getChildren().clear();
-
-
         for (SizeQuantity sizeQuantity : sizeQuantities) {
             HBox sizeRow = new HBox(10);
 
@@ -185,7 +181,5 @@ public class AddProductTestController {
             sizesVBox.getChildren().add(sizeRow);
         }
     }
-
-
 
 }

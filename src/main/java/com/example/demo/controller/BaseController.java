@@ -77,11 +77,11 @@ public class BaseController {
     public void onAddProduct(ActionEvent actionEvent) throws IOException {
         setMainContent("/com/example/demo/controller/auth/view/admin/addproduct/addproduct.fxml");
     }
-//
-//    @FXML
-//    public void onAddProduct(ActionEvent actionEvent) throws IOException {
-//        setMainContent("/com/example/demo/controller/auth/view/admin/addproduct/add-product-test-view.fxml");
-//    }
+
+    @FXML
+    public void onAddProductTest(ActionEvent actionEvent) throws IOException {
+        setMainContent("/com/example/demo/controller/auth/view/admin/addproduct/add-product-test-view.fxml");
+    }
 
     @FXML
     public void voucherOnClick(ActionEvent actionEvent) throws IOException {
