@@ -9,9 +9,7 @@ import javafx.scene.control.TableView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
-
 import javafx.scene.image.ImageView;
-
 import java.sql.*;
 
 public class AddProductController {
@@ -85,7 +83,7 @@ public class AddProductController {
         String query = """
                 SELECT
                      p.name AS product_name,
-                     p.id AS product_id,
+                     p.product_id AS product_id,
                      s.size AS size_name,
                      v.quantity AS stock_quantity,
                      p.price AS product_price,
