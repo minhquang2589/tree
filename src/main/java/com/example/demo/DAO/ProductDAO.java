@@ -4,6 +4,7 @@ import com.example.demo.model.Product;
 
 import java.io.File;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.demo.Utils.Config.saveImage;
@@ -50,5 +51,6 @@ public class ProductDAO {
             }
         }
     }
+
 
 }
