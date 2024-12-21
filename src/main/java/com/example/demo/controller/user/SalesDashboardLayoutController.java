@@ -3,6 +3,7 @@ package com.example.demo.controller.user;
 import com.example.demo.Utils.Config;
 import com.example.demo.Utils.Modal;
 import com.example.demo.Utils.PreferencesUtils;
+import com.example.demo.model.Shift;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,7 +20,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
+import static com.example.demo.Utils.Modal.showModal;
 import static com.example.demo.config.MySQLConnection.connect;
 import static com.example.demo.config.button.ButtonHandler.handleNavigator;
 
@@ -87,7 +90,7 @@ public class SalesDashboardLayoutController {
     }
 
     public void onCloseshift(ActionEvent actionEvent) throws IOException {
-        Modal.showModal("/com/example/demo/controller/auth/view/user/closeshift/closeshift.fxml", "Kết thúc ca", null);
+        Modal.showModal("/com/example/demo/controller/auth/view/user/closeshift/closeshift.fxml", "Kết thúc ca",this::Countshift );
 
     }
 
@@ -138,23 +141,15 @@ public class SalesDashboardLayoutController {
 
     @FXML
     public void Countshift() {
-        Connection connection = connect();
-        String checkQuery = "SELECT COUNT(*) FROM shifts WHERE DATE(start_date) = '" + Config.getday() + "'&& end_date IS NOT NULL";
-        Statement checkStatement = null;
-        ResultSet resultSet = null;
-        try {
-            checkStatement = connection.createStatement();
-            resultSet = checkStatement.executeQuery(checkQuery);
-            if (resultSet.next()) {
-                saleshiftnumber.setText(String.valueOf(resultSet.getInt(1) + 1));
-            }
-            else{
-                saleshiftnumber.setText("0");
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        List<Shift> shifts = PreferencesUtils.getShiftList();
+        int count = shifts.size();
+        if(count > 0) {
+            saleshiftnumber.setText(String.valueOf(count + 1));
+        }else{
+            saleshiftnumber.setText("0");
         }
     }
+
 
     public void initialize() throws IOException {
         Countshift();

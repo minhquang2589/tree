@@ -4,7 +4,9 @@ import com.example.demo.Utils.Config;
 import com.example.demo.Utils.Modal;
 import com.example.demo.Utils.PreferencesUtils;
 import com.example.demo.controller.user.SalesDashboardLayoutController;
+import com.example.demo.model.Shift;
 import com.example.demo.model.User;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,7 +23,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+import static com.example.demo.Utils.Modal.closeModal;
 import static com.example.demo.config.MySQLConnection.connect;
 
 public class CloseShiftController {
@@ -110,37 +115,80 @@ public class CloseShiftController {
             textField14.setText("Lỗi nhập liệu");
         }
     }
-    private double parseInput(String text) {
+    private int parseInput(String text) {
         if (text == null || text.isEmpty()) {
             return 0;
         }
-        return Double.parseDouble(text.replace(" ", ""));
+        return Integer.parseInt(text.replace(" ", ""));
     }
+
+//    @FXML
+//    public void closeshift(ActionEvent actionEvent) throws IOException {
+//        endshift();
+//        closeModal();
+//    }
+//
+//    public void endshift() throws IOException {
+//        Connection connection = connect();
+//
+//        if (connection != null) {
+//            User user = PreferencesUtils.getUser();
+//            assert user != null;
+//
+//
+//            String query = "UPDATE shifts SET end_date = '" + LocalDateTime.now() + "' WHERE DATE(start_date) = '" + Config.getCurrentDate() + "'&& end_date IS NULL";
+//            Statement statement = null;
+//            try {
+//                statement = connection.createStatement();
+//                statement.executeUpdate(query);
+//            } catch (SQLException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
+//    }
 
     @FXML
-    public void closeshift(ActionEvent actionEvent) throws IOException {
-        endshift();
-        Modal.showModal("/com/example/demo/controller/auth/view/user/closeshift/blankpage.fxml", "", null);
+    public void closeshift (ActionEvent actionEvent) throws IOException {
+        save_shift();
+        closeModal();
     }
 
-    public void endshift() throws IOException {
-        Connection connection = connect();
 
-        if (connection != null) {
-            User user = PreferencesUtils.getUser();
-            assert user != null;
+    public void save_shift() {
+        // Retrieve existing shifts from preferences
+        List<Shift> shifts = PreferencesUtils.getShiftList();
 
+        // Create a new Shift object
+        Shift shift = new Shift(
+                parseInput(textField10.getText()),
+                parseInput(textField6.getText()),
+                parseInput(textField7.getText()),
+                parseInput(textField8.getText()),
+                parseInput(textField5.getText()),
+                parseInput(textField9.getText()),
+                parseInput(textField1.getText()),
+                parseInput(textField.getText()),
+                parseInput(textField4.getText()),
+                parseInput(textField2.getText()),
+                parseInput(textField3.getText()),
+                parseInput(textField14.getText())
+        );
 
-            String query = "UPDATE shifts SET end_date = '" + LocalDateTime.now() + "' WHERE DATE(start_date) = '" + Config.getCurrentDate() + "'&& end_date IS NULL";
-            Statement statement = null;
-            try {
-                statement = connection.createStatement();
-                statement.executeUpdate(query);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
+        // Add the new shift to the existing list
+        shifts.add(shift);
+
+        // Save the updated list of shifts to preferences
+        PreferencesUtils.saveShiftList(shifts);
+
+        // Retrieve shifts from preferences again (after saving the new one)
+        List<Shift> retrievedShifts = PreferencesUtils.getShiftList();
+
+        // Print all shifts to verify they are retrieved correctly
+        for (Shift shiftss : retrievedShifts) {
+            System.out.println(shiftss);
         }
     }
+
 
 }
 

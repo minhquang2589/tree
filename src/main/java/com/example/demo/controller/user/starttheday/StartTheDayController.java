@@ -27,7 +27,7 @@ public class StartTheDayController {
 
     public boolean check_day() throws IOException {
         Connection connection = connect();
-        String checkQuery = "SELECT COUNT(*) FROM shifts WHERE DATE(start_date) = '" + formattedDateTime + "'&& end_date IS NULL";
+        String checkQuery = "SELECT COUNT(*) FROM shifts WHERE DATE(start_date) = '" + formattedDateTime + "'";
         Statement checkStatement = null;
         ResultSet resultSet = null;
         try {
@@ -51,7 +51,6 @@ public class StartTheDayController {
             User user = PreferencesUtils.getUser();
             assert user != null;
 
-            // Insert a new row if the shift does not already exist
             String query = "INSERT INTO shifts (user_id, start_date) VALUES (" + user.getId() + ", '" + LocalDateTime.now() + "')";
             Statement statement = null;
             try {
