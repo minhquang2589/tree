@@ -51,7 +51,6 @@ public class StartTheDayController {
             User user = PreferencesUtils.getUser();
             assert user != null;
 
-            // Insert a new row if the shift does not already exist
             String query = "INSERT INTO shifts (user_id, start_date) VALUES (" + user.getId() + ", '" + LocalDateTime.now() + "')";
             Statement statement = null;
             try {

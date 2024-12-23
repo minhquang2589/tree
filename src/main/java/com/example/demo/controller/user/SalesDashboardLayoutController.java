@@ -3,17 +3,27 @@ package com.example.demo.controller.user;
 import com.example.demo.Utils.Config;
 import com.example.demo.Utils.Modal;
 import com.example.demo.Utils.PreferencesUtils;
+import com.example.demo.model.Shift;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
 
+import static com.example.demo.Utils.Modal.showModal;
+import static com.example.demo.config.MySQLConnection.connect;
 import static com.example.demo.config.button.ButtonHandler.handleNavigator;
 
 import com.example.demo.controller.user.starttheday.StartTheDayController;
@@ -80,7 +90,7 @@ public class SalesDashboardLayoutController {
     }
 
     public void onCloseshift(ActionEvent actionEvent) throws IOException {
-        Modal.showModal("/com/example/demo/controller/auth/view/user/closeshift/closeshift.fxml", "Kết thúc ca", null);
+        Modal.showModal("/com/example/demo/controller/auth/view/user/closeshift/closeshift.fxml", "Kết thúc ca",this::Countshift );
 
     }
 
@@ -127,9 +137,22 @@ public class SalesDashboardLayoutController {
     }
 
     @FXML
-    private TextField salesDateField;
+    public TextField saleshiftnumber;
+
+    @FXML
+    public void Countshift() {
+        List<Shift> shifts = PreferencesUtils.getShiftList();
+        int count = shifts.size();
+        if(count > 0) {
+            saleshiftnumber.setText(String.valueOf(count + 1));
+        }else{
+            saleshiftnumber.setText("0");
+        }
+    }
+
+
     public void initialize() throws IOException {
-        salesDateField.setText(Config.getCurrentDate());
+        Countshift();
     }
 }
 

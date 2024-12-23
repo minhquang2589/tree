@@ -1,10 +1,34 @@
 package com.example.demo.controller.user.closeshift;
 
+import com.example.demo.Utils.Config;
+import com.example.demo.Utils.Modal;
+import com.example.demo.Utils.PreferencesUtils;
+import com.example.demo.controller.user.SalesDashboardLayoutController;
+import com.example.demo.model.Shift;
+import com.example.demo.model.User;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+import javafx.scene.Parent;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.example.demo.Utils.Modal.closeModal;
+import static com.example.demo.config.MySQLConnection.connect;
+
 public class CloseShiftController {
 
     @FXML
@@ -39,92 +63,21 @@ public class CloseShiftController {
     private TextField textField14;
     @FXML
     private TextField textField15;
-    @FXML
-    private Button button0;
-    @FXML
-    private Button button1;
-    @FXML
-    private Button button2;
-    @FXML
-    private Button button3;
-    @FXML
-    private Button button4;
-    @FXML
-    private Button button5;
-    @FXML
-    private Button button6;
-    @FXML
-    private Button button7;
-    @FXML
-    private Button button8;
-    @FXML
-    private Button button9;
-    @FXML
-    private Button button00;
-    @FXML
-    private Button button000;
-    @FXML
-    private Button buttonxoa;
-    @FXML
-    private Button buttonc;
-    @FXML
-    private Button buttonnhap;
-    @FXML
-    private Button buttonok;
-
 
     private TextField selectedTextField;
 
-
-
-    @FXML
-    private void initialize() {
-        textField.setFocusTraversable(false);
-        textField1.setFocusTraversable(false);
-        textField2.setFocusTraversable(false);
-        textField3.setFocusTraversable(false);
-        textField4.setFocusTraversable(false);
-        textField5.setFocusTraversable(false);
-        textField6.setFocusTraversable(false);
-        textField7.setFocusTraversable(false);
-        textField8.setFocusTraversable(false);
-        textField9.setFocusTraversable(false);
-        textField10.setFocusTraversable(false);
-        textField11.setFocusTraversable(false);
-        textField12.setFocusTraversable(false);
-        textField13.setFocusTraversable(false);
-        textField14.setFocusTraversable(false);
-        textField15.setFocusTraversable(false);
-        button0.setFocusTraversable(false);
-        button1.setFocusTraversable(false);
-        button2.setFocusTraversable(false);
-        button3.setFocusTraversable(false);
-        button4.setFocusTraversable(false);
-        button5.setFocusTraversable(false);
-        button6.setFocusTraversable(false);
-        button7.setFocusTraversable(false);
-        button8.setFocusTraversable(false);
-        button9.setFocusTraversable(false);
-        button00.setFocusTraversable(false);
-        button000.setFocusTraversable(false);
-        buttonxoa.setFocusTraversable(false);
-        buttonc.setFocusTraversable(false);
-        buttonnhap.setFocusTraversable(false);
-        buttonok.setFocusTraversable(false);
-    }
-
     @FXML
     private void selectTextField(MouseEvent event) {
-        selectedTextField = (TextField) event.getSource();
+        TextField clickedTextField = (TextField) event.getSource();
+        selectedTextField = clickedTextField;
     }
     @FXML
     private void numberClick(ActionEvent event) {
-        if (selectedTextField == null) {
-            return;
+        if (selectedTextField != null) {
+            Button clickedButton = (Button) event.getSource();
+            String buttonText = clickedButton.getText();
+            selectedTextField.appendText(buttonText);
         }
-        Button clickedButton = (Button) event.getSource();
-        String buttonText = clickedButton.getText();
-        selectedTextField.appendText(buttonText);
     }
 
     @FXML
@@ -140,7 +93,6 @@ public class CloseShiftController {
             if (currentText.length() > 0) {
                 selectedTextField.deleteText(currentText.length() - 1, currentText.length());
             }
-            calculateTotal();
         }
     }
     @FXML
@@ -163,11 +115,80 @@ public class CloseShiftController {
             textField14.setText("Lỗi nhập liệu");
         }
     }
-    private double parseInput(String text) {
+    private int parseInput(String text) {
         if (text == null || text.isEmpty()) {
             return 0;
         }
-        return Double.parseDouble(text.replace(" ", ""));
+        return Integer.parseInt(text.replace(" ", ""));
     }
+
+//    @FXML
+//    public void closeshift(ActionEvent actionEvent) throws IOException {
+//        endshift();
+//        closeModal();
+//    }
+//
+//    public void endshift() throws IOException {
+//        Connection connection = connect();
+//
+//        if (connection != null) {
+//            User user = PreferencesUtils.getUser();
+//            assert user != null;
+//
+//
+//            String query = "UPDATE shifts SET end_date = '" + LocalDateTime.now() + "' WHERE DATE(start_date) = '" + Config.getCurrentDate() + "'&& end_date IS NULL";
+//            Statement statement = null;
+//            try {
+//                statement = connection.createStatement();
+//                statement.executeUpdate(query);
+//            } catch (SQLException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
+//    }
+
+    @FXML
+    public void closeshift (ActionEvent actionEvent) throws IOException {
+        save_shift();
+        closeModal();
+    }
+
+
+    public void save_shift() {
+        // Retrieve existing shifts from preferences
+        List<Shift> shifts = PreferencesUtils.getShiftList();
+
+        // Create a new Shift object
+        Shift shift = new Shift(
+                parseInput(textField10.getText()),
+                parseInput(textField6.getText()),
+                parseInput(textField7.getText()),
+                parseInput(textField8.getText()),
+                parseInput(textField5.getText()),
+                parseInput(textField9.getText()),
+                parseInput(textField1.getText()),
+                parseInput(textField.getText()),
+                parseInput(textField4.getText()),
+                parseInput(textField2.getText()),
+                parseInput(textField3.getText()),
+                parseInput(textField14.getText())
+        );
+
+        // Add the new shift to the existing list
+        shifts.add(shift);
+
+        // Save the updated list of shifts to preferences
+        PreferencesUtils.saveShiftList(shifts);
+
+        // Retrieve shifts from preferences again (after saving the new one)
+        List<Shift> retrievedShifts = PreferencesUtils.getShiftList();
+
+        // Print all shifts to verify they are retrieved correctly
+        for (Shift shiftss : retrievedShifts) {
+            System.out.println(shiftss);
+        }
+    }
+
+
 }
 

@@ -99,11 +99,14 @@ public class Config {
 
 
     //Lấy ngày giờ hiện tại
-    public static String getCurrentDate() {
+    public static LocalDate getCurrentDate() {
+        return LocalDate.now();
+    }
+
+    public static String getday(){
         LocalDateTime currentTime = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String formattedDateTime = currentTime.format(formatter);
         return formattedDateTime;
     }
-
 }

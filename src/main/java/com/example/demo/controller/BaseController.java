@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.Utils.PreferencesUtils;
 import com.example.demo.config.loading.LoadingOverlay;
+import com.example.demo.controller.user.SalesDashboardLayoutController;
 import com.example.demo.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
