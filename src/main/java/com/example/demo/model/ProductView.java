@@ -12,6 +12,7 @@ public class ProductView {
     private StringProperty description;
     private String productImage;
 
+
     public ProductView(String productName, String size, int stockQuantity, double price, String updatedDate, String discountStatus, String description, String productImage) {
         this.productName = new SimpleStringProperty(productName);
         this.size = new SimpleStringProperty(size);

@@ -4,7 +4,6 @@ import com.example.demo.Utils.Config;
 import com.example.demo.Utils.Modal;
 import com.example.demo.Utils.PreferencesUtils;
 import com.example.demo.model.ProductSearch;
-import com.example.demo.model.ProductView;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,19 +12,16 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
-
-import javafx.scene.input.KeyEvent;
-
-import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.sql.*;
 
 import static com.example.demo.config.button.ButtonHandler.handleNavigator;
 
 import com.example.demo.controller.user.starttheday.StartTheDayController;
+import javafx.scene.text.Text;
 
 public class SalesDashboardLayoutController {
 
@@ -43,38 +39,124 @@ public class SalesDashboardLayoutController {
 
     @FXML
     private TextField displayField;
-    @FXML
-    private Button searchButton;
+
     @FXML
     private TextField searchField;
-    @FXML
-    private ListView<String> suggestionListView;
 
     @FXML
-    private TableView<ProductSearch> tableView; // TableView hiển thị kết quả tìm kiếm
+    private TableView<ProductSearch> productTable;
     @FXML
-    private TableColumn<ProductSearch, String> productNameColumn; // Cột tên sản phẩm
-    @FXML
-    private TableColumn<ProductSearch, String> productCategoryColumn; // Cột kích thước sản phẩm
-    @FXML
-    private TableColumn<ProductSearch, Double> productPriceColumn; // Cột giá sản phẩm
-    @FXML
-    private TableColumn<ProductSearch, Integer> productQuantityColumn; // Cột số lượng sản phẩm
-    @FXML
-    private TableColumn<ProductSearch, String> productDiscountColumn;
-    @FXML
-    private Connection connection;
-    @FXML
-    private TableColumn<ProductSearch, Integer> sttProperty;
-    @FXML
-    private TableColumn<ProductSearch, String> totalAmountProperty;
-    @FXML
-    private TableColumn<ProductSearch, String> imageColumn;
-    @FXML
-    private StackPane rootPane; // StackPane chứa các thành phần của UI
-    @FXML
-    private TabPane tabPane;
+    private ObservableList<ProductSearch> productList = FXCollections.observableArrayList();
 
+    @FXML
+    private TableColumn<ProductSearch, Integer> colStt;
+    @FXML
+    private TableColumn<ProductSearch, String> colTenSanPham;
+    @FXML
+    private TableColumn<ProductSearch, String> colImage;
+    @FXML
+    private TableColumn<ProductSearch, String> colLoai;
+    @FXML
+    private TableColumn<ProductSearch, Double> colGia;
+    @FXML
+    private TableColumn<ProductSearch, Integer> colSoLuong;
+    @FXML
+    private TableColumn<ProductSearch, Double> colChietKhau;
+    @FXML
+    private TableColumn<ProductSearch, Double> colThanhTien;
+
+    @FXML
+    private TextField salesDateField;
+
+    @FXML
+    private void onSearch(ActionEvent event) throws SQLException, FileNotFoundException {
+        String barcode = searchField.getText();
+
+        if (barcode != null && !barcode.isEmpty()) {
+            ProductSearch product = searchProductByBarcode(barcode);
+            if (product != null) {
+                int stt = productList.size() + 1;
+                product.setStt(stt);
+                productList.add(product);
+                updateTableView();
+            } else {
+                Modal.showAlert("Sản phẩm không tồn tại");
+            }
+            searchField.clear();
+        }
+    }
+
+    private ProductSearch searchProductByBarcode(String barcode) throws SQLException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/plants", "root", "");
+            String query = """
+            SELECT p.name, p.price, p.description, c.category, v.quantity, v.code, v.discount_id, d.discount_percentage, i.image
+            FROM variants v
+            JOIN products p ON v.product_id = p.product_id
+            JOIN categories c ON p.category_id = c.category_id
+            LEFT JOIN discounts d ON v.discount_id = d.discount_id
+            LEFT JOIN images i ON p.product_id = i.product_id
+            WHERE v.code = ?
+        """;
+
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, barcode);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                String loai = resultSet.getString("description");
+                String tenSanPham = resultSet.getString("name");
+                double gia = resultSet.getDouble("price");
+                int soLuong = 1;
+                double discountPercentage = resultSet.getDouble("discount_percentage");
+                double thanhTien = gia * soLuong * (1 - discountPercentage / 100);
+                String imageUrl = resultSet.getString("image");
+                return new ProductSearch(1, tenSanPham,imageUrl, loai, gia, soLuong, discountPercentage, thanhTien);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) resultSet.close();
+            if (preparedStatement != null) preparedStatement.close();
+            if (connection != null) connection.close();
+        }
+
+        return null;
+    }
+
+    private void updateTableView() {
+        colStt.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getStt()));
+        colTenSanPham.setCellValueFactory(cellData -> cellData.getValue().tenSanPhamProperty());
+        colLoai.setCellValueFactory(cellData -> cellData.getValue().loaiProperty());
+        colGia.setCellValueFactory(cellData -> cellData.getValue().giaProperty().asObject());
+        colSoLuong.setCellValueFactory(cellData -> cellData.getValue().soLuongProperty().asObject());
+        colChietKhau.setCellValueFactory(cellData -> cellData.getValue().chietKhauProperty().asObject());
+        colThanhTien.setCellValueFactory(cellData -> cellData.getValue().thanhTienProperty().asObject());
+        colImage.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getImage()));
+        colImage.setCellFactory(col -> new TableCell<ProductSearch, String>() {
+            private final ImageView imageView = new ImageView();
+
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setGraphic(null);
+                } else {
+                    Image image = new Image("file:" + item);
+                    imageView.setImage(image);
+                    imageView.setFitHeight(80);
+                    imageView.setFitWidth(160);
+                    setGraphic(imageView);
+                }
+            }
+        });
+
+        productTable.setItems(productList);
+    }
 
     public void onSales(ActionEvent actionEvent) throws IOException {
         StartTheDayController startTheDayController = new StartTheDayController();
@@ -166,221 +248,20 @@ public class SalesDashboardLayoutController {
         }
     }
 
-    @FXML
-    private TextField salesDateField;
-    private void updateSearchSuggestions(String searchText) {
-        String query = "SELECT p.name FROM products p WHERE p.name LIKE ? LIMIT 10";  // Tìm sản phẩm phù hợp
-
-        ObservableList<String> suggestions = FXCollections.observableArrayList();
-
-        try (
-                Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/plants", "root", "");
-                PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, "%" + searchText + "%");  // Tìm sản phẩm chứa từ khóa
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                suggestions.add(rs.getString("name"));  // Thêm tên sản phẩm vào danh sách gợi ý
-            }
-
-            if (suggestions.isEmpty()) {
-                suggestionListView.setVisible(false);  // Ẩn ListView nếu không có gợi ý
-            } else {
-//                tableView.setVisible(false);
-                suggestionListView.setVisible(true);
-            }
-
-            suggestionListView.setItems(suggestions);  // Hiển thị danh sách gợi ý
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void addProductToTable(String productName) {
-        String query = """
-            SELECT
-                p.product_id,
-                p.name,
-                i.image,
-                c.category,
-                p.price,
-                v.quantity,
-                d.discount_percentage
-            FROM products p
-            LEFT JOIN categories c ON p.category_id = c.category_id
-            LEFT JOIN images i ON p.product_id = i.product_id
-            LEFT JOIN variants v ON p.product_id = v.product_id
-            LEFT JOIN discounts d ON v.discount_id = d.discount_id
-            WHERE p.name = ?
-            AND i.image_id IN (
-                SELECT MIN(image_id)
-                FROM images
-                WHERE product_id = p.product_id
-                GROUP BY product_id
-            )
-        """;
-
-        ObservableList<ProductSearch> products = FXCollections.observableArrayList();
-
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, productName);  // Truy vấn sản phẩm theo tên đã chọn
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                String name = rs.getString("name");
-                String image = rs.getString("image");
-                String category = rs.getString("category");
-                BigDecimal price = rs.getBigDecimal("price");
-                int quantity = rs.getInt("quantity");
-                double totalAmount = price.doubleValue() * quantity;
-
-                // Tạo đối tượng ProductSearch và thêm vào TableView
-                ProductSearch product = new ProductSearch(name, quantity, price.doubleValue(), category, image, totalAmount);
-                products.add(product);
-            }
-
-            tableView.setItems(products);  // Hiển thị sản phẩm trong TableView
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void initialize() throws IOException {
         salesDateField.setText(Config.getCurrentDate());
 
-        suggestionListView.setVisible(false);
-
-
-        if (suggestionListView != null) {
-            suggestionListView.getSelectionModel().selectFirst();
-        }
-
-        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.isEmpty()) {
-                updateSearchSuggestions(newValue);  // Cập nhật gợi ý tìm kiếm
-            } else {
-                suggestionListView.setItems(FXCollections.observableArrayList());
-                suggestionListView.setVisible(false);
+        searchField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                try {
+                    onSearch(null);
+                } catch (SQLException | FileNotFoundException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
-        // Lắng nghe sự kiện khi người dùng chọn sản phẩm trong ListView
-        suggestionListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                addProductToTable(newValue);  // Thêm sản phẩm vào TableView khi chọn
-                suggestionListView.setItems(FXCollections.observableArrayList()); // Xóa gợi ý khi đã chọn sản phẩm
-                suggestionListView.setVisible(false);
-            }
-        });
     }
-
-
-
-
-//    //        try {
-////            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/plants", "root", "");
-////            sttProperty.setCellValueFactory(cellData -> cellData.getValue().sttProperty().asObject());
-////            productNameColumn.setCellValueFactory(cellData -> cellData.getValue().productNameProperty());
-////            productPriceColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asObject());
-////            productQuantityColumn.setCellValueFactory(cellData -> cellData.getValue().stockQuantityProperty().asObject());
-////            productCategoryColumn.setCellValueFactory(cellData -> cellData.getValue().categoryProperty());
-//////            productDiscountColumn.setCellValueFactory(cellData -> cellData.getValue().discountStatusProperty());
-////            totalAmountProperty.setCellValueFactory(cellData -> cellData.getValue().totalAmountProperty().asString());
-////            imageColumn.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getProductImage()));
-////            imageColumn.setCellFactory(col -> new TableCell<ProductSearch, String>() {
-////                private final ImageView imageView = new ImageView();
-////
-////                @Override
-////                protected void updateItem(String item, boolean empty) {
-////                    super.updateItem(item, empty);
-////                    if (empty || item == null || item.isEmpty()) {
-////                        setGraphic(null);
-////                    } else {
-////                        try {
-////                            Image image = new Image("file:" + item);
-////                            imageView.setImage(image);
-////                            imageView.setFitHeight(50);
-////                            imageView.setFitWidth(50);
-////                            setGraphic(imageView);
-////                        } catch (Exception e) {
-////                            e.printStackTrace();
-////                            imageView.setImage(new Image("file:default-image.png"));
-////                            setGraphic(imageView);
-////                        }
-////                    }
-////                }
-////            });
-////
-////            searchButton.setOnAction(event -> updateTableData());
-////
-////        } catch (Exception e) {
-////            e.printStackTrace();
-////        }
-
-
-//    private void updateTableData() {
-//        String searchText = searchField.getText().trim();
-//
-//        if (searchText.isEmpty()) {
-//            // Nếu ô tìm kiếm rỗng, không tìm gì cả
-//            tableView.setItems(FXCollections.observableArrayList());
-//            return;
-//        }
-//
-//        // Truy vấn SQL với điều kiện phân biệt chữ hoa/chữ thường và tìm chính xác
-//        String searchQuery = """
-//                SELECT
-//                    p.product_id,
-//                    p.name,
-//                    i.image,
-//                    c.category,
-//                    p.price,
-//                    v.quantity,
-//                    d.discount_percentage
-//                FROM products p
-//                LEFT JOIN categories c ON p.category_id = c.category_id
-//                LEFT JOIN images i ON p.product_id = i.product_id
-//                LEFT JOIN variants v ON p.product_id = v.product_id
-//                LEFT JOIN discounts d ON v.discount_id = d.discount_id
-//                WHERE BINARY p.name = ?
-//                AND i.image_id IN (
-//                    SELECT MIN(image_id)
-//                    FROM images
-//                    WHERE product_id = p.product_id
-//                    GROUP BY product_id
-//                )
-//            """;
-//        ObservableList<ProductSearch> products = FXCollections.observableArrayList();
-//
-//        try (PreparedStatement statement = connection.prepareStatement(searchQuery)) {
-//            // Gán tham số tìm kiếm
-//            statement.setString(1, searchText); // Chỉ gán trực tiếp từ khóa
-//
-//            ResultSet resultSet = statement.executeQuery();
-//            int stt = 1;
-//
-//            while (resultSet.next()) {
-//                String name = resultSet.getString("name");
-//                String image = resultSet.getString("image");
-//                String category = resultSet.getString("category");
-//                BigDecimal price = resultSet.getBigDecimal("price");
-//                int quantity = resultSet.getInt("quantity");
-//                double totalAmount = price.doubleValue() * quantity;
-//
-//                // Tạo đối tượng ProductSearch
-//                ProductSearch product = new ProductSearch(name, quantity, price.doubleValue(), category, image, totalAmount);
-//                product.setStt(stt++);
-//                product.setTotalAmount(totalAmount);
-//                products.add(product);
-//            }
-//            tableView.setItems(products);
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-
 
 }
 
