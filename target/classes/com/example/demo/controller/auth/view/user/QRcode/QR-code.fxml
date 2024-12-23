@@ -11,6 +11,7 @@
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="550.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controller.user.QR.QRcodecontroller">
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
+
          <children>
             <Text fill="#2215b9" smooth="false" strokeType="OUTSIDE" strokeWidth="0.0" text="Hướng dẫn KHÁCH HÀNG scan QR để thực hiện thanh toán trên APP" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="280.0">
                <font>
