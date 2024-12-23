@@ -1,9 +1,6 @@
 package com.example.demo.Utils;
-
 import com.example.demo.model.User;
-
 import java.util.prefs.Preferences;
-
 
 public class PreferencesUtils {
 
