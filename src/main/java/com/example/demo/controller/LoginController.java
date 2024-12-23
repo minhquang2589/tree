@@ -103,6 +103,8 @@ public class LoginController {
                 case "user" ->
                         "/com/example/demo/controller/auth/view/user/salesdashboardlayout/sales-dashboard-layout.fxml";
                 case "admin" -> "/com/example/demo/controller/auth/view/admin/dashboard-layout.fxml";
+
+
                 default -> "/com/example/demo/controller/auth/login-view.fxml";
             };
         }
