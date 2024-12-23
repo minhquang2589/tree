@@ -6,7 +6,7 @@ module com.example.demo {
     requires java.desktop;
     requires java.prefs;
     requires java.persistence;
-    requires mysql.connector.java;
+    requires net.bytebuddy;
 
     opens com.example.demo to javafx.fxml;
     exports com.example.demo;
@@ -30,8 +30,6 @@ module com.example.demo {
     opens com.example.demo.controller.user.translation to javafx.fxml;
     exports com.example.demo.controller.user.report.showreport;
     opens com.example.demo.controller.user.report.showreport to javafx.fxml;
-    exports com.example.demo.controller.user.member;
-    opens com.example.demo.controller.user.member to javafx.fxml;
     exports com.example.demo.controller.user.checkprice;
     opens com.example.demo.controller.user.checkprice to javafx.fxml;
     exports com.example.demo.controller.user.closeshift;

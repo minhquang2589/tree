@@ -98,8 +98,8 @@ public class Config {
     }
 
 
-    public static LocalDate getCurrentDate() {
-        return LocalDate.now();
+    public static String getCurrentDate() {
+        return String.valueOf(LocalDate.now());
     }
 
 

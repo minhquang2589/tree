@@ -4,6 +4,7 @@ import com.example.demo.Utils.Config;
 import com.example.demo.Utils.Modal;
 import com.example.demo.Utils.PreferencesUtils;
 import com.example.demo.config.MySQLConnection;
+import com.example.demo.config.button.ButtonHandler;
 import com.example.demo.config.loading.LoadingOverlay;
 import com.example.demo.model.User;
 import javafx.animation.TranslateTransition;
@@ -102,6 +103,8 @@ public class LoginController {
                 case "user" ->
                         "/com/example/demo/controller/auth/view/user/salesdashboardlayout/sales-dashboard-layout.fxml";
                 case "admin" -> "/com/example/demo/controller/auth/view/admin/dashboard-layout.fxml";
+
+
                 default -> "/com/example/demo/controller/auth/login-view.fxml";
             };
         }
