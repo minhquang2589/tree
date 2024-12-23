@@ -3,19 +3,37 @@ package com.example.demo.config.button;
 import com.example.demo.Utils.PreferencesUtils;
 import com.example.demo.model.User;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Objects;
 
 public class ButtonHandler {
+    @FXML
+    private Button backButton;
+
+    @FXML
+    private void initialize(){
+        User user = PreferencesUtils.getUser();
+        assert user != null;
+        if(Objects.equals(user.getRole(), "user")){
+           backButton.setVisible(false);
+       }
+
+    }
+
+
 
     public void handleBack(ActionEvent actionEvent) throws SQLException {
+        System.out.println("nút trở la được nhấn!");
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         Scene previousScene = (Scene) stage.getUserData();
         if (previousScene != null) {
@@ -61,7 +79,6 @@ public class ButtonHandler {
             e.printStackTrace();
         }
     }
-
 
 }
 
