@@ -5,13 +5,13 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -98,15 +98,19 @@ public class Config {
     }
 
 
-    //Lấy ngày giờ hiện tại
     public static LocalDate getCurrentDate() {
         return LocalDate.now();
     }
 
-    public static String getday(){
-        LocalDateTime currentTime = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String formattedDateTime = currentTime.format(formatter);
-        return formattedDateTime;
+
+    public static String hashCodeSHA(String value) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(value.getBytes(StandardCharsets.UTF_8));
+            return Base64.getUrlEncoder().withoutPadding().encodeToString(hash).substring(0, 8);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
+
 }

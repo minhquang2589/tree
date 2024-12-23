@@ -7,13 +7,15 @@ public class Variant {
     private int sizeId;
     private int quantity;
     private int discountId;
+    private String code;
 
-    public Variant(int variantId, int productId, int sizeId, int quantity, int discountId) {
+    public Variant(int variantId, int productId, int sizeId, int quantity, int discountId, String code) {
         this.variantId = variantId;
         this.productId = productId;
         this.sizeId = sizeId;
         this.quantity = quantity;
         this.discountId = discountId;
+        this.code = code;
     }
 
     public int getVariantId() {
@@ -55,4 +57,13 @@ public class Variant {
     public void setDiscountId(int discountId) {
         this.discountId = discountId;
     }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
 }

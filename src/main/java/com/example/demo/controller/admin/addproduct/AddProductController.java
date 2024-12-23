@@ -1,8 +1,11 @@
 package com.example.demo.controller.admin.addproduct;
+import com.example.demo.Utils.Config;
 import com.example.demo.config.MySQLConnection;
 import com.example.demo.model.ProductView;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -10,10 +13,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
+
+import java.io.File;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddProductController {
-
+    @FXML
+    public ListView imageListView;
     @FXML
     private TableColumn<ProductView, String> imageColumn;
     @FXML
@@ -43,6 +52,7 @@ public class AddProductController {
     private TableColumn<ProductView, String> descriptionColumn;
 
     private ObservableList<ProductView> productList;
+    private final List<String> images = new ArrayList<>();
 
     public void initialize() {
         productList = FXCollections.observableArrayList();
@@ -75,7 +85,6 @@ public class AddProductController {
                 }
             }
         });
-
         fetchProductDetails();
     }
 
@@ -89,6 +98,7 @@ public class AddProductController {
                      p.price AS product_price,
                      p.is_new AS isNew,
                      v.updated_at AS updated_date,
+                     v.code AS product_code,
                      d.discount_percentage AS discount_status,
                      p.description AS product_description,
                      i.image AS product_image
@@ -109,7 +119,6 @@ public class AddProductController {
             assert connection != null;
             try (PreparedStatement preparedStatement = connection.prepareStatement(query);
                  ResultSet resultSet = preparedStatement.executeQuery()) {
-
                 while (resultSet.next()) {
                     String productName = resultSet.getString("product_name");
                     String size = resultSet.getString("size_name");
@@ -117,18 +126,27 @@ public class AddProductController {
                     double price = resultSet.getDouble("product_price");
                     String updatedDate = resultSet.getString("updated_date");
                     int discountStatus = resultSet.getInt("discount_status");
-                    String description = resultSet.getString("product_description");
+                    String description = resultSet.getString("product_code");
                     String discount = discountStatus == 1 ? "Có" : "Không";
                     String productImage = resultSet.getString("product_image");
-
                     ProductView product = new ProductView(productName, size, stockQuantity, price, updatedDate, discount, description, productImage);
                     productList.add(product);
                 }
-
                 productTableView.setItems(productList);
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void handleAddImage(javafx.event.ActionEvent actionEvent) {
+        Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        List<File> selectedFiles = (List<File>) Config.showFileChooser(currentStage);
+        if (selectedFiles != null) {
+            for (File selectedFile : selectedFiles) {
+                imageListView.getItems().add(String.valueOf(selectedFile));
+                images.add(String.valueOf(selectedFile));
+            }
         }
     }
 }
