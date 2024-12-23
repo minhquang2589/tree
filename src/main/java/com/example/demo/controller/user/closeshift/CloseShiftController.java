@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.demo.Utils.Modal.closeModal;
+import static com.example.demo.Utils.Modal.showModal;
 import static com.example.demo.config.MySQLConnection.connect;
 
 public class CloseShiftController {
@@ -110,6 +111,7 @@ public class CloseShiftController {
             total += parseInput(textField4.getText()) * 1_000;
             total += parseInput(textField2.getText()) * 500;
             total += parseInput(textField3.getText()) * 200;
+            total += 500000;
             textField14.setText(String.format("%,.0f", total));
         } catch (NumberFormatException e) {
             textField14.setText("Lỗi nhập liệu");
@@ -119,14 +121,14 @@ public class CloseShiftController {
         if (text == null || text.isEmpty()) {
             return 0;
         }
-        return Integer.parseInt(text.replace(" ", ""));
+        return Integer.parseInt(text.replace(" ", "").replace(",", ""));
     }
 
-//    @FXML
-//    public void closeshift(ActionEvent actionEvent) throws IOException {
-//        endshift();
-//        closeModal();
-//    }
+    @FXML
+    public void closeshift(ActionEvent actionEvent) throws IOException {
+        save_shift();
+        Modal.showModal("/com/example/demo/controller/auth/view/user/closeshift/closeshiftsuccess/closeshiftsuccess.fxml","kết thúc ca",null);
+    }
 //
 //    public void endshift() throws IOException {
 //        Connection connection = connect();
@@ -146,13 +148,6 @@ public class CloseShiftController {
 //            }
 //        }
 //    }
-
-    @FXML
-    public void closeshift (ActionEvent actionEvent) throws IOException {
-        save_shift();
-        closeModal();
-    }
-
 
     public void save_shift() {
         // Retrieve existing shifts from preferences

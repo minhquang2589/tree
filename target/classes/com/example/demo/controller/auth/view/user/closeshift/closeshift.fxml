@@ -113,7 +113,7 @@
                   <Font size="16.0" />
                </font>
             </Text>
-            <TextField fx:id="textField15" alignment="CENTER_RIGHT" layoutX="26.0" layoutY="549.0" onMouseClicked="#selectTextField" prefHeight="30.0" prefWidth="270.0" AnchorPane.leftAnchor="15.0" />
+            <TextField fx:id="textField15" alignment="CENTER_RIGHT" editable="false" layoutX="26.0" layoutY="549.0" onMouseClicked="#selectTextField" prefHeight="30.0" prefWidth="270.0" promptText="500000" text="500000" AnchorPane.leftAnchor="15.0" />
             <Button layoutX="290.0" layoutY="324.0" mnemonicParsing="false" onAction="#numberClick" prefHeight="60.0" prefWidth="60.0" text="7" />
             <Button layoutX="355.0" layoutY="324.0" mnemonicParsing="false" onAction="#numberClick" prefHeight="60.0" prefWidth="60.0" text="8" />
             <Button layoutX="420.0" layoutY="322.0" mnemonicParsing="false" onAction="#numberClick" prefHeight="60.0" prefWidth="60.0" text="9" />
@@ -130,7 +130,7 @@
             <Button layoutX="355.0" layoutY="519.0" mnemonicParsing="false" onAction="#numberClick" prefHeight="60.0" prefWidth="60.0" text="00" />
             <Button layoutX="420.0" layoutY="519.0" mnemonicParsing="false" onAction="#numberClick" prefHeight="60.0" prefWidth="60.0" text="000" />
             <Separator layoutY="598.0" prefHeight="3.2" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="598.0" />
-            <Button layoutX="535.2" layoutY="605.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" text="OK" AnchorPane.rightAnchor="15.0" onAction="#closeshift"/>
+            <Button layoutX="535.2" layoutY="605.0" mnemonicParsing="false" onAction="#closeshift" prefHeight="50.0" prefWidth="50.0" text="OK" AnchorPane.rightAnchor="15.0" />
          </children>
       </AnchorPane>
    </children>

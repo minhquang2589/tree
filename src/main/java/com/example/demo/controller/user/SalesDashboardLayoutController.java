@@ -4,6 +4,7 @@ import com.example.demo.Utils.Config;
 import com.example.demo.Utils.Modal;
 import com.example.demo.Utils.PreferencesUtils;
 import com.example.demo.model.ProductSearch;
+import com.example.demo.model.Shift;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,6 +18,7 @@ import javafx.stage.Stage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.*;
+import java.util.List;
 
 import static com.example.demo.config.button.ButtonHandler.handleNavigator;
 
@@ -200,7 +202,12 @@ public class SalesDashboardLayoutController {
     }
 
     public void onCloseshift(ActionEvent actionEvent) throws IOException {
-        Modal.showModal("/com/example/demo/controller/auth/view/user/closeshift/closeshift.fxml", "Kết thúc ca", null);
+        StartTheDayController startTheDayController = new StartTheDayController();
+        if (!startTheDayController.check_day()) {
+            Modal.showModal("/com/example/demo/controller/auth/view/user/closeshift/closeshift.fxml", "Kết thúc ca", this::Countshift);
+        }else {
+            Modal.showAlert("Chưa bắt đầu ngày");
+        }
 
     }
 
@@ -211,6 +218,10 @@ public class SalesDashboardLayoutController {
         } else {
             Modal.showAlert("Đã có người check in");
         }
+    }
+
+    public void onEndDay(ActionEvent actionEvent) throws IOException {
+        Modal.showModal("/com/example/demo/controller/auth/view/user/endday/endday.fxml", "Kết thúc ngày", this::Countshift);
     }
 
     public void onExitApplication(ActionEvent event) {
@@ -243,9 +254,24 @@ public class SalesDashboardLayoutController {
         }
     }
 
+    @FXML
+    public TextField saleshiftnumber;
+
+    @FXML
+    public void Countshift() {
+        List<Shift> shifts = PreferencesUtils.getShiftList();
+        int count = shifts.size();
+        if(count > 0) {
+            saleshiftnumber.setText(String.valueOf(count));
+        }else{
+            saleshiftnumber.setText("0");
+        }
+    }
+
+
     public void initialize() throws IOException {
         salesDateField.setText(Config.getCurrentDate());
-
+        Countshift();
         searchField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 try {
@@ -259,5 +285,6 @@ public class SalesDashboardLayoutController {
     }
 
 }
+
 
 

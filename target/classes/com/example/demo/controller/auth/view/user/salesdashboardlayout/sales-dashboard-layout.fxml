@@ -33,7 +33,7 @@
                                  <children>
                                     <TextField fx:id="searchField" layoutX="2.0" layoutY="10.0" prefHeight="30.0" prefWidth="492.0" promptText="Tìm kiếm....." styleClass="textfield" stylesheets="@../../../../../styleCss/sales.css" />
                                     <Separator layoutY="49.0" prefHeight="1.0" prefWidth="1005.0" AnchorPane.leftAnchor="0.0" />
-                                    <TextField alignment="CENTER" layoutX="562.0" layoutY="10.0" prefHeight="30.0" prefWidth="35.0" styleClass="textfield" stylesheets="@../../../../../styleCss/sales.css" text="1" />
+                                    <TextField fx:id="saleshiftnumber" alignment="CENTER" layoutX="562.0" layoutY="10.0" prefHeight="30.0" prefWidth="35.0" styleClass="textfield" stylesheets="@../../../../../styleCss/sales.css" text="1" />
                                     <TextField fx:id="salesDateField" alignment="CENTER" layoutX="607.0" layoutY="10.0" prefHeight="30.0" prefWidth="149.0" promptText="Ngày bắt đầu" styleClass="textfield" stylesheets="@../../../../../styleCss/sales.css" />
                                     <TextField alignment="CENTER" layoutX="768.0" layoutY="10.0" prefHeight="30.0" prefWidth="40.0" styleClass="textfield" stylesheets="@../../../../../styleCss/sales.css" text="23.0" />
                                     <TextField alignment="CENTER" layoutX="819.0" layoutY="10.0" prefHeight="30.0" prefWidth="187.0" styleClass="textfield" stylesheets="@../../../../../styleCss/sales.css" text="Giao dịch tại quầy" />
@@ -84,7 +84,7 @@
                         <Button layoutX="171.0" layoutY="300.6" mnemonicParsing="false" onAction="#onNumberClick" prefHeight="80.0" prefWidth="80.0" text="9" AnchorPane.bottomAnchor="261.0" />
                         <Button layoutX="254.0" layoutY="383.8" mnemonicParsing="false" onAction="#onClear" prefHeight="80.0" prefWidth="75.0" text="Xoá" AnchorPane.bottomAnchor="177.8" />
                         <Button layoutX="254.0" layoutY="300.6" mnemonicParsing="false" onAction="#onCheckPrice" prefHeight="80.0" prefWidth="75.0" text="Tra giá" AnchorPane.bottomAnchor="261.0" />
-                        <Button layoutX="4.0" layoutY="50.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="Kết thúc ngày" textAlignment="CENTER" wrapText="true" AnchorPane.bottomAnchor="512.0" AnchorPane.leftAnchor="5.0" />
+                        <Button layoutX="4.0" layoutY="50.0" mnemonicParsing="false" onAction="#onEndDay" prefHeight="80.0" prefWidth="80.0" text="Kết thúc ngày" textAlignment="CENTER" wrapText="true" AnchorPane.bottomAnchor="512.0" AnchorPane.leftAnchor="5.0" />
                         <Button layoutX="88.0" layoutY="217.40000000000003" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="Số lượng" AnchorPane.bottomAnchor="344.2" />
                         <Button layoutX="171.0" layoutY="217.40000000000003" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="Huỷ dòng" AnchorPane.bottomAnchor="344.2" />
                         <Button ellipsisString="" layoutX="254.0" layoutY="217.40000000000003" mnemonicParsing="false" onAction="#onOrderList" prefHeight="80.0" prefWidth="75.0" text="Danh sách" textAlignment="CENTER" wrapText="true" AnchorPane.bottomAnchor="344.2" />
