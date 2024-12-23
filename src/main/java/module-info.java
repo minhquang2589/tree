@@ -30,8 +30,6 @@ module com.example.demo {
     opens com.example.demo.controller.user.translation to javafx.fxml;
     exports com.example.demo.controller.user.report.showreport;
     opens com.example.demo.controller.user.report.showreport to javafx.fxml;
-    exports com.example.demo.controller.user.member;
-    opens com.example.demo.controller.user.member to javafx.fxml;
     exports com.example.demo.controller.user.checkprice;
     opens com.example.demo.controller.user.checkprice to javafx.fxml;
     exports com.example.demo.controller.user.closeshift;

@@ -190,11 +190,6 @@ public class SalesDashboardLayoutController {
     public void onTranslation(ActionEvent actionEvent) throws IOException {
         Modal.showModal("/com/example/demo/controller/auth/view/user/translation/translation.fxml", "Dịch vụ", null);
     }
-
-    public void onMember(ActionEvent actionEvent) throws IOException {
-        Modal.showModal("/com/example/demo/controller/auth/view/user/member/member.fxml", "Thông tin khách hàng", null);
-    }
-
     public void onCheckPrice(ActionEvent actionEvent) throws IOException {
         Modal.showModal("/com/example/demo/controller/auth/view/user/checkprice/checkprice.fxml", "Kiểm tra giá sản phẩm", null);
     }
