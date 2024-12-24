@@ -74,7 +74,6 @@ public class AddProductTestController {
         }
 
         try {
-            double price = Double.parseDouble(priceText);
             Category selectedCategoryObj = categoryDAO.getCategoryByName(selectedCategory);
             if (selectedCategoryObj == null) {
                 Category newCategory = new Category(0, selectedCategory, null, "Category description");
@@ -83,7 +82,7 @@ public class AddProductTestController {
 
             int categoryId = selectedCategoryObj.getCategoryId();
 
-            Product newProduct = new Product(productName, price, description, categoryId);
+            Product newProduct = new Product(productName, description, categoryId);
 
             productDAO.addProduct(newProduct);
 
@@ -98,11 +97,11 @@ public class AddProductTestController {
                 String uniqueCode = hashCodeSHA(size.getSize() + quantity + timestamp);
 
                 if (existingSize != null) {
-                    variantDAO.addProductVariant(productId, existingSize.getSizeId(), quantity, uniqueCode);
+                    variantDAO.addProductVariant(productId, existingSize.getSizeId(),999000, quantity, uniqueCode);
                 } else {
                     int newSizeId = sizeDao.addSize(size);
                     if (newSizeId != -1) {
-                        variantDAO.addProductVariant(productId, newSizeId, quantity, uniqueCode);
+                        variantDAO.addProductVariant(productId, newSizeId, quantity,999000, uniqueCode);
                     } else {
                         showAlert("Error adding new size: " + size.getSize());
                         return;

@@ -12,12 +12,17 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 public class paycontroller {
+
     @FXML
     private TextField textField1;
+
     @FXML
     private TextField textField2;
+
     @FXML
     private TextField textField3;
+
+
     @FXML
     private Button button0;
     @FXML
@@ -78,7 +83,6 @@ public class paycontroller {
         buttonBackspace.setFocusTraversable(false);
         buttonQL.setFocusTraversable(false);
         buttonXN.setFocusTraversable(false);
-
     }
     public void handleButtonPress(ActionEvent event) {
         String buttonText = ((javafx.scene.control.Button) event.getSource()).getText();

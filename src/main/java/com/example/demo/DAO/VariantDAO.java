@@ -13,13 +13,14 @@ public class VariantDAO {
         connection = MySQLConnection.connect();
     }
 
-    public void addProductVariant(int productId, int sizeId, int quantity, String code) throws SQLException {
-        String query = "INSERT INTO variants (product_id, size_id, quantity, code) VALUES (?, ?, ?, ?)";
+    public void addProductVariant(int productId, int sizeId,int price, int quantity, String code) throws SQLException {
+        String query = "INSERT INTO variants (product_id, size_id,price, quantity, code) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setInt(1, productId);
             preparedStatement.setInt(2, sizeId);
-            preparedStatement.setInt(3, quantity);
-            preparedStatement.setString(4, code);
+            preparedStatement.setInt(3, price);
+            preparedStatement.setInt(4, quantity);
+            preparedStatement.setString(5, code);
 
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows > 0) {
@@ -53,8 +54,9 @@ public class VariantDAO {
                     int variantId = resultSet.getInt("variant_id");
                     int quantity = resultSet.getInt("quantity");
                     int discountId = resultSet.getInt("discount_id");
+                    int price = resultSet.getInt("price");
                     String code = resultSet.getNString("code");
-                    return new Variant(variantId, productId, sizeId, quantity, discountId, code);
+                    return new Variant(variantId, productId, sizeId, quantity, price,discountId, code);
                 }
             }
         }

@@ -52,4 +52,11 @@ module com.example.demo {
     opens com.example.demo.controller.user.endday to javafx.fxml;
     exports com.example.demo.controller.user.closeshift.closeshiftsuccess;
     opens com.example.demo.controller.user.closeshift.closeshiftsuccess to javafx.fxml;
+    exports com.example.demo.controller.user.cash;
+    opens com.example.demo.controller.user.cash to javafx.fxml;
+    exports com.example.demo.controller.user.pay;
+    opens com.example.demo.controller.user.pay to javafx.fxml;
+    exports com.example.demo.controller.user.QR;
+    opens com.example.demo.controller.user.QR to javafx.fxml;
+
 }

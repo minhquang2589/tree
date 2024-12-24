@@ -13,8 +13,6 @@ public class Product {
     private String name;
     private boolean isNew;
 
-    @Column(nullable = false)
-    private double price;
     @ManyToOne
     @JoinColumn(name = "category_id")
     private int category;
@@ -25,9 +23,8 @@ public class Product {
     private java.util.Date createdAt;
 
 
-    public Product(String name, double price, String description, int category) {
+    public Product(String name, String description, int category) {
         this.name = name;
-        this.price = price;
         this.description = description;
         this.category = category;
         this.isNew = false;
@@ -84,11 +81,5 @@ public class Product {
     }
 
 
-    public double getPrice() {
-        return price;
-    }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
 }

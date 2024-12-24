@@ -6,14 +6,16 @@ public class Variant {
     private int productId;
     private int sizeId;
     private int quantity;
+    private int price;
     private int discountId;
     private String code;
 
-    public Variant(int variantId, int productId, int sizeId, int quantity, int discountId, String code) {
+    public Variant(int variantId, int productId, int sizeId, int quantity,int price, int discountId, String code) {
         this.variantId = variantId;
         this.productId = productId;
         this.sizeId = sizeId;
         this.quantity = quantity;
+        this.price = price;
         this.discountId = discountId;
         this.code = code;
     }
@@ -24,6 +26,14 @@ public class Variant {
 
     public void setVariantId(int variantId) {
         this.variantId = variantId;
+    }
+
+    public int getVariantPrice() {
+        return price;
+    }
+
+    public void setVariantPrice(int price) {
+        this.price = price;
     }
 
     public int getProductId() {

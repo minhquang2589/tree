@@ -95,7 +95,7 @@ public class AddProductController {
                      p.product_id AS product_id,
                      s.size AS size_name,
                      v.quantity AS stock_quantity,
-                     p.price AS product_price,
+                     v.price AS product_price,
                      p.is_new AS isNew,
                      v.updated_at AS updated_date,
                      v.code AS product_code,

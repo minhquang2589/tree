@@ -1,15 +1,15 @@
 package com.example.demo.Utils;
 
-import com.example.demo.model.Shift;
-import com.example.demo.model.User;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import net.bytebuddy.description.method.MethodDescription;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.prefs.Preferences;
 
+import com.example.demo.model.Shift;
+import com.example.demo.model.User;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class PreferencesUtils {
 
