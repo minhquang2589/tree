@@ -88,8 +88,8 @@
                         <Button layoutX="88.0" layoutY="217.40000000000003" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="Số lượng" AnchorPane.bottomAnchor="344.2" />
                         <Button layoutX="171.0" layoutY="217.40000000000003" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="Huỷ dòng" AnchorPane.bottomAnchor="344.2" />
                         <Button ellipsisString="" layoutX="254.0" layoutY="217.40000000000003" mnemonicParsing="false" onAction="#onOrderList" prefHeight="80.0" prefWidth="75.0" text="Danh sách" textAlignment="CENTER" wrapText="true" AnchorPane.bottomAnchor="344.2" />
-                        <Button layoutX="4.0" layoutY="133.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="Treo phiếu" AnchorPane.bottomAnchor="428.0" />
-                        <Button layoutX="88.0" layoutY="133.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="Gọi phiếu" AnchorPane.bottomAnchor="428.0" />
+                        <Button onAction="#onHoldOrder" layoutX="4.0" layoutY="133.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="Treo phiếu" AnchorPane.bottomAnchor="428.0" />
+                        <Button onAction="#onRecallOrder" layoutX="88.0" layoutY="133.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="Gọi phiếu" AnchorPane.bottomAnchor="428.0" />
                         <Button layoutX="171.0" layoutY="133.0" mnemonicParsing="false" onAction="#onReport" prefHeight="80.0" prefWidth="80.0" text="Báo cáo" AnchorPane.bottomAnchor="428.0" />
                         <Button ellipsisString="" layoutX="254.0" layoutY="133.0" mnemonicParsing="false" onAction="#onCloseshift" prefHeight="80.0" prefWidth="75.0" text="Kết ca" textAlignment="CENTER" AnchorPane.bottomAnchor="428.0" />
                         <Button layoutX="4.0" layoutY="50.0" mnemonicParsing="false" onAction="#onTranslation" prefHeight="80.0" prefWidth="80.0" text="Dịch vụ" AnchorPane.bottomAnchor="344.0" AnchorPane.leftAnchor="5.0" />

@@ -18,7 +18,11 @@ import javafx.stage.Stage;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.*;
+
 import java.util.List;
+
+import java.util.HashMap;
+
 
 import static com.example.demo.config.button.ButtonHandler.handleNavigator;
 
@@ -68,7 +72,55 @@ public class SalesDashboardLayoutController {
     private TableColumn<ProductSearch, Double> colThanhTien;
 
     @FXML
+    private Text treoPhieuText;
+
+    @FXML
     private TextField salesDateField;
+
+    private final HashMap<String, ObservableList<ProductSearch>> pendingOrders = new HashMap<>();
+    private int orderCounter = 1;
+
+    @FXML
+    private void onHoldOrder(ActionEvent event) {
+        if (!productList.isEmpty()) {
+            String newOrderId = "Order-" + orderCounter++;
+            pendingOrders.put(newOrderId, FXCollections.observableArrayList(productList));
+            Modal.showAlert("Thông báo", "Đã treo phiếu: " + newOrderId, Alert.AlertType.INFORMATION, null, null);
+            productList.clear();
+            productTable.setItems(productList);
+            treoPhieuText.setText("Phiếu treo: " + pendingOrders.size());
+        } else {
+            Modal.showAlert("Thông báo", "Không có sản phẩm để treo phiếu!", Alert.AlertType.WARNING, null, null);
+        }
+    }
+
+    @FXML
+    private void onRecallOrder(ActionEvent event) {
+        if (pendingOrders.isEmpty()) {
+            Modal.showAlert("Thông báo", "Không có phiếu nào để gọi!", Alert.AlertType.WARNING, null, null);
+            return;
+        }
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(null, pendingOrders.keySet());
+        dialog.setTitle("Gọi phiếu");
+        dialog.setHeaderText("Chọn phiếu để gọi");
+        dialog.setContentText("Danh sách phiếu:");
+        dialog.showAndWait().ifPresent(orderId -> {
+            if (!productList.isEmpty()) {
+                String currentOrderId = "Order-" + orderCounter++;
+                pendingOrders.put(currentOrderId, FXCollections.observableArrayList(productList));
+                productList.clear();
+            }
+            ObservableList<ProductSearch> order = pendingOrders.remove(orderId);
+            if (order != null) {
+                productList.addAll(order);
+                productTable.setItems(productList);
+                Modal.showAlert("Thông báo", "Đã gọi phiếu: " + orderId, Alert.AlertType.INFORMATION, null, null);
+            }
+            treoPhieuText.setText("Phiếu treo: " + pendingOrders.size());
+        });
+    }
+
+
 
     @FXML
     private void onSearch(ActionEvent event) throws SQLException, FileNotFoundException {
