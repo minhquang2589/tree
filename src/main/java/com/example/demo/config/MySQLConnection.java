@@ -98,7 +98,6 @@ public class MySQLConnection {
                 CREATE TABLE IF NOT EXISTS products (
                     product_id INT AUTO_INCREMENT PRIMARY KEY,
                     name VARCHAR(100) NOT NULL,
-                    price DECIMAL(10, 2) NOT NULL,
                     is_new TINYINT(1) DEFAULT 0,
                     category_id INT NOT NULL,
                     description TEXT,
@@ -152,6 +151,7 @@ public class MySQLConnection {
                     product_id INT NOT NULL,
                     size_id INT NOT NULL,
                     quantity INT,
+                    price DECIMAL(10, 2) NOT NULL,
                     discount_id INT,
                     code VARCHAR(50),
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

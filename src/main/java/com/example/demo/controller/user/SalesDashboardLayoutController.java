@@ -3,8 +3,10 @@ package com.example.demo.controller.user;
 import com.example.demo.Utils.Config;
 import com.example.demo.Utils.Modal;
 import com.example.demo.Utils.PreferencesUtils;
+import com.example.demo.config.MySQLConnection;
 import com.example.demo.model.ProductSearch;
 import com.example.demo.model.Shift;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,15 +17,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.*;
-
 import java.util.List;
-
 import java.util.HashMap;
 
-
+import static com.example.demo.Utils.Config.formatCurrencyVND;
+import static com.example.demo.Utils.Modal.showAlert;
 import static com.example.demo.config.button.ButtonHandler.handleNavigator;
 
 import com.example.demo.controller.user.starttheday.StartTheDayController;
@@ -62,6 +64,9 @@ public class SalesDashboardLayoutController {
     private TableColumn<ProductSearch, String> colImage;
     @FXML
     private TableColumn<ProductSearch, String> colLoai;
+
+    @FXML
+    private TableColumn<ProductSearch, String> colSize;
     @FXML
     private TableColumn<ProductSearch, Double> colGia;
     @FXML
@@ -85,19 +90,19 @@ public class SalesDashboardLayoutController {
         if (!productList.isEmpty()) {
             String newOrderId = "Order-" + orderCounter++;
             pendingOrders.put(newOrderId, FXCollections.observableArrayList(productList));
-            Modal.showAlert("Thông báo", "Đã treo phiếu: " + newOrderId, Alert.AlertType.INFORMATION, null, null);
+            showAlert("Thông báo", "Đã treo phiếu: " + newOrderId, Alert.AlertType.INFORMATION, null, null);
             productList.clear();
             productTable.setItems(productList);
             treoPhieuText.setText("Phiếu treo: " + pendingOrders.size());
         } else {
-            Modal.showAlert("Thông báo", "Không có sản phẩm để treo phiếu!", Alert.AlertType.WARNING, null, null);
+            showAlert("Thông báo", "Không có sản phẩm để treo phiếu!", Alert.AlertType.WARNING, null, null);
         }
     }
 
     @FXML
     private void onRecallOrder(ActionEvent event) {
         if (pendingOrders.isEmpty()) {
-            Modal.showAlert("Thông báo", "Không có phiếu nào để gọi!", Alert.AlertType.WARNING, null, null);
+            showAlert("Thông báo", "Không có phiếu nào để gọi!", Alert.AlertType.WARNING, null, null);
             return;
         }
         ChoiceDialog<String> dialog = new ChoiceDialog<>(null, pendingOrders.keySet());
@@ -114,12 +119,11 @@ public class SalesDashboardLayoutController {
             if (order != null) {
                 productList.addAll(order);
                 productTable.setItems(productList);
-                Modal.showAlert("Thông báo", "Đã gọi phiếu: " + orderId, Alert.AlertType.INFORMATION, null, null);
+                showAlert("Thông báo", "Đã gọi phiếu: " + orderId, Alert.AlertType.INFORMATION, null, null);
             }
             treoPhieuText.setText("Phiếu treo: " + pendingOrders.size());
         });
     }
-
 
 
     @FXML
@@ -127,56 +131,69 @@ public class SalesDashboardLayoutController {
         String barcode = searchField.getText();
 
         if (barcode != null && !barcode.isEmpty()) {
-            ProductSearch product = searchProductByBarcode(barcode);
-            if (product != null) {
-                int stt = productList.size() + 1;
-                product.setStt(stt);
-                productList.add(product);
-                updateTableView();
+            ProductSearch newProduct = searchProductByBarcode(barcode);
+            if (newProduct != null) {
+                ProductSearch existingProduct = checkProductIfExits(newProduct.variantIdProperty());
+                if (existingProduct != null) {
+                    int updatedQuantity = existingProduct.getSoLuong() + newProduct.getSoLuong();
+                    existingProduct.setSoLuong(updatedQuantity);
+
+                    double updatedPrice = existingProduct.getGia() * updatedQuantity * (1 - existingProduct.getChietKhau() / 100);
+                    existingProduct.setThanhTien(updatedPrice);
+
+                    updateTableView();
+                } else {
+                    int stt = productList.size() + 1;
+                    newProduct.setStt(stt);
+                    productList.add(newProduct);
+                    updateTableView();
+                }
             } else {
-                Modal.showAlert("Sản phẩm không tồn tại");
+                showAlert("Sản phẩm không tồn tại");
             }
             searchField.clear();
         }
     }
 
-    private ProductSearch searchProductByBarcode(String barcode) throws SQLException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/plants", "root", "");
-            String query = """
-            SELECT p.name, p.price, p.description, c.category, v.quantity, v.code, v.discount_id, d.discount_percentage, i.image
-            FROM variants v
-            JOIN products p ON v.product_id = p.product_id
-            JOIN categories c ON p.category_id = c.category_id
-            LEFT JOIN discounts d ON v.discount_id = d.discount_id
-            LEFT JOIN images i ON p.product_id = i.product_id
-            WHERE v.code = ?
-        """;
 
-            preparedStatement = connection.prepareStatement(query);
+    private ProductSearch searchProductByBarcode(String barcode) throws SQLException {
+        Connection connection = MySQLConnection.connect();
+
+        String query = """
+                    SELECT p.name, v.variant_id AS variant_id, p.description, c.category, v.quantity, v.price, v.code, v.discount_id, d.*, i.image, s.size
+                    FROM variants v
+                    JOIN products p ON v.product_id = p.product_id
+                    JOIN categories c ON p.category_id = c.category_id
+                    LEFT JOIN discounts d ON v.discount_id = d.discount_id
+                        AND d.discount_percentage > 0
+                        AND d.discount_quantity > 0
+                        AND d.discount_remaining > 0
+                        AND d.end_date >= CURDATE()
+                    LEFT JOIN images i ON p.product_id = i.product_id
+                    JOIN sizes s ON v.size_id = s.size_id
+                    WHERE v.code = ?
+                """;
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, barcode);
-            resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                String loai = resultSet.getString("description");
+                String loai = resultSet.getString("category");
+                int variant_id = resultSet.getInt("variant_id");
+                String size = resultSet.getString("size");
                 String tenSanPham = resultSet.getString("name");
                 double gia = resultSet.getDouble("price");
                 int soLuong = 1;
                 double discountPercentage = resultSet.getDouble("discount_percentage");
                 double thanhTien = gia * soLuong * (1 - discountPercentage / 100);
                 String imageUrl = resultSet.getString("image");
-                return new ProductSearch(1, tenSanPham,imageUrl, loai, gia, soLuong, discountPercentage, thanhTien);
+                return new ProductSearch(1, tenSanPham, imageUrl, loai, gia, soLuong, discountPercentage, thanhTien, size, variant_id);
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (resultSet != null) resultSet.close();
-            if (preparedStatement != null) preparedStatement.close();
-            if (connection != null) connection.close();
         }
 
         return null;
@@ -186,10 +203,35 @@ public class SalesDashboardLayoutController {
         colStt.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getStt()));
         colTenSanPham.setCellValueFactory(cellData -> cellData.getValue().tenSanPhamProperty());
         colLoai.setCellValueFactory(cellData -> cellData.getValue().loaiProperty());
+        colSize.setCellValueFactory(cellData -> cellData.getValue().sizeProperty());
         colGia.setCellValueFactory(cellData -> cellData.getValue().giaProperty().asObject());
+        colGia.setCellFactory(column -> new TableCell<ProductSearch, Double>() {
+            @Override
+            protected void updateItem(Double item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(formatCurrencyVND(item));
+                }
+            }
+        });
+
         colSoLuong.setCellValueFactory(cellData -> cellData.getValue().soLuongProperty().asObject());
         colChietKhau.setCellValueFactory(cellData -> cellData.getValue().chietKhauProperty().asObject());
         colThanhTien.setCellValueFactory(cellData -> cellData.getValue().thanhTienProperty().asObject());
+        colThanhTien.setCellFactory(column -> new TableCell<ProductSearch, Double>() {
+            @Override
+            protected void updateItem(Double item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(formatCurrencyVND(item));
+                }
+            }
+        });
+
         colImage.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getImage()));
         colImage.setCellFactory(col -> new TableCell<ProductSearch, String>() {
             private final ImageView imageView = new ImageView();
@@ -209,8 +251,41 @@ public class SalesDashboardLayoutController {
             }
         });
 
+        if (productTable.getColumns().stream().noneMatch(col -> col.getText().isEmpty())) {
+            TableColumn<ProductSearch, Void> colDelete = new TableColumn<>("");
+            colDelete.setCellFactory(col -> new TableCell<ProductSearch, Void>() {
+                private final Button deleteButton = new Button("Xóa");
+
+                {
+                    deleteButton.setStyle("-fx-background-color: #ff4d4d; -fx-text-fill: white; -fx-border-radius: 5; -fx-background-radius: 5;");
+                    deleteButton.setOnAction(event -> {
+                        ProductSearch product = getTableView().getItems().get(getIndex());
+                        if (!productList.isEmpty() && product != null) {
+                            productList.remove(product);
+                            getTableView().refresh();
+                        } else {
+                            showAlert("KHông thể xoá sản phẩm. vui lòng thử lại sau!");
+                        }
+                    });
+                }
+
+                @Override
+                protected void updateItem(Void item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty) {
+                        setGraphic(null);
+                    } else {
+                        setGraphic(deleteButton);
+                    }
+                }
+            });
+
+            productTable.getColumns().add(colDelete);
+        }
+
         productTable.setItems(productList);
     }
+
 
     public void onSales(ActionEvent actionEvent) throws IOException {
         StartTheDayController startTheDayController = new StartTheDayController();
@@ -220,7 +295,7 @@ public class SalesDashboardLayoutController {
             sl_CancelTransaction.setVisible(true);
             sl_Payment.setVisible(true);
         } else {
-            Modal.showAlert(
+            showAlert(
                     "Thông báo",
                     "Chưa bắt đầu ngày",
                     Alert.AlertType.INFORMATION,
@@ -244,6 +319,7 @@ public class SalesDashboardLayoutController {
     public void onTranslation(ActionEvent actionEvent) throws IOException {
         Modal.showModal("/com/example/demo/controller/auth/view/user/translation/translation.fxml", "Dịch vụ", null);
     }
+
     public void onCheckPrice(ActionEvent actionEvent) throws IOException {
         Modal.showModal("/com/example/demo/controller/auth/view/user/checkprice/checkprice.fxml", "Kiểm tra giá sản phẩm", null);
     }
@@ -257,8 +333,8 @@ public class SalesDashboardLayoutController {
         StartTheDayController startTheDayController = new StartTheDayController();
         if (!startTheDayController.check_day()) {
             Modal.showModal("/com/example/demo/controller/auth/view/user/closeshift/closeshift.fxml", "Kết thúc ca", this::Countshift);
-        }else {
-            Modal.showAlert("Chưa bắt đầu ngày");
+        } else {
+            showAlert("Chưa bắt đầu ngày");
         }
 
     }
@@ -268,7 +344,7 @@ public class SalesDashboardLayoutController {
         if (startTheDayController.check_day()) {
             Modal.showModal("/com/example/demo/controller/auth/view/user/starttheday/starttheday.fxml", "Bắt đầu ngày", null);
         } else {
-            Modal.showAlert("Đã có người check in");
+            showAlert("Đã có người check in");
         }
     }
 
@@ -277,7 +353,7 @@ public class SalesDashboardLayoutController {
     }
 
     public void onExitApplication(ActionEvent event) {
-        Modal.showAlert(
+        showAlert(
                 "Xác nhận thoát",
                 "Bạn có chắc chắn muốn thoát ứng dụng?",
                 Alert.AlertType.CONFIRMATION,
@@ -313,9 +389,9 @@ public class SalesDashboardLayoutController {
     public void Countshift() {
         List<Shift> shifts = PreferencesUtils.getShiftList();
         int count = shifts.size();
-        if(count > 0) {
+        if (count > 0) {
             saleshiftnumber.setText(String.valueOf(count));
-        }else{
+        } else {
             saleshiftnumber.setText("0");
         }
     }
@@ -335,6 +411,16 @@ public class SalesDashboardLayoutController {
         });
 
     }
+
+    private ProductSearch checkProductIfExits(IntegerProperty variantId) {
+        for (ProductSearch product : productList) {
+            if (product.variantIdProperty().get() == variantId.get()) {
+                return product;
+            }
+        }
+        return null;
+    }
+
 
 }
 
