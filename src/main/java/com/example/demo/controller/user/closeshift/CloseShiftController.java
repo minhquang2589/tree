@@ -129,31 +129,10 @@ public class CloseShiftController {
         save_shift();
         Modal.showModal("/com/example/demo/controller/auth/view/user/closeshift/closeshiftsuccess/closeshiftsuccess.fxml","kết thúc ca",null);
     }
-//
-//    public void endshift() throws IOException {
-//        Connection connection = connect();
-//
-//        if (connection != null) {
-//            User user = PreferencesUtils.getUser();
-//            assert user != null;
-//
-//
-//            String query = "UPDATE shifts SET end_date = '" + LocalDateTime.now() + "' WHERE DATE(start_date) = '" + Config.getCurrentDate() + "'&& end_date IS NULL";
-//            Statement statement = null;
-//            try {
-//                statement = connection.createStatement();
-//                statement.executeUpdate(query);
-//            } catch (SQLException e) {
-//                throw new RuntimeException(e);
-//            }
-//        }
-//    }
 
     public void save_shift() {
-        // Retrieve existing shifts from preferences
         List<Shift> shifts = PreferencesUtils.getShiftList();
 
-        // Create a new Shift object
         Shift shift = new Shift(
                 parseInput(textField10.getText()),
                 parseInput(textField6.getText()),
@@ -169,16 +148,12 @@ public class CloseShiftController {
                 parseInput(textField14.getText())
         );
 
-        // Add the new shift to the existing list
         shifts.add(shift);
 
-        // Save the updated list of shifts to preferences
         PreferencesUtils.saveShiftList(shifts);
 
-        // Retrieve shifts from preferences again (after saving the new one)
         List<Shift> retrievedShifts = PreferencesUtils.getShiftList();
 
-        // Print all shifts to verify they are retrieved correctly
         for (Shift shiftss : retrievedShifts) {
             System.out.println(shiftss);
         }
