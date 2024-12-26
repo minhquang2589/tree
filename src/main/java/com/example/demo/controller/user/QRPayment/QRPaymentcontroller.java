@@ -1,4 +1,4 @@
-package com.example.demo.controller.user.pay;
+package com.example.demo.controller.user.QRPayment;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,13 +11,18 @@ import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-public class paycontroller {
+
+public class QRPaymentcontroller {
     @FXML
     private TextField textField1;
+
     @FXML
     private TextField textField2;
+
     @FXML
     private TextField textField3;
+
+
     @FXML
     private Button button0;
     @FXML
@@ -78,7 +83,6 @@ public class paycontroller {
         buttonBackspace.setFocusTraversable(false);
         buttonQL.setFocusTraversable(false);
         buttonXN.setFocusTraversable(false);
-
     }
     public void handleButtonPress(ActionEvent event) {
         String buttonText = ((javafx.scene.control.Button) event.getSource()).getText();
@@ -96,26 +100,22 @@ public class paycontroller {
             currentTextField.clear();
         }
     }
-    public void handleCancel(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/controller/auth/view/user/PaymentProcessing/PaymentProcessing.fxml"));
-            Scene previousScene = new Scene(loader.load());
-            Stage currentStage = (Stage) textField1.getScene().getWindow();
-            currentStage.setScene(previousScene);
-            currentStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void handleCancel(ActionEvent event)throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/controller/auth/view/user/PaymentProcessing/PaymentProcessing.fxml"));
+        Parent previousScene = loader.load();
+        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        currentStage.setTitle("Chọn các hình thức thanh toán bằng cách bấm vào ô tương ứng.");
+        Scene scene = new Scene(previousScene);
+        currentStage.setScene(scene);
+        currentStage.show();
     }
-    public void handleConfirm(ActionEvent event){
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/controller/auth/view/user/QRcode/QR-code.fxml"));
-            Parent newRoot = loader.load();
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(newRoot));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void handleConfirm(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/controller/auth/view/user/QRPayment/QRCode/QR-Code.fxml"));
+        Node newScene = loader.load();
+        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        currentStage.setTitle("QRCode");
+        Scene scene = new Scene((Parent) newScene);
+        currentStage.setScene(scene);
+        currentStage.show();
     }
 }

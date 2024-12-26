@@ -1,7 +1,9 @@
-package com.example.demo.controller.user.cash;
+package com.example.demo.controller.user.Cash;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -10,8 +12,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class CashController {
-
+public class CashTMController {
     @FXML
     private TextField textField;
     @FXML
@@ -91,15 +92,22 @@ public class CashController {
             currentTextField.clear();
         }
     }
-    public void handleCancel(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/controller/auth/view/user/PaymentProcessing/PaymentProcessing.fxml"));
-            Scene previousScene = new Scene(loader.load());
-            Stage currentStage = (Stage) textField.getScene().getWindow();
-            currentStage.setScene(previousScene);
-            currentStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void handleCancel(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/controller/auth/view/user/PaymentProcessing/PaymentProcessing.fxml"));
+        Parent previousScene = loader.load();
+        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        currentStage.setTitle("Chọn các hình thức thanh toán bằng cách bấm vào ô tương ứng.");
+        Scene scene = new Scene(previousScene);
+        currentStage.setScene(scene);
+        currentStage.show();
+//        try {
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/controller/auth/view/user/PaymentProcessing/PaymentProcessing.fxml"));
+//            Scene previousScene = new Scene(loader.load());
+//            Stage currentStage = (Stage) textField.getScene().getWindow();
+//            currentStage.setScene(previousScene);
+//            currentStage.show();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 }
