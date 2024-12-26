@@ -266,14 +266,19 @@ public class SalesDashboardLayoutController {
     public void onStartTheDay(ActionEvent actionEvent) throws IOException {
         StartTheDayController startTheDayController = new StartTheDayController();
         if (startTheDayController.check_day()) {
-            Modal.showModal("/com/example/demo/controller/auth/view/user/starttheday/starttheday.fxml", "Bắt đầu ngày", null);
+            Modal.showModal("/com/example/demo/controller/auth/view/user/starttheday/starttheday.fxml", "Bắt đầu ngày", this::checkDay);
         } else {
             Modal.showAlert("Đã có người check in");
         }
     }
 
     public void onEndDay(ActionEvent actionEvent) throws IOException {
-        Modal.showModal("/com/example/demo/controller/auth/view/user/endday/endday.fxml", "Kết thúc ngày", this::Countshift);
+        StartTheDayController startTheDayController = new StartTheDayController();
+        if (!startTheDayController.check_day()) {
+            Modal.showModal("/com/example/demo/controller/auth/view/user/endday/endday.fxml", "Kết thúc ngày", this::updateDate);
+        }else {
+            Modal.showAlert("Chưa bắt đầu ngày");
+        }
     }
 
     public void onExitApplication(ActionEvent event) {
@@ -320,9 +325,27 @@ public class SalesDashboardLayoutController {
         }
     }
 
+    public void checkDay() {
+        StartTheDayController startTheDayController = new StartTheDayController();
+        try {
+            if (!startTheDayController.check_day() && !startTheDayController.check_day_end()) {
+                salesDateField.setText(Config.getCurrentDate());
+            } else {
+                salesDateField.setText("đã đóng");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateDate(){
+        Countshift();
+        checkDay();
+    }
+
 
     public void initialize() throws IOException {
-        salesDateField.setText(Config.getCurrentDate());
+        checkDay();
         Countshift();
         searchField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
