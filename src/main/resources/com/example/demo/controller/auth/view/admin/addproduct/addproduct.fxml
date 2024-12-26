@@ -43,6 +43,7 @@
                     <TableColumn fx:id="priceColumn" prefWidth="122.4" text="Giá"/>
                     <TableColumn fx:id="dateColumn" prefWidth="123.2" text="Ngày"/>
                     <TableColumn fx:id="discountColumn" prefWidth="109.6" text="Giảm giá"/>
+                    <TableColumn fx:id="isNewColumn" prefWidth="109.6" text="Mới"/>
                     <TableColumn fx:id="descriptionColumn" prefWidth="270.4" text="Code"/>
                 </columns>
             </TableView>

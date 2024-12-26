@@ -1,28 +1,31 @@
 package com.example.demo.model;
-
 import javafx.beans.property.*;
-
-import javax.swing.text.html.ImageView;
 
 public class ProductSearch {
     private IntegerProperty stt;
     private StringProperty tenSanPham;
     private StringProperty loai;
     private DoubleProperty gia;
+    private StringProperty size;
     private IntegerProperty soLuong;
     private DoubleProperty chietKhau;
     private DoubleProperty thanhTien;
-    private String image;;
+    private String image;
+    private IntegerProperty variantId;
 
-    public ProductSearch(int stt, String tenSanPham, String image, String loai, double gia, int soLuong, double chietKhau, double thanhTien) {
+
+    public ProductSearch(int stt, String tenSanPham, String image, String loai, double gia, int soLuong, double chietKhau, double thanhTien, String size, int vId) {
         this.stt = new SimpleIntegerProperty(stt);
         this.tenSanPham = new SimpleStringProperty(tenSanPham);
         this.loai = new SimpleStringProperty(loai);
+        this.size = new SimpleStringProperty(size);
         this.gia = new SimpleDoubleProperty(gia);
         this.soLuong = new SimpleIntegerProperty(soLuong);
         this.chietKhau = new SimpleDoubleProperty(chietKhau);
         this.thanhTien = new SimpleDoubleProperty(thanhTien);
         this.image = image;
+        this.variantId = new SimpleIntegerProperty(vId);
+
     }
 
     public String getImage() {
@@ -48,6 +51,14 @@ public class ProductSearch {
         this.stt.set(stt);
     }
 
+    public IntegerProperty variantIdProperty() {
+        return variantId;
+    }
+
+    public void setVariantId(int id) {
+        this.variantId.set(id);
+    }
+
     public String getTenSanPham() {
         return tenSanPham.get();
     }
@@ -67,6 +78,16 @@ public class ProductSearch {
     public StringProperty loaiProperty() {
         return loai;
     }
+
+
+    public String getSize() {
+        return size.get();
+    }
+
+    public StringProperty sizeProperty() {
+        return size;
+    }
+
 
     public void setLoai(String loai) {
         this.loai.set(loai);

@@ -40,13 +40,14 @@
                                     <TableView fx:id="productTable" layoutY="53.0" prefHeight="678.0" prefWidth="1008.0" stylesheets="@../../../../../styleCss/sales.css">
                                       <columns>
                                         <TableColumn fx:id="colStt" prefWidth="48.80001354217529" text="STT" />
-                                        <TableColumn fx:id="colTenSanPham" minWidth="0.0" prefWidth="259.20004653930664" text="Tên sản phẩm" />
+                                        <TableColumn fx:id="colTenSanPham" minWidth="0.0" prefWidth="100" text="Tên sản phẩm" />
                                           <TableColumn fx:id="colImage" prefWidth="173.5999755859375" text="Hình Ảnh" />
-                                          <TableColumn fx:id="colLoai" minWidth="0.0" prefWidth="54.4000244140625" text="Loại" />
+                                         <TableColumn fx:id="colLoai" minWidth="0.0" prefWidth="54.4000244140625" text="Loại" />
+                                         <TableColumn fx:id="colSize" minWidth="0.0" prefWidth="54.4000244140625" text="Size" />
                                           <TableColumn fx:id="colGia" prefWidth="115.20001220703125" text="Giá" />
                                           <TableColumn fx:id="colSoLuong" minWidth="8.79998779296875" prefWidth="59.199951171875" text="Số lượng" />
                                           <TableColumn fx:id="colChietKhau" minWidth="8.79998779296875" prefWidth="72.800048828125" text="Chiết khấu" />
-                                          <TableColumn fx:id="colThanhTien" minWidth="0.0" prefWidth="220.0" text="Thành tiền" />
+                                         <TableColumn fx:id="colThanhTien" minWidth="0.0" prefWidth="220.0" text="Thành tiền" />
                                       </columns>
                                     </TableView>
                                     <Button fx:id="searchButton" layoutX="501.0" layoutY="10.0" mnemonicParsing="false" onAction="#onSearch" prefHeight="29.0" prefWidth="54.0" stylesheets="@../../../../../styleCss/sales.css" text="Tìm">

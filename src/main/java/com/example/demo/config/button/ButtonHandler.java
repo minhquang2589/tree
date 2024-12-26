@@ -33,7 +33,6 @@ public class ButtonHandler {
 
 
     public void handleBack(ActionEvent actionEvent) throws SQLException {
-        System.out.println("nút trở la được nhấn!");
         Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         Scene previousScene = (Scene) stage.getUserData();
         if (previousScene != null) {

@@ -1,15 +1,11 @@
 package com.example.demo.controller.admin.addproduct;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import com.example.demo.DAO.CategoryDAO;
-import com.example.demo.DAO.ProductDAO;
-import com.example.demo.DAO.SizeDAO;
-import com.example.demo.DAO.VariantDAO;
+
+import com.example.demo.DAO.*;
 import com.example.demo.Utils.Config;
-import com.example.demo.model.Category;
-import com.example.demo.model.Product;
-import com.example.demo.model.Size;
-import com.example.demo.model.SizeQuantity;
+import com.example.demo.model.*;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -20,7 +16,6 @@ import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import static com.example.demo.Utils.Config.hashCodeSHA;
 import static com.example.demo.Utils.Modal.showAlert;
 
@@ -31,11 +26,18 @@ public class AddProductTestController {
     private final List<SizeQuantity> sizeQuantities = new ArrayList<>();
     @FXML
     public VBox sizesVBox;
-
+    @FXML
+    public CheckBox isNewCheckBox;
+    @FXML
+    public TextField discountQuantityField;
+    @FXML
+    public TextField discountPercentageField;
+    @FXML
+    public DatePicker startDatePicker;
+    @FXML
+    public DatePicker endDatePicker;
     @FXML
     private TextField nameField;
-    @FXML
-    private TextField priceField;
     @FXML
     private TextArea descriptionField;
     @FXML
@@ -62,13 +64,17 @@ public class AddProductTestController {
 
     @FXML
     private void handleAddProduct() {
-        System.out.println(sizeQuantities);
         String productName = nameField.getText();
-        String priceText = priceField.getText();
         String description = descriptionField.getText();
         String selectedCategory = categoryField.getText();
+        boolean isNew = isNewCheckBox.isSelected();
 
-        if (productName.isEmpty() || priceText.isEmpty() || description.isEmpty() || selectedCategory == null || selectedCategory.isEmpty()) {
+        double discountPercentage = Double.parseDouble(discountPercentageField.getText());
+        int discountQuantity = Integer.parseInt(discountQuantityField.getText());
+        LocalDate startDate = startDatePicker.getValue();
+        LocalDate endDate = endDatePicker.getValue();
+
+        if (productName.isEmpty() || description.isEmpty() || selectedCategory == null || selectedCategory.isEmpty()) {
             showAlert("All fields must be filled!");
             return;
         }
@@ -82,26 +88,28 @@ public class AddProductTestController {
 
             int categoryId = selectedCategoryObj.getCategoryId();
 
-            Product newProduct = new Product(productName, description, categoryId);
+            Product newProduct = new Product(productName, description, categoryId, isNew);
+            Discount newDiscount = new Discount( discountPercentage,discountQuantity,discountQuantity,startDate,endDate);
 
             productDAO.addProduct(newProduct);
+            DiscountDAO.addDiscount(newDiscount);
 
             int productId = newProduct.getProductId();
             productDAO.addProductImages(productId, images);
-
             for (SizeQuantity sizeQuantity : sizeQuantities) {
                 Size size = sizeQuantity.getSize();
                 int quantity = sizeQuantity.getQuantity();
+                int price = sizeQuantity.getPrice();
                 Size existingSize = sizeDao.getSizeByName(size.getSize());
                 String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMddHHmm"));
                 String uniqueCode = hashCodeSHA(size.getSize() + quantity + timestamp);
 
                 if (existingSize != null) {
-                    variantDAO.addProductVariant(productId, existingSize.getSizeId(),999000, quantity, uniqueCode);
+                    variantDAO.addProductVariant(productId, existingSize.getSizeId(), price, quantity, uniqueCode, newDiscount.getDiscountId());
                 } else {
                     int newSizeId = sizeDao.addSize(size);
                     if (newSizeId != -1) {
-                        variantDAO.addProductVariant(productId, newSizeId, quantity,999000, uniqueCode);
+                        variantDAO.addProductVariant(productId, newSizeId, price, quantity, uniqueCode,newDiscount.getDiscountId());
                     } else {
                         showAlert("Error adding new size: " + size.getSize());
                         return;
@@ -123,52 +131,81 @@ public class AddProductTestController {
         newSizeInputField.setPrefWidth(150);
 
         TextField newQuantityInputField = new TextField();
+        TextField newPriceInputField = new TextField();
         newQuantityInputField.setPromptText("Quantity");
         newQuantityInputField.setPrefWidth(150);
+
+        newPriceInputField.setPromptText("Price");
+        newPriceInputField.setPrefWidth(150);
 
         Button deleteButton = new Button("Delete");
         deleteButton.setOnAction(event -> {
             sizesVBox.getChildren().remove(newSizeRow);
-            sizeQuantities.removeIf(sizeQuantity -> sizeQuantity.getSize().getSize().equals(newSizeInputField.getText())); // Remove from sizeQuantities list
+            sizeQuantities.removeIf(sizeQuantity ->
+                    sizeQuantity.getSize().getSize().equals(newSizeInputField.getText()));
             updateSizeQuantitiesView();
         });
 
-        newSizeRow.getChildren().addAll(newSizeInputField, newQuantityInputField, deleteButton);
+        newSizeRow.getChildren().addAll(newSizeInputField, newQuantityInputField, newPriceInputField, deleteButton);
 
         sizesVBox.getChildren().addFirst(newSizeRow);
-
         newQuantityInputField.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) {
-                String sizeText = newSizeInputField.getText();
-                String quantityText = newQuantityInputField.getText();
-
-                if (!sizeText.isEmpty() && !quantityText.isEmpty()) {
-                    try {
-                        int quantity = Integer.parseInt(quantityText);
-                        Size size = new Size(0, sizeText, "");
-                        SizeQuantity sizeQuantity = new SizeQuantity(size, quantity);
-
-                        sizeQuantities.add(sizeQuantity);
-                        newSizeInputField.clear();
-                        newQuantityInputField.clear();
-                        updateSizeQuantitiesView();
-                    } catch (NumberFormatException e) {
-                        showAlert("Invalid quantity entered.");
-                    }
-                } else {
-                    showAlert("Please enter both size and quantity.");
-                }
+                addSizeQuantity(newSizeInputField, newQuantityInputField, newPriceInputField);
             }
         });
+
+        newPriceInputField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                addSizeQuantity(newSizeInputField, newQuantityInputField, newPriceInputField);
+            }
+        });
+    }
+
+    private void addSizeQuantity(TextField sizeField, TextField quantityField, TextField priceField) {
+        String sizeText = sizeField.getText();
+        String quantityText = quantityField.getText();
+        String priceText = priceField.getText();
+
+        if (!sizeText.isEmpty() && !quantityText.isEmpty() && !priceText.isEmpty()) {
+            try {
+                int quantity = Integer.parseInt(quantityText);
+                int price = Integer.parseInt(priceText);
+
+                Size existingSize = sizeQuantities.stream()
+                        .map(SizeQuantity::getSize)
+                        .filter(size -> size.getSize().equals(sizeText))
+                        .findFirst()
+                        .orElse(null);
+
+                if (existingSize != null) {
+                    sizeQuantities.removeIf(sq -> sq.getSize().getSize().equals(sizeText));
+                    SizeQuantity updatedSizeQuantity = new SizeQuantity(existingSize, quantity, price);
+                    sizeQuantities.add(updatedSizeQuantity);
+                } else {
+                    Size newSize = new Size(0, sizeText, "");
+                    sizeQuantities.add(new SizeQuantity(newSize, quantity, price));
+                }
+
+                sizeField.clear();
+                quantityField.clear();
+                priceField.clear();
+                updateSizeQuantitiesView();
+            } catch (NumberFormatException e) {
+                showAlert("Invalid quantity or price entered.");
+            }
+        } else {
+            showAlert("Please enter size, quantity, and price.");
+        }
     }
 
     private void updateSizeQuantitiesView() {
         sizesVBox.getChildren().clear();
         for (SizeQuantity sizeQuantity : sizeQuantities) {
             HBox sizeRow = new HBox(10);
-
             Label sizeLabel = new Label("Size: " + sizeQuantity.getSize().getSize());
             Label quantityLabel = new Label("Quantity: " + sizeQuantity.getQuantity());
+            Label priceLabel = new Label("Price: " + sizeQuantity.getPrice());
             Button deleteButton = new Button("Delete");
 
             deleteButton.setOnAction(event -> {
@@ -176,9 +213,10 @@ public class AddProductTestController {
                 updateSizeQuantitiesView();
             });
 
-            sizeRow.getChildren().addAll(sizeLabel, quantityLabel, deleteButton);
+            sizeRow.getChildren().addAll(sizeLabel, quantityLabel, priceLabel, deleteButton);
             sizesVBox.getChildren().add(sizeRow);
         }
     }
+
 
 }

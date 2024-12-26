@@ -23,11 +23,11 @@ public class Product {
     private java.util.Date createdAt;
 
 
-    public Product(String name, String description, int category) {
+    public Product(String name, String description, int category, boolean isNew) {
         this.name = name;
         this.description = description;
         this.category = category;
-        this.isNew = false;
+        this.isNew = isNew;
     }
 
 

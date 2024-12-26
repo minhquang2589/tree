@@ -14,7 +14,6 @@ import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-
 import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
@@ -49,6 +48,9 @@ public class AddProductController {
     private TableColumn<ProductView, String> discountColumn;
 
     @FXML
+    private TableColumn<ProductView, String> isNewColumn;
+
+    @FXML
     private TableColumn<ProductView, String> descriptionColumn;
 
     private ObservableList<ProductView> productList;
@@ -63,6 +65,7 @@ public class AddProductController {
         priceColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asObject());
         dateColumn.setCellValueFactory(cellData -> cellData.getValue().updatedDateProperty());
         discountColumn.setCellValueFactory(cellData -> cellData.getValue().discountStatusProperty());
+        isNewColumn.setCellValueFactory(cellData -> cellData.getValue().isNewProperty());
         descriptionColumn.setCellValueFactory(cellData -> cellData.getValue().descriptionProperty());
         sttColumn.setCellValueFactory(cellData ->
                 new ReadOnlyObjectWrapper<>(productTableView.getItems().indexOf(cellData.getValue()) + 1).asString()
@@ -126,10 +129,12 @@ public class AddProductController {
                     double price = resultSet.getDouble("product_price");
                     String updatedDate = resultSet.getString("updated_date");
                     int discountStatus = resultSet.getInt("discount_status");
+                    int isNewStatus = resultSet.getInt("isNew");
                     String description = resultSet.getString("product_code");
                     String discount = discountStatus == 1 ? "Có" : "Không";
+                    String isNew = isNewStatus == 1 ? "Có" : "Không";
                     String productImage = resultSet.getString("product_image");
-                    ProductView product = new ProductView(productName, size, stockQuantity, price, updatedDate, discount, description, productImage);
+                    ProductView product = new ProductView(productName, size, stockQuantity, price, updatedDate, discount, description, productImage,isNew);
                     productList.add(product);
                 }
                 productTableView.setItems(productList);
