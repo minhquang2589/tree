@@ -44,6 +44,25 @@ public class StartTheDayController {
         }
     }
 
+    public boolean check_day_end() throws IOException {
+        Connection connection = connect();
+        String checkQuery = "SELECT COUNT(*) FROM shifts WHERE DATE(start_date) = '" + formattedDateTime + "' AND end_date is null";
+        Statement checkStatement = null;
+        ResultSet resultSet = null;
+        try {
+            checkStatement = connection.createStatement();
+            resultSet = checkStatement.executeQuery(checkQuery);
+            if (resultSet.next() && resultSet.getInt(1) > 0) {
+                return false;
+            }
+            else {
+                return true;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void startday() throws IOException {
         Connection connection = connect();
 

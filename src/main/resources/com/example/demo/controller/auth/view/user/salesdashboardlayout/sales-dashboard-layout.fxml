@@ -86,8 +86,8 @@
                         <Button layoutX="254.0" layoutY="383.8" mnemonicParsing="false" onAction="#onClear" prefHeight="80.0" prefWidth="75.0" text="Xoá" AnchorPane.bottomAnchor="177.8" />
                         <Button layoutX="254.0" layoutY="300.6" mnemonicParsing="false" onAction="#onCheckPrice" prefHeight="80.0" prefWidth="75.0" text="Tra giá" AnchorPane.bottomAnchor="261.0" />
                         <Button layoutX="4.0" layoutY="50.0" mnemonicParsing="false" onAction="#onEndDay" prefHeight="80.0" prefWidth="80.0" text="Kết thúc ngày" textAlignment="CENTER" wrapText="true" AnchorPane.bottomAnchor="512.0" AnchorPane.leftAnchor="5.0" />
-                        <Button layoutX="88.0" layoutY="217.40000000000003" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="Số lượng" AnchorPane.bottomAnchor="344.2" />
-                        <Button layoutX="171.0" layoutY="217.40000000000003" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="Huỷ dòng" AnchorPane.bottomAnchor="344.2" />
+                        <Button fx:id="btnEditQuantity" layoutX="88.0" layoutY="217.40000000000003" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="Số lượng" AnchorPane.bottomAnchor="344.2" />
+                        <Button fx:id="btnDeleteRow" layoutX="171.0" layoutY="217.40000000000003" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="Huỷ dòng" AnchorPane.bottomAnchor="344.2" />
                         <Button ellipsisString="" layoutX="254.0" layoutY="217.40000000000003" mnemonicParsing="false" onAction="#onOrderList" prefHeight="80.0" prefWidth="75.0" text="Danh sách" textAlignment="CENTER" wrapText="true" AnchorPane.bottomAnchor="344.2" />
                         <Button onAction="#onHoldOrder" layoutX="4.0" layoutY="133.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="Treo phiếu" AnchorPane.bottomAnchor="428.0" />
                         <Button onAction="#onRecallOrder" layoutX="88.0" layoutY="133.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="80.0" text="Gọi phiếu" AnchorPane.bottomAnchor="428.0" />

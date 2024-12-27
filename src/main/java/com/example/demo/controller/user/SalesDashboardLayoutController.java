@@ -1,36 +1,45 @@
 package com.example.demo.controller.user;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+
 import com.example.demo.Utils.Config;
+import static com.example.demo.Utils.Config.formatCurrencyVND;
 import com.example.demo.Utils.Modal;
+import static com.example.demo.Utils.Modal.showAlert;
 import com.example.demo.Utils.PreferencesUtils;
 import com.example.demo.config.MySQLConnection;
+import static com.example.demo.config.button.ButtonHandler.handleNavigator;
+import com.example.demo.controller.user.starttheday.StartTheDayController;
 import com.example.demo.model.ProductSearch;
 import com.example.demo.model.Shift;
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.stage.Stage;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.*;
-import java.util.List;
-import java.util.HashMap;
-
-import static com.example.demo.Utils.Config.calculateCartTotal;
-import static com.example.demo.Utils.Config.formatCurrencyVND;
-import static com.example.demo.Utils.Modal.showAlert;
-import static com.example.demo.config.button.ButtonHandler.handleNavigator;
-
-import com.example.demo.controller.user.starttheday.StartTheDayController;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class SalesDashboardLayoutController {
 
@@ -88,6 +97,83 @@ public class SalesDashboardLayoutController {
 
     private final HashMap<String, ObservableList<ProductSearch>> pendingOrders = new HashMap<>();
     private int orderCounter = 1;
+    @FXML
+    private Button btnEditQuantity;
+    @FXML
+    private Button btnDeleteRow;
+
+    private void handleDelete() {
+        ProductSearch selectedProduct = productTable.getSelectionModel().getSelectedItem();
+        if (selectedProduct == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Chưa chọn sản phẩm");
+            alert.setHeaderText(null);
+            alert.setContentText("Vui lòng chọn một sản phẩm để huỷ dòng.");
+            alert.showAndWait();
+            return;
+        }
+        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmAlert.setTitle("Xác Nhận");
+        confirmAlert.setHeaderText("Bạn có chắc chắn muốn huỷ sản phẩm này?");
+        confirmAlert.setContentText("Sản phẩm: " + selectedProduct.getTenSanPham());
+        confirmAlert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                productTable.getItems().remove(selectedProduct);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Thông Báo");
+                alert.setHeaderText(null);
+                alert.setContentText("Sản phẩm đã được huỷ.");
+                alert.showAndWait();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Thông Báo");
+                alert.setHeaderText(null);
+                alert.setContentText("Sản phẩm không bị Huỷ.");
+                alert.showAndWait();
+            }
+        });
+    }
+
+    private void handleEditQuantity() {
+        ProductSearch selectedProduct = productTable.getSelectionModel().getSelectedItem();
+        if (selectedProduct == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Chưa chọn sản phẩm");
+            alert.setHeaderText(null);
+            alert.setContentText("Vui lòng chọn một sản phẩm để chỉnh sửa số lượng.");
+            alert.showAndWait();
+            return;
+        }
+        TextInputDialog dialog = new TextInputDialog(String.valueOf(selectedProduct.getSoLuong()));
+        dialog.setTitle("Chỉnh Sửa Số Lượng");
+        dialog.setHeaderText("Sửa số lượng cho sản phẩm: " + selectedProduct.getTenSanPham());
+        dialog.setContentText("Nhập số lượng mới:");
+        dialog.showAndWait().ifPresent(input -> {
+            try {
+                int newQuantity = Integer.parseInt(input.trim());
+                if (newQuantity < 0) {
+                    throw new NumberFormatException("Số lượng không thể âm");
+                }
+                selectedProduct.setSoLuong(newQuantity);
+                double newThanhTien = selectedProduct.getGia() * newQuantity * (1 - selectedProduct.getChietKhau() / 100);
+                selectedProduct.setThanhTien(newThanhTien);
+                productTable.refresh();
+            } catch (NumberFormatException ex) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Lỗi Nhập Liệu");
+                alert.setHeaderText("Dữ liệu không hợp lệ");
+                alert.setContentText("Vui lòng nhập một số nguyên dương hợp lệ cho số lượng.");
+                alert.showAndWait();
+            } catch (Exception ex) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Lỗi Hệ Thống");
+                alert.setHeaderText("Đã xảy ra lỗi khi cập nhật dữ liệu");
+                alert.setContentText("Chi tiết lỗi: " + ex.getMessage());
+                alert.showAndWait();
+            }
+        });
+    }
+
 
     public void initialize() throws IOException {
         salesDateField.setText(Config.getCurrentDate());
@@ -374,14 +460,19 @@ public class SalesDashboardLayoutController {
     public void onStartTheDay(ActionEvent actionEvent) throws IOException {
         StartTheDayController startTheDayController = new StartTheDayController();
         if (startTheDayController.check_day()) {
-            Modal.showModal("/com/example/demo/controller/auth/view/user/starttheday/starttheday.fxml", "Bắt đầu ngày", null);
+            Modal.showModal("/com/example/demo/controller/auth/view/user/starttheday/starttheday.fxml", "Bắt đầu ngày", this::checkDay);
         } else {
             showAlert("Đã có người check in");
         }
     }
 
     public void onEndDay(ActionEvent actionEvent) throws IOException {
-        Modal.showModal("/com/example/demo/controller/auth/view/user/endday/endday.fxml", "Kết thúc ngày", this::Countshift);
+        StartTheDayController startTheDayController = new StartTheDayController();
+        if (!startTheDayController.check_day()) {
+            Modal.showModal("/com/example/demo/controller/auth/view/user/endday/endday.fxml", "Kết thúc ngày", this::updateDate);
+        }else {
+            Modal.showAlert("Chưa bắt đầu ngày");
+        }
     }
 
     public void onExitApplication(ActionEvent event) {
@@ -424,6 +515,24 @@ public class SalesDashboardLayoutController {
         } else {
             saleshiftnumber.setText("0");
         }
+    }
+
+    public void checkDay() {
+        StartTheDayController startTheDayController = new StartTheDayController();
+        try {
+            if (!startTheDayController.check_day() && !startTheDayController.check_day_end()) {
+                salesDateField.setText(Config.getCurrentDate());
+            } else {
+                salesDateField.setText("đã đóng");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateDate(){
+        Countshift();
+        checkDay();
     }
 
 
