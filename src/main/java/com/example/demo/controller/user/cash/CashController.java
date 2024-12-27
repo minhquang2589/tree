@@ -1,21 +1,20 @@
 package com.example.demo.controller.user.cash;
 
+import com.example.demo.classInterFace.initDataInterface;
+import com.example.demo.model.ProductSearch;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
-import javafx.stage.Stage;
 
-import java.io.IOException;
+import java.util.Map;
 
+import static com.example.demo.Utils.Config.calculateCartTotal;
+import static com.example.demo.Utils.Config.formatCurrencyVND;
 import static com.example.demo.Utils.Modal.closeModal;
 
-public class CashController {
-
-    @FXML
-    private TextField textField;
+public class CashController implements initDataInterface<ObservableList<ProductSearch>> {
     @FXML
     private TextField textField1;
     @FXML
@@ -53,12 +52,21 @@ public class CashController {
     @FXML
     private Button buttonC;
 
+    Map<String, Double> cart = null;
+
+
+    @Override
+    public void initData(ObservableList<ProductSearch> data) {
+        cart = calculateCartTotal(data, null);
+        textField1.setText(formatCurrencyVND(cart.get("totalAmount")));
+        textField2.setText(textField1.getText());
+    }
+
+
     @FXML
     public void initialize() {
-        textField.setOnMouseClicked(e -> currentTextField = textField);
         textField1.setOnMouseClicked(e -> currentTextField = textField1);
         textField2.setOnMouseClicked(e -> currentTextField = textField2);
-        textField.setFocusTraversable(false);
         textField1.setFocusTraversable(false);
         textField2.setFocusTraversable(false);
         button0.setFocusTraversable(false);
@@ -77,32 +85,27 @@ public class CashController {
         buttonC.setFocusTraversable(false);
         buttonOK.setFocusTraversable(false);
     }
+
     public void handleButtonPress(ActionEvent event) {
         String buttonText = ((javafx.scene.control.Button) event.getSource()).getText();
         if (currentTextField != null) {
             currentTextField.appendText(buttonText);
         }
     }
+
     public void handleBackspace(ActionEvent event) {
         if (currentTextField != null && currentTextField.getLength() > 0) {
             currentTextField.deleteText(currentTextField.getLength() - 1, currentTextField.getLength());
         }
     }
+
     public void handleClear(ActionEvent event) {
-        if (currentTextField != null) {
-            currentTextField.clear();
-        }
+        currentTextField.clear();
     }
+
     public void handleCancel(ActionEvent event) {
         closeModal();
-//        try {
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/controller/auth/view/user/PaymentProcessing/PaymentProcessing.fxml"));
-//            Scene previousScene = new Scene(loader.load());
-//            Stage currentStage = (Stage) textField.getScene().getWindow();
-//            currentStage.setScene(previousScene);
-//            currentStage.show();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
     }
+
+
 }

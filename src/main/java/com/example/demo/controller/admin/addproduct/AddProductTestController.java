@@ -1,7 +1,9 @@
 package com.example.demo.controller.admin.addproduct;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
 import com.example.demo.DAO.*;
 import com.example.demo.Utils.Config;
 import com.example.demo.model.*;
@@ -11,10 +13,12 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
 import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 import static com.example.demo.Utils.Config.hashCodeSHA;
 import static com.example.demo.Utils.Modal.showAlert;
 
@@ -66,9 +70,12 @@ public class AddProductTestController {
         String description = descriptionField.getText();
         String selectedCategory = categoryField.getText();
         boolean isNew = isNewCheckBox.isSelected();
+        String finalDiscountId = null;
 
-        double discountPercentage = Double.parseDouble(discountPercentageField.getText());
-        int discountQuantity = Integer.parseInt(discountQuantityField.getText());
+        double discountPercentage = (discountPercentageField.getText() != null && !discountPercentageField.getText().isEmpty())
+                ? Double.parseDouble(discountPercentageField.getText())
+                : 0.0;
+        int discountQuantity = (discountQuantityField.getText() != null && !discountQuantityField.getText().isEmpty()) ? Integer.parseInt(discountQuantityField.getText()) : 0;
         LocalDate startDate = startDatePicker.getValue();
         LocalDate endDate = endDatePicker.getValue();
 
@@ -87,10 +94,20 @@ public class AddProductTestController {
             int categoryId = selectedCategoryObj.getCategoryId();
 
             Product newProduct = new Product(productName, description, categoryId, isNew);
-            Discount newDiscount = new Discount( discountPercentage,discountQuantity,discountQuantity,startDate,endDate);
-
             productDAO.addProduct(newProduct);
-            DiscountDAO.addDiscount(newDiscount);
+            if (discountPercentage > 0 && discountQuantity > 0) {
+                if (startDate == null || endDate == null) {
+                    showAlert("Xin vui lòng chọn nhày bắt đầu và ngày kết thúc giảm giá cho sản phẩm này!");
+                    return;
+                } else if (!endDate.isAfter(startDate)) {
+                    showAlert("Ngày kết thúc phải lớn hơn ngày bắt đầu. Vui lòng chọn lại!");
+                    return;
+                } else {
+                    Discount newDiscount = new Discount(discountPercentage, discountQuantity, discountQuantity, startDate, endDate);
+                    int discountId = DiscountDAO.addDiscount(newDiscount);
+                    finalDiscountId = (discountId != -1) ? Integer.toString(discountId) : null;
+                }
+            }
 
             int productId = newProduct.getProductId();
             productDAO.addProductImages(productId, images);
@@ -103,11 +120,11 @@ public class AddProductTestController {
                 String uniqueCode = hashCodeSHA(size.getSize() + quantity + timestamp);
 
                 if (existingSize != null) {
-                    variantDAO.addProductVariant(productId, existingSize.getSizeId(), price, quantity, uniqueCode, newDiscount.getDiscountId());
+                    variantDAO.addProductVariant(productId, existingSize.getSizeId(), price, quantity, uniqueCode, finalDiscountId);
                 } else {
                     int newSizeId = sizeDao.addSize(size);
                     if (newSizeId != -1) {
-                        variantDAO.addProductVariant(productId, newSizeId, price, quantity, uniqueCode,newDiscount.getDiscountId());
+                        variantDAO.addProductVariant(productId, newSizeId, price, quantity, uniqueCode, finalDiscountId);
                     } else {
                         showAlert("Error adding new size: " + size.getSize());
                         return;

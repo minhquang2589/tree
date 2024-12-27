@@ -24,6 +24,7 @@ import java.sql.*;
 import java.util.List;
 import java.util.HashMap;
 
+import static com.example.demo.Utils.Config.calculateCartTotal;
 import static com.example.demo.Utils.Config.formatCurrencyVND;
 import static com.example.demo.Utils.Modal.showAlert;
 import static com.example.demo.config.button.ButtonHandler.handleNavigator;
@@ -82,8 +83,37 @@ public class SalesDashboardLayoutController {
     @FXML
     private TextField salesDateField;
 
+    @FXML
+    private TextField saleshiftnumber;
+
     private final HashMap<String, ObservableList<ProductSearch>> pendingOrders = new HashMap<>();
     private int orderCounter = 1;
+
+    public void initialize() throws IOException {
+        salesDateField.setText(Config.getCurrentDate());
+        Countshift();
+        searchField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                try {
+                    onSearch(null);
+                } catch (SQLException | FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+
+    @FXML
+    public void onPayment(ActionEvent actionEvent) throws IOException {
+        if (productList.isEmpty()) {
+            Modal.showAlert("Giỏ hàng hiện tại đang trống. Hãy thêm sản phẩm để thanh thoán!");
+        } else {
+            Modal.showModalWithData("/com/example/demo/controller/auth/view/user/paymentprocessing/paymentProcessing.fxml", "Chọn các hình thức thanh toán bằng cách bấm vào ô tương ứng.", productList, () -> {
+                System.out.println("payment Processing call back ");
+            });
+        }
+    }
 
     @FXML
     private void onHoldOrder(ActionEvent event) {
@@ -261,10 +291,17 @@ public class SalesDashboardLayoutController {
                     deleteButton.setOnAction(event -> {
                         ProductSearch product = getTableView().getItems().get(getIndex());
                         if (!productList.isEmpty() && product != null) {
-                            productList.remove(product);
-                            getTableView().refresh();
+                            showAlert(
+                                    "Xác nhận xoá",
+                                    "Bạn có chắc chắn muốn xoá sản phẩm này khỏi giỏ hàng không?",
+                                    Alert.AlertType.CONFIRMATION,
+                                    () -> {
+                                        productList.remove(product);
+                                        getTableView().refresh();
+                                    }, null
+                            );
                         } else {
-                            showAlert("KHông thể xoá sản phẩm. vui lòng thử lại sau!");
+                            showAlert("Không thể xoá sản phẩm. vui lòng thử lại sau!");
                         }
                     });
                 }
@@ -279,10 +316,8 @@ public class SalesDashboardLayoutController {
                     }
                 }
             });
-
             productTable.getColumns().add(colDelete);
         }
-
         productTable.setItems(productList);
     }
 
@@ -304,9 +339,6 @@ public class SalesDashboardLayoutController {
         }
     }
 
-    public void onPayment(ActionEvent actionEvent) throws IOException {
-        Modal.showModalWithData("/com/example/demo/controller/auth/view/user/paymentprocessing/paymentProcessing.fxml", "Chọn các hình thức thanh toán bằng cách bấm vào ô tương ứng.", productList,null);
-    }
 
     public void onOrderList(ActionEvent actionEvent) throws IOException {
         Modal.showModal("/com/example/demo/controller/auth/view/user/orderlist/order-list.fxml", "Danh sách đơn hàng", null);
@@ -382,8 +414,6 @@ public class SalesDashboardLayoutController {
         }
     }
 
-    @FXML
-    public TextField saleshiftnumber;
 
     @FXML
     public void Countshift() {
@@ -396,21 +426,6 @@ public class SalesDashboardLayoutController {
         }
     }
 
-
-    public void initialize() throws IOException {
-        salesDateField.setText(Config.getCurrentDate());
-        Countshift();
-        searchField.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                try {
-                    onSearch(null);
-                } catch (SQLException | FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-    }
 
     private ProductSearch checkProductIfExits(IntegerProperty variantId) {
         for (ProductSearch product : productList) {

@@ -1,10 +1,14 @@
 package com.example.demo.Utils;
 
+import com.example.demo.model.ProductSearch;
+import com.example.demo.model.Voucher;
+import javafx.collections.ObservableList;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -13,10 +17,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.Base64;
-import java.util.List;
-import java.util.Locale;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.nio.file.Path;
@@ -110,17 +111,40 @@ public class Config {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(value.getBytes(StandardCharsets.UTF_8));
-            return Base64.getUrlEncoder().withoutPadding().encodeToString(hash).substring(0, 8);
+            BigInteger number = new BigInteger(1, hash);
+            BigInteger prime = new BigInteger("100000000000");
+            BigInteger uniqueNumber = number.mod(prime);
+            return String.format("%012d", uniqueNumber);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
+
 
     public static String formatCurrencyVND(double amount) {
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
         symbols.setGroupingSeparator(',');
         DecimalFormat decimalFormat = new DecimalFormat("#,###", symbols);
         return decimalFormat.format(amount) + " ₫";
+    }
+
+    public static Map<String, Double> calculateCartTotal(ObservableList<ProductSearch> productList, Voucher voucher) {
+        Map<String, Double> cart = new HashMap<>();
+        double totalAmount = 0;
+        int totalQuantity = 0;
+
+        for (ProductSearch product : productList) {
+            double price = product.getGia();
+            int quantity = product.getSoLuong();
+            double discountPercentage = product.getChietKhau();
+            double productTotal = price * quantity * (1 - discountPercentage / 100);
+            totalAmount += productTotal;
+            totalQuantity += quantity;
+        }
+
+        cart.put("totalAmount", totalAmount);
+        cart.put("totalQuantity", (double) totalQuantity);
+        return cart;
     }
 
 }

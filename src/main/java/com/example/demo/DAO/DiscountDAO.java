@@ -2,12 +2,13 @@ package com.example.demo.DAO;
 
 import com.example.demo.config.MySQLConnection;
 import com.example.demo.model.Discount;
+
 import java.sql.*;
 
 public class DiscountDAO {
 
-    public static void addDiscount(Discount discount) throws SQLException {
-       Connection connection = MySQLConnection.connect();
+    public static int addDiscount(Discount discount) throws SQLException {
+        Connection connection = MySQLConnection.connect();
 
         String query = "INSERT INTO discounts (discount_percentage, discount_quantity, discount_remaining, start_date, end_date) VALUES (?, ?, ?, ?, ?)";
 
@@ -25,12 +26,14 @@ public class DiscountDAO {
                     if (generatedKeys.next()) {
                         int generatedId = generatedKeys.getInt(1);
                         discount.setDiscountId(generatedId);
+                        return generatedId;
                     }
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new SQLException("Error adding discount to the database", e);
+            return -1;
         }
+        return -1;
     }
 }

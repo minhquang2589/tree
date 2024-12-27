@@ -41,7 +41,7 @@
                                       <columns>
                                         <TableColumn fx:id="colStt" prefWidth="48.80001354217529" text="STT" />
                                         <TableColumn fx:id="colTenSanPham" minWidth="0.0" prefWidth="100" text="Tên sản phẩm" />
-                                          <TableColumn fx:id="colImage" prefWidth="173.5999755859375" text="Hình Ảnh" />
+                                          <TableColumn fx:id="colImage" prefWidth="120" maxWidth="120" text="Hình Ảnh" />
                                          <TableColumn fx:id="colLoai" minWidth="0.0" prefWidth="54.4000244140625" text="Loại" />
                                          <TableColumn fx:id="colSize" minWidth="0.0" prefWidth="54.4000244140625" text="Size" />
                                           <TableColumn fx:id="colGia" prefWidth="115.20001220703125" text="Giá" />

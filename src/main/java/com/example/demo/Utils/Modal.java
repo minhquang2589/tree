@@ -1,6 +1,6 @@
 package com.example.demo.Utils;
 
-import com.example.demo.classInterFace.setDataInterface;
+import com.example.demo.classInterFace.initDataInterface;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -85,9 +85,9 @@ public class Modal {
         FXMLLoader loader = new FXMLLoader(Modal.class.getResource(fxmlPath));
         Parent root = loader.load();
         Object controller = loader.getController();
-        if (controller instanceof setDataInterface<?>) {
-            setDataInterface<T> dataController = (setDataInterface<T>) controller;
-            dataController.setData(data);
+        if (controller instanceof initDataInterface<?>) {
+            initDataInterface<T> dataController = (initDataInterface<T>) controller;
+            dataController.initData(data);
         }
 
         Stage stage = new Stage();

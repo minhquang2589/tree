@@ -2,11 +2,14 @@ module com.example.demo {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
-    requires javafx.graphics;
-    requires java.desktop;
-    requires java.prefs;
     requires java.persistence;
     requires net.bytebuddy;
+    requires java.xml.bind;
+    requires com.google.zxing;
+    requires javafx.swing;
+    requires com.google.zxing.javase;
+    requires java.prefs;
+    requires java.net.http;
 
     opens com.example.demo to javafx.fxml;
     exports com.example.demo;

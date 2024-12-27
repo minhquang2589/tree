@@ -1,33 +1,48 @@
 package com.example.demo.controller.user.paymentprocessing;
-import com.example.demo.classInterFace.setDataInterface;
+
+import com.example.demo.classInterFace.initDataInterface;
 import com.example.demo.model.ProductSearch;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-
+import javafx.scene.control.TextField;
 import java.io.IOException;
-
+import java.util.Map;
+import static com.example.demo.Utils.Config.calculateCartTotal;
+import static com.example.demo.Utils.Config.formatCurrencyVND;
 import static com.example.demo.Utils.Modal.showModalWithData;
 
-public class PaymentProcessingController implements setDataInterface<ObservableList<ProductSearch>> {
+public class PaymentProcessingController implements initDataInterface<ObservableList<ProductSearch>> {
+    @FXML
+    public TextField totalPrice;
+    @FXML
+    public TextField totalQuantity;
+    @FXML
+    private ObservableList<ProductSearch> productList = FXCollections.observableArrayList();
+    Map<String, Double> cart = null;
 
     @Override
-    public void setData(ObservableList<ProductSearch> data) {
-        System.out.println(data);
+    public void initData(ObservableList<ProductSearch> data) {
+        cart = calculateCartTotal(data, null);
+        totalPrice.setText(formatCurrencyVND(cart.get("totalAmount")));
+        totalQuantity.setText(formatCurrencyVND(cart.get("totalQuantity")) + "Sản phẩm");
+        productList = data;
     }
+
 
     @FXML
     public void handleCashPayment(ActionEvent event) throws IOException {
 
-        showModalWithData("/com/example/demo/controller/auth/view/user/cash/cash-tt.fxml", "", null, () -> {
-            System.out.println("call back handle");
+        showModalWithData("/com/example/demo/controller/auth/view/user/cash/cash-tt.fxml", "Thanh toán tiền mặt", productList, () -> {
+            System.out.println("call back cash handle");
         });
     }
 
     @FXML
     private void handleTpayQrcode(ActionEvent event) throws IOException {
-        showModalWithData("/com/example/demo/controller/auth/view/user/pay/e-walletpayment.fxml", "", null, () -> {
-            System.out.println("call back handle QR Pay");
+        showModalWithData("/com/example/demo/controller/auth/view/user/pay/e-walletpayment.fxml", "Thanh toán QR code", productList, () -> {
+            System.out.println("call back QR handle");
         });
     }
 

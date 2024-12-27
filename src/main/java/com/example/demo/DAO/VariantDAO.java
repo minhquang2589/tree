@@ -13,7 +13,7 @@ public class VariantDAO {
         connection = MySQLConnection.connect();
     }
 
-    public void addProductVariant(int productId, int sizeId,int price, int quantity, String code, int discount_id) throws SQLException {
+    public void addProductVariant(int productId, int sizeId,int price, int quantity, String code, String discount_id) throws SQLException {
         String query = "INSERT INTO variants (product_id, size_id,price, quantity, code, discount_id) VALUES (?, ?, ?, ?, ?,?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setInt(1, productId);
@@ -21,7 +21,7 @@ public class VariantDAO {
             preparedStatement.setInt(3, price);
             preparedStatement.setInt(4, quantity);
             preparedStatement.setString(5, code);
-            preparedStatement.setInt(6, discount_id);
+            preparedStatement.setString(6, discount_id);
 
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows > 0) {

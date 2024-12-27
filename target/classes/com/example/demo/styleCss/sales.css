@@ -54,4 +54,10 @@
 -fx-border-radius: 8px 0 8px 0;
 }
 
+.table-cell {
+    -fx-alignment: CENTER;
+    -fx-padding: 5px;
+}
+
+
 

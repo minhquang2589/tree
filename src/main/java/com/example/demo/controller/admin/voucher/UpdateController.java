@@ -1,6 +1,6 @@
 package com.example.demo.controller.admin.voucher;
 import com.example.demo.classInterFace.ModalController;
-import com.example.demo.classInterFace.setDataInterface;
+import com.example.demo.classInterFace.initDataInterface;
 import com.example.demo.config.MySQLConnection;
 import com.example.demo.model.Voucher;
 import javafx.event.ActionEvent;
@@ -14,7 +14,7 @@ import java.time.LocalDate;
 
 import static com.example.demo.Utils.Modal.showAlert;
 
-public class UpdateController implements setDataInterface<Voucher>{
+public class UpdateController implements initDataInterface<Voucher> {
 
 
     @FXML
@@ -37,7 +37,7 @@ public class UpdateController implements setDataInterface<Voucher>{
     private Voucher selectedVoucher;
 
     @Override
-    public void setData(Voucher data) {
+    public void initData(Voucher data) {
         this.selectedVoucher = data;
         voucherCodeField.setText(data.getVoucherCode());
         voucherPercentageField.setText(String.valueOf(data.getVoucherPercentage()));
