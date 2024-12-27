@@ -81,14 +81,13 @@ public class Modal {
         }
     }
 
-    public static <T> void showModalWithData(String fxmlPath,  String title,T model,Runnable onCallback) throws IOException {
+    public static <T> void showModalWithData(String fxmlPath, String title, T data, Runnable onCallback) throws IOException {
         FXMLLoader loader = new FXMLLoader(Modal.class.getResource(fxmlPath));
         Parent root = loader.load();
-
         Object controller = loader.getController();
-        if (controller instanceof setDataInterface) {
+        if (controller instanceof setDataInterface<?>) {
             setDataInterface<T> dataController = (setDataInterface<T>) controller;
-            dataController.setData(model);
+            dataController.setData(data);
         }
 
         Stage stage = new Stage();
@@ -101,7 +100,9 @@ public class Modal {
                 onCallback.run();
             }
         });
+
         stage.show();
     }
+
 
 }

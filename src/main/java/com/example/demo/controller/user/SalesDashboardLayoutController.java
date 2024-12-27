@@ -305,7 +305,7 @@ public class SalesDashboardLayoutController {
     }
 
     public void onPayment(ActionEvent actionEvent) throws IOException {
-        Modal.showModal("/com/example/demo/controller/auth/view/user/paymentprocessing/paymentProcessing.fxml", "Chọn các hình thức thanh toán bằng cách bấm vào ô tương ứng.", null);
+        Modal.showModalWithData("/com/example/demo/controller/auth/view/user/paymentprocessing/paymentProcessing.fxml", "Chọn các hình thức thanh toán bằng cách bấm vào ô tương ứng.", productList,null);
     }
 
     public void onOrderList(ActionEvent actionEvent) throws IOException {

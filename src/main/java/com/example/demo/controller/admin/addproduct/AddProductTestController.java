@@ -2,7 +2,6 @@ package com.example.demo.controller.admin.addproduct;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
 import com.example.demo.DAO.*;
 import com.example.demo.Utils.Config;
 import com.example.demo.model.*;
@@ -46,7 +45,6 @@ public class AddProductTestController {
     private final CategoryDAO categoryDAO = new CategoryDAO();
     private final SizeDAO sizeDao = new SizeDAO();
     private final VariantDAO variantDAO = new VariantDAO();
-
     private final List<String> images = new ArrayList<>();
 
 
@@ -129,15 +127,12 @@ public class AddProductTestController {
         TextField newSizeInputField = new TextField();
         newSizeInputField.setPromptText("Size");
         newSizeInputField.setPrefWidth(150);
-
         TextField newQuantityInputField = new TextField();
         TextField newPriceInputField = new TextField();
         newQuantityInputField.setPromptText("Quantity");
         newQuantityInputField.setPrefWidth(150);
-
         newPriceInputField.setPromptText("Price");
         newPriceInputField.setPrefWidth(150);
-
         Button deleteButton = new Button("Delete");
         deleteButton.setOnAction(event -> {
             sizesVBox.getChildren().remove(newSizeRow);

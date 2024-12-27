@@ -10,6 +10,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import static com.example.demo.Utils.Modal.closeModal;
+
 public class CashController {
 
     @FXML
@@ -92,14 +94,15 @@ public class CashController {
         }
     }
     public void handleCancel(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/controller/auth/view/user/PaymentProcessing/PaymentProcessing.fxml"));
-            Scene previousScene = new Scene(loader.load());
-            Stage currentStage = (Stage) textField.getScene().getWindow();
-            currentStage.setScene(previousScene);
-            currentStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        closeModal();
+//        try {
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/controller/auth/view/user/PaymentProcessing/PaymentProcessing.fxml"));
+//            Scene previousScene = new Scene(loader.load());
+//            Stage currentStage = (Stage) textField.getScene().getWindow();
+//            currentStage.setScene(previousScene);
+//            currentStage.show();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 }
