@@ -82,6 +82,7 @@ public class Modal {
     }
 
     public static <T> void showModalWithData(String fxmlPath, String title, T data, Runnable onCallback) throws IOException {
+
         FXMLLoader loader = new FXMLLoader(Modal.class.getResource(fxmlPath));
         Parent root = loader.load();
         Object controller = loader.getController();
@@ -91,6 +92,7 @@ public class Modal {
         }
 
         Stage stage = new Stage();
+        currentModalStage = stage;
         stage.setResizable(true);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle(title);

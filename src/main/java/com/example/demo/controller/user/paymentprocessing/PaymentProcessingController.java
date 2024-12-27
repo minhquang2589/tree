@@ -1,5 +1,6 @@
 package com.example.demo.controller.user.paymentprocessing;
 
+import com.example.demo.Utils.Modal;
 import com.example.demo.classInterFace.initDataInterface;
 import com.example.demo.model.ProductSearch;
 import javafx.collections.FXCollections;
@@ -7,10 +8,13 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+
 import java.io.IOException;
 import java.util.Map;
+
 import static com.example.demo.Utils.Config.calculateCartTotal;
 import static com.example.demo.Utils.Config.formatCurrencyVND;
+import static com.example.demo.Utils.Modal.closeModal;
 import static com.example.demo.Utils.Modal.showModalWithData;
 
 public class PaymentProcessingController implements initDataInterface<ObservableList<ProductSearch>> {
@@ -26,7 +30,7 @@ public class PaymentProcessingController implements initDataInterface<Observable
     public void initData(ObservableList<ProductSearch> data) {
         cart = calculateCartTotal(data, null);
         totalPrice.setText(formatCurrencyVND(cart.get("totalAmount")));
-        totalQuantity.setText(formatCurrencyVND(cart.get("totalQuantity")) + "Sản phẩm");
+        totalQuantity.setText((cart.get("totalQuantity")) + " " + "Sản phẩm");
         productList = data;
     }
 
@@ -35,7 +39,7 @@ public class PaymentProcessingController implements initDataInterface<Observable
     public void handleCashPayment(ActionEvent event) throws IOException {
 
         showModalWithData("/com/example/demo/controller/auth/view/user/cash/cash-tt.fxml", "Thanh toán tiền mặt", productList, () -> {
-            System.out.println("call back cash handle");
+            closeModal();
         });
     }
 

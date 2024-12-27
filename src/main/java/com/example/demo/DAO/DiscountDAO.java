@@ -36,4 +36,26 @@ public class DiscountDAO {
         }
         return -1;
     }
+
+
+    public static void updateDiscountRemaining(Connection connection, String discountId, int quantityPurchased) throws SQLException {
+        String sql = "UPDATE discounts " +
+                "SET discount_remaining = discount_remaining - ? " +
+                "WHERE discount_id = ? AND discount_remaining >= ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, quantityPurchased);
+            statement.setString(2, discountId);
+            statement.setInt(3, quantityPurchased);
+
+            int rowsAffected = statement.executeUpdate();
+            if (rowsAffected == 0) {
+                throw new SQLException("Discount remaining update failed. Not enough discount remaining available.");
+            }
+        }
+    }
+
+
+
+
 }

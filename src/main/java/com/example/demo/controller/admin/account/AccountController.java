@@ -1,5 +1,4 @@
 package com.example.demo.controller.admin.account;
-
 import com.example.demo.DAO.UserDAO;
 import com.example.demo.Utils.Config;
 import com.example.demo.Utils.Modal;
@@ -20,7 +19,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-
 import java.io.File;
 import java.sql.SQLException;
 import java.util.List;

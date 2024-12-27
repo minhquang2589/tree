@@ -1,8 +1,6 @@
 package com.example.demo.DAO;
-
 import com.example.demo.config.MySQLConnection;
 import com.example.demo.model.Category;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

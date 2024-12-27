@@ -10,16 +10,21 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.example.demo.Utils.Config;
+
 import static com.example.demo.Utils.Config.formatCurrencyVND;
+
 import com.example.demo.Utils.Modal;
+
 import static com.example.demo.Utils.Modal.showAlert;
+
 import com.example.demo.Utils.PreferencesUtils;
 import com.example.demo.config.MySQLConnection;
+
 import static com.example.demo.config.button.ButtonHandler.handleNavigator;
+
 import com.example.demo.controller.user.starttheday.StartTheDayController;
 import com.example.demo.model.ProductSearch;
 import com.example.demo.model.Shift;
-
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
@@ -64,7 +69,7 @@ public class SalesDashboardLayoutController {
     @FXML
     private TableView<ProductSearch> productTable;
     @FXML
-    private ObservableList<ProductSearch> productList = FXCollections.observableArrayList();
+    public ObservableList<ProductSearch> productList = FXCollections.observableArrayList();
 
     @FXML
     private TableColumn<ProductSearch, Integer> colStt;
@@ -101,6 +106,12 @@ public class SalesDashboardLayoutController {
     private Button btnEditQuantity;
     @FXML
     private Button btnDeleteRow;
+
+    public void clearData() {
+        productList.clear();
+    }
+
+
 
     private void handleDelete() {
         ProductSearch selectedProduct = productTable.getSelectionModel().getSelectedItem();
@@ -196,7 +207,7 @@ public class SalesDashboardLayoutController {
             Modal.showAlert("Giỏ hàng hiện tại đang trống. Hãy thêm sản phẩm để thanh thoán!");
         } else {
             Modal.showModalWithData("/com/example/demo/controller/auth/view/user/paymentprocessing/paymentProcessing.fxml", "Chọn các hình thức thanh toán bằng cách bấm vào ô tương ứng.", productList, () -> {
-                System.out.println("payment Processing call back ");
+                updateTableView();
             });
         }
     }
@@ -268,6 +279,7 @@ public class SalesDashboardLayoutController {
                 showAlert("Sản phẩm không tồn tại");
             }
             searchField.clear();
+
         }
     }
 
@@ -276,7 +288,7 @@ public class SalesDashboardLayoutController {
         Connection connection = MySQLConnection.connect();
 
         String query = """
-                    SELECT p.name, v.variant_id AS variant_id, p.description, c.category, v.quantity, v.price, v.code, v.discount_id, d.*, i.image, s.size
+                    SELECT p.name, v.variant_id AS variant_id, p.description, c.category, v.quantity, v.price, v.code, v.discount_id AS product_discount_id, d.*, i.image, s.size
                     FROM variants v
                     JOIN products p ON v.product_id = p.product_id
                     JOIN categories c ON p.category_id = c.category_id
@@ -305,7 +317,8 @@ public class SalesDashboardLayoutController {
                 double discountPercentage = resultSet.getDouble("discount_percentage");
                 double thanhTien = gia * soLuong * (1 - discountPercentage / 100);
                 String imageUrl = resultSet.getString("image");
-                return new ProductSearch(1, tenSanPham, imageUrl, loai, gia, soLuong, discountPercentage, thanhTien, size, variant_id);
+                String discountId = resultSet.getString("product_discount_id");
+                return new ProductSearch(1, tenSanPham, imageUrl, loai, gia, soLuong, discountPercentage, thanhTien, size, variant_id, discountId);
             }
 
         } catch (SQLException e) {
@@ -315,7 +328,7 @@ public class SalesDashboardLayoutController {
         return null;
     }
 
-    private void updateTableView() {
+    public void updateTableView() {
         colStt.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getStt()));
         colTenSanPham.setCellValueFactory(cellData -> cellData.getValue().tenSanPhamProperty());
         colLoai.setCellValueFactory(cellData -> cellData.getValue().loaiProperty());
@@ -470,7 +483,7 @@ public class SalesDashboardLayoutController {
         StartTheDayController startTheDayController = new StartTheDayController();
         if (!startTheDayController.check_day()) {
             Modal.showModal("/com/example/demo/controller/auth/view/user/endday/endday.fxml", "Kết thúc ngày", this::updateDate);
-        }else {
+        } else {
             Modal.showAlert("Chưa bắt đầu ngày");
         }
     }
@@ -530,7 +543,7 @@ public class SalesDashboardLayoutController {
         }
     }
 
-    public void updateDate(){
+    public void updateDate() {
         Countshift();
         checkDay();
     }

@@ -131,20 +131,28 @@ public class Config {
     public static Map<String, Double> calculateCartTotal(ObservableList<ProductSearch> productList, Voucher voucher) {
         Map<String, Double> cart = new HashMap<>();
         double totalAmount = 0;
+        double totalOriginalAmount = 0;
+        double totalDiscount = 0;
         int totalQuantity = 0;
 
         for (ProductSearch product : productList) {
             double price = product.getGia();
             int quantity = product.getSoLuong();
             double discountPercentage = product.getChietKhau();
-            double productTotal = price * quantity * (1 - discountPercentage / 100);
+            double productOriginalTotal = price * quantity;
+            totalOriginalAmount += productOriginalTotal;
+            double productTotal = productOriginalTotal * (1 - discountPercentage / 100);
             totalAmount += productTotal;
+            totalDiscount += productOriginalTotal - productTotal;
             totalQuantity += quantity;
         }
 
         cart.put("totalAmount", totalAmount);
         cart.put("totalQuantity", (double) totalQuantity);
+        cart.put("totalDiscount", totalDiscount);
+
         return cart;
     }
+
 
 }

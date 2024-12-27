@@ -37,7 +37,7 @@
             <Button fx:id="buttonBackspace" layoutX="230.0" layoutY="475.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="100.0" text="Backspace" onAction="#handleBackspace" />
             <Button fx:id="buttonC" layoutX="160.0" layoutY="475.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="C" onAction="#handleClear" />
             <Button fx:id="button2" layoutX="90.0" layoutY="390.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="2" onAction="#handleButtonPress" />
-            <Button fx:id="buttonOK" layoutX="230.0" layoutY="240.0" mnemonicParsing="false" prefHeight="135.0" prefWidth="100.0" text="OK" />
+            <Button  onAction="#handleOkOnClick" fx:id="buttonOK" layoutX="230.0" layoutY="240.0" mnemonicParsing="false" prefHeight="135.0" prefWidth="100.0" text="OK" />
             <Button fx:id="button00" layoutX="90.0" layoutY="475.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" text="00" onAction="#handleButtonPress" />
          </children>
       </AnchorPane>

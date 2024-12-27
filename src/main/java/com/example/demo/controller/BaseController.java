@@ -1,8 +1,6 @@
 package com.example.demo.controller;
-
 import com.example.demo.Utils.PreferencesUtils;
 import com.example.demo.config.loading.LoadingOverlay;
-import com.example.demo.controller.user.SalesDashboardLayoutController;
 import com.example.demo.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -64,10 +62,6 @@ public class BaseController {
         handleNavigator(actionEvent, "/com/example/demo/controller/auth/login-view.fxml", false);
     }
 
-    @FXML
-    public void imPortOnClick(ActionEvent actionEvent) throws IOException {
-        setMainContent("/com/example/demo/controller/auth/view/admin/settings/setting-view.fxml");
-    }
 
     @FXML
     public void onSales(ActionEvent actionEvent) {

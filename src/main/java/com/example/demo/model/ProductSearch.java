@@ -12,9 +12,10 @@ public class ProductSearch {
     private DoubleProperty thanhTien;
     private String image;
     private IntegerProperty variantId;
+    private String discountId;
 
 
-    public ProductSearch(int stt, String tenSanPham, String image, String loai, double gia, int soLuong, double chietKhau, double thanhTien, String size, int vId) {
+    public ProductSearch(int stt, String tenSanPham, String image, String loai, double gia, int soLuong, double chietKhau, double thanhTien, String size, int vId,String discountId) {
         this.stt = new SimpleIntegerProperty(stt);
         this.tenSanPham = new SimpleStringProperty(tenSanPham);
         this.loai = new SimpleStringProperty(loai);
@@ -25,6 +26,7 @@ public class ProductSearch {
         this.thanhTien = new SimpleDoubleProperty(thanhTien);
         this.image = image;
         this.variantId = new SimpleIntegerProperty(vId);
+        this.discountId = discountId;
 
     }
 
@@ -53,6 +55,10 @@ public class ProductSearch {
 
     public IntegerProperty variantIdProperty() {
         return variantId;
+    }
+
+    public String discountIdProperty() {
+        return discountId;
     }
 
     public void setVariantId(int id) {

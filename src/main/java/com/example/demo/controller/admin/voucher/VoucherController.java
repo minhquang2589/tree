@@ -1,4 +1,5 @@
 package com.example.demo.controller.admin.voucher;
+
 import com.example.demo.Utils.Modal;
 import com.example.demo.config.MySQLConnection;
 import com.example.demo.model.Voucher;
@@ -11,6 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.layout.HBox;
 import javafx.util.Callback;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -95,7 +97,6 @@ public class VoucherController {
     }
 
 
-
     @FXML
     void loadData() {
         String query = "SELECT * FROM vouchers";
@@ -129,7 +130,7 @@ public class VoucherController {
 
     @FXML
     public void uploadOnClick(ActionEvent actionEvent) throws IOException {
-      showModal("/com/example/demo/controller/auth/view/admin/voucher/upload-view.fxml", "",this::loadData);
+        showModal("/com/example/demo/controller/auth/view/admin/voucher/upload-view.fxml", "", this::loadData);
     }
 
 
@@ -156,7 +157,7 @@ public class VoucherController {
     }
 
     private void handleEdit(Voucher voucher) throws IOException {
-        showModalWithData("/com/example/demo/controller/auth/view/admin/voucher/update-view.fxml", "Sửa phiếu giảm giá" ,voucher, this::loadData);
+        showModalWithData("/com/example/demo/controller/auth/view/admin/voucher/update-view.fxml", "Sửa phiếu giảm giá", voucher, this::loadData);
     }
 
 }

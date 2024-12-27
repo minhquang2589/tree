@@ -2,7 +2,6 @@ module com.example.demo {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
-    requires java.persistence;
     requires net.bytebuddy;
     requires java.xml.bind;
     requires com.google.zxing;
@@ -10,6 +9,7 @@ module com.example.demo {
     requires com.google.zxing.javase;
     requires java.prefs;
     requires java.net.http;
+    requires java.persistence;
 
     opens com.example.demo to javafx.fxml;
     exports com.example.demo;

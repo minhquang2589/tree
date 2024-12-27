@@ -20,10 +20,6 @@
         <ScrollPane maxWidth="350" minWidth="236" style="-fx-padding: 0; -fx-background-color: #f7f7f7;">
             <VBox maxWidth="350" minWidth="237" prefHeight="598.0" prefWidth="238.0" styleClass="sidebar">
                 <Button onAction="#onDashboardButtonClick" styleClass="button" text="Bảng điều khiển" />
-                <Button onAction="#imPortOnClick" styleClass="button" text="Nhập hàng" />
-                <Button styleClass="button" text="Xuất hàng" />
-                <Button styleClass="button" text="Quản lý kho" />
-                <Button styleClass="button" text="Doanh thu các của hàng" />
                 <Button onAction="#onSales" styleClass="button" text="Bàn hàng" />
                 <Button onAction="#onAddProductTest" styleClass="button" text="Thêm sản test" />
                 <Button onAction="#onAddProduct" styleClass="button" text="Thêm sản phẩm" />

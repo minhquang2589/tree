@@ -64,7 +64,7 @@ public class MySQLConnection {
         String createCustomersTable = """
                 CREATE TABLE IF NOT EXISTS customers (
                     customer_id INT AUTO_INCREMENT PRIMARY KEY,
-                    total_purchase INT DEFAULT 0,
+                    total_purchase INT DEFAULT 1,
                     total_use_voucher INT DEFAULT 0,
                     total_use_discount INT DEFAULT 0,
                     email VARCHAR(100) UNIQUE NULL,
