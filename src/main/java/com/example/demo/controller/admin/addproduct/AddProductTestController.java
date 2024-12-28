@@ -134,6 +134,8 @@ public class AddProductTestController {
                     }
                 }
             }
+            imageListView.getItems().clear();
+            images.clear();
             showAlert("Product added successfully!");
         } catch (NumberFormatException | SQLException e) {
             System.out.println(e.getMessage());

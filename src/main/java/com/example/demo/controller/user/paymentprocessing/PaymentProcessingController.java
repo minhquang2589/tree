@@ -28,7 +28,9 @@ public class PaymentProcessingController implements initDataInterface<Observable
     public void initData(ObservableList<ProductSearch> data) {
         cart = calculateCartTotal(data, null);
         totalPrice.setText(formatCurrencyVND(cart.get("totalAmount")));
-        totalQuantity.setText((cart.get("totalQuantity")) + " " + "Sản phẩm");
+        double totalQuantityD = cart.get("totalQuantity");
+        int totalQuantityInt = (int) totalQuantityD;
+        totalQuantity.setText(totalQuantityInt + " " + "Sản phẩm");
         productList = data;
     }
 

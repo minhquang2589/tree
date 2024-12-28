@@ -1,13 +1,16 @@
 package com.example.demo.controller.admin;
+
 import com.example.demo.Utils.PreferencesUtils;
 import com.example.demo.model.ProductSearch;
 import com.example.demo.model.User;
 import com.itextpdf.text.*;
+import com.itextpdf.text.Font;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import javafx.stage.Stage;
+
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -15,23 +18,27 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import static com.example.demo.Utils.Config.formatCurrencyVND;
-import static com.example.demo.Utils.Config.getCurrentDate;
+
+import static com.example.demo.Utils.Config.*;
 
 public class PDFController {
 
-    public static void printInvoice(List<ProductSearch> cartItems, String payCode, Stage stage) {
-        String filePath = chooseFilePath(stage, payCode);
+    public static void printInvoice(List<ProductSearch> cartItems, String payCode) throws IOException {
+        String filePath = chooseFilePath(payCode);
         User user = PreferencesUtils.getUser();
         try {
             createInvoicePDF(filePath, payCode, cartItems, user);
         } catch (DocumentException | FileNotFoundException e) {
             e.printStackTrace();
         }
+        if (filePath != null) {
+            File pd = new File(filePath);
+            Desktop.getDesktop().open(pd);
+        }
     }
+
 
     public static void createInvoicePDF(String filePath, String payCode, List<ProductSearch> cartItems, User user) throws DocumentException, FileNotFoundException {
         Document document = new Document();
@@ -44,7 +51,7 @@ public class PDFController {
             return;
         }
 
-        Map<String, Double> summary = calculateCartSummary(cartItems);
+        Map<String, Double> summary = calculateCartTotal(cartItems, null);
         double totalAmount = summary.get("totalAmount");
         double totalDiscount = summary.get("totalDiscount");
         double totalQuantity = summary.get("totalQuantity");
@@ -94,7 +101,7 @@ public class PDFController {
         document.add(table);
         document.add(Chunk.NEWLINE);
 
-        Paragraph qty = new Paragraph("Số lượng:   " +totalQuantityInt + " sản phẩm", boldFont);
+        Paragraph qty = new Paragraph("Số lượng:   " + totalQuantityInt + " sản phẩm", boldFont);
         qty.setAlignment(Element.ALIGN_RIGHT);
         document.add(qty);
 
@@ -132,32 +139,8 @@ public class PDFController {
         return cell;
     }
 
-    public static Map<String, Double> calculateCartSummary(List<ProductSearch> productList) {
-        Map<String, Double> cart = new HashMap<>();
-        double totalAmount = 0;
-        double totalOriginalAmount = 0;
-        double totalDiscount = 0;
-        int totalQuantity = 0;
-        for (ProductSearch product : productList) {
-            double price = product.getGia();
-            int quantity = product.getSoLuong();
-            double discountPercentage = product.getChietKhau();
-            double productOriginalTotal = price * quantity;
-            double productTotal = productOriginalTotal * (1 - discountPercentage / 100);
-            totalOriginalAmount += productOriginalTotal;
-            totalAmount += productTotal;
-            totalDiscount += productOriginalTotal - productTotal;
-            totalQuantity += quantity;
-        }
-        cart.put("totalAmount", totalAmount);
-        cart.put("totalQuantity", (double) totalQuantity);
-        cart.put("totalDiscount", totalDiscount);
 
-        return cart;
-    }
-
-
-    public static String chooseFilePath(Stage stage, String payCode) {
+    public static String chooseFilePath(String payCode) {
         Path targetDir = Paths.get("src/main/resources/assets/images/invoice");
         if (!Files.exists(targetDir)) {
             try {

@@ -12,6 +12,9 @@ import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -121,10 +124,9 @@ public class CashController implements initDataInterface<List<ProductSearch>> {
         showAlert("Xác nhận", "Xác nhận thanh toán tiền mặt!", Alert.AlertType.WARNING, () -> {
             Connection connection = MySQLConnection.connect();
             try {
-               String payCode = handlePayment(connection, "cash", cartItem);
+                String payCode = handlePayment(connection, "cash", cartItem);
                 if (payCode != null) {
-                    Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-                    printInvoice(cartItem, payCode,stage);
+                    printInvoice(cartItem, payCode);
                     SalesDashboardLayoutController.productList.clear();
                     closeAllModals();
                 } else {
@@ -132,7 +134,10 @@ public class CashController implements initDataInterface<List<ProductSearch>> {
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
+            } catch (IOException e) {
+                showAlert("Không thể mở tệp PDF");
             }
+
 
         }, null);
     }
