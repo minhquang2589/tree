@@ -1,0 +1,40 @@
+.button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 20px;
+}
+
+.button:hover {
+    -fx-background-color: #45a049;
+}
+
+.button-register {
+    -fx-background-color: #008CBA;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+    -fx-background-radius: 20px;
+}
+
+.button-register:hover {
+    -fx-background-color: #007bb5;
+}
+
+
+.form-fill{
+    -fx-border-radius: 10px;
+    -fx-padding: 10px;
+    -fx-background-color: #f0f0f0;
+    -fx-font-size: 14px;
+     -fx-border-color: #808080;
+    -fx-border-width: 2px;
+    -fx-border-style: solid;
+    -fx-background-insets: 0;
+    -fx-text-fill: #333;
+    -fx-focus-color: #4CAF50;
+    -fx-faint-focus-color: transparent;
+}
