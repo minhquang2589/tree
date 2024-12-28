@@ -1,5 +1,4 @@
 package com.example.demo.DAO;
-import com.example.demo.config.MySQLConnection;
 import com.example.demo.model.Product;
 import java.io.File;
 import java.sql.*;
@@ -9,13 +8,8 @@ import static com.example.demo.Utils.Config.saveImage;
 
 public class ProductDAO {
 
-    private final Connection connection;
 
-    public ProductDAO() {
-        connection = MySQLConnection.connect();
-    }
-
-    public void addProduct(Product product) throws SQLException {
+    public void addProduct(Connection connection,Product product) throws SQLException {
         String query = "INSERT INTO products (name, is_new, category_id, description) VALUES (?,?, ?, ?)";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, product.getName());
@@ -36,7 +30,7 @@ public class ProductDAO {
     }
 
 
-    public void addProductImages(int productId, List<String> imagePaths) throws SQLException {
+    public void addProductImages(Connection connection,int productId, List<String> imagePaths) throws SQLException {
         String query = "INSERT INTO images (image, product_id) VALUES (?, ?)";
         try (
                 PreparedStatement preparedStatement = connection.prepareStatement(query)) {

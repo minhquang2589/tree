@@ -1,11 +1,13 @@
 package com.example.demo.controller.admin.addproduct;
 
+import java.sql.Connection;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import com.example.demo.DAO.*;
 import com.example.demo.Utils.Config;
+import com.example.demo.config.MySQLConnection;
 import com.example.demo.model.*;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -71,6 +73,7 @@ public class AddProductTestController {
         String selectedCategory = categoryField.getText();
         boolean isNew = isNewCheckBox.isSelected();
         String finalDiscountId = null;
+        Connection connection = MySQLConnection.connect();
 
         double discountPercentage = (discountPercentageField.getText() != null && !discountPercentageField.getText().isEmpty())
                 ? Double.parseDouble(discountPercentageField.getText())
@@ -85,16 +88,16 @@ public class AddProductTestController {
         }
 
         try {
-            Category selectedCategoryObj = categoryDAO.getCategoryByName(selectedCategory);
+            Category selectedCategoryObj = categoryDAO.getCategoryByName(connection,selectedCategory);
             if (selectedCategoryObj == null) {
                 Category newCategory = new Category(0, selectedCategory, null, "Category description");
-                selectedCategoryObj = categoryDAO.addCategory(newCategory);
+                selectedCategoryObj = categoryDAO.addCategory(connection,newCategory);
             }
 
             int categoryId = selectedCategoryObj.getCategoryId();
 
             Product newProduct = new Product(productName, description, categoryId, isNew);
-            productDAO.addProduct(newProduct);
+            productDAO.addProduct(connection,newProduct);
             if (discountPercentage > 0 && discountQuantity > 0) {
                 if (startDate == null || endDate == null) {
                     showAlert("Xin vui lòng chọn nhày bắt đầu và ngày kết thúc giảm giá cho sản phẩm này!");
@@ -110,21 +113,21 @@ public class AddProductTestController {
             }
 
             int productId = newProduct.getProductId();
-            productDAO.addProductImages(productId, images);
+            productDAO.addProductImages(connection,productId, images);
             for (SizeQuantity sizeQuantity : sizeQuantities) {
                 Size size = sizeQuantity.getSize();
                 int quantity = sizeQuantity.getQuantity();
                 int price = sizeQuantity.getPrice();
-                Size existingSize = sizeDao.getSizeByName(size.getSize());
+                Size existingSize = sizeDao.getSizeByName(connection,size.getSize());
                 String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMddHHmm"));
                 String uniqueCode = hashCodeSHA(size.getSize() + quantity + timestamp);
 
                 if (existingSize != null) {
-                    variantDAO.addProductVariant(productId, existingSize.getSizeId(), price, quantity, uniqueCode, finalDiscountId);
+                    variantDAO.addProductVariant(connection,productId, existingSize.getSizeId(), price, quantity, uniqueCode, finalDiscountId);
                 } else {
-                    int newSizeId = sizeDao.addSize(size);
+                    int newSizeId = sizeDao.addSize(connection,size);
                     if (newSizeId != -1) {
-                        variantDAO.addProductVariant(productId, newSizeId, price, quantity, uniqueCode, finalDiscountId);
+                        variantDAO.addProductVariant(connection,productId, newSizeId, price, quantity, uniqueCode, finalDiscountId);
                     } else {
                         showAlert("Error adding new size: " + size.getSize());
                         return;

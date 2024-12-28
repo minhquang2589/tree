@@ -2,9 +2,12 @@ package com.example.demo.controller.user.pay;
 
 import com.example.demo.Utils.Modal;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
+import javafx.stage.Stage;
+
 import java.io.IOException;
 import static com.example.demo.Utils.Modal.closeModal;
 
@@ -97,7 +100,8 @@ public class paycontroller {
         }
     }
     public void handleCancel(ActionEvent event) {
-        closeModal();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        closeModal(stage);
     }
     public void handleConfirm(ActionEvent event) throws IOException {
         Modal.showModal("/com/example/demo/controller/auth/view/user/QRcode/QR-code.fxml", "QR Code", null);

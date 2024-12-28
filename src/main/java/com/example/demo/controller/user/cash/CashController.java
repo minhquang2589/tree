@@ -4,27 +4,26 @@ import com.example.demo.classInterFace.initDataInterface;
 import com.example.demo.config.MySQLConnection;
 import com.example.demo.controller.user.SalesDashboardLayoutController;
 import com.example.demo.model.ProductSearch;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
+import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
-import static com.example.demo.DAO.DiscountDAO.updateDiscountRemaining;
-import static com.example.demo.DAO.OrderDAO.insertOrder;
-import static com.example.demo.DAO.OrderItemDAO.insertOrderItem;
-import static com.example.demo.DAO.PaymentMethodDAO.findOrInsertPaymentMethod;
 import static com.example.demo.Utils.Config.calculateCartTotal;
 import static com.example.demo.Utils.Config.formatCurrencyVND;
-import static com.example.demo.Utils.Modal.closeModal;
-import static com.example.demo.Utils.Modal.showAlert;
+import static com.example.demo.Utils.Modal.*;
+import static com.example.demo.controller.admin.PDFController.printInvoice;
+import static com.example.demo.controller.admin.PaymentController.handlePayment;
 
-public class CashController implements initDataInterface<ObservableList<ProductSearch>> {
+public class CashController implements initDataInterface<List<ProductSearch>> {
     @FXML
     private TextField textField1;
     @FXML
@@ -63,10 +62,10 @@ public class CashController implements initDataInterface<ObservableList<ProductS
     private Button buttonC;
 
     Map<String, Double> cart = null;
-    ObservableList<ProductSearch> cartItem = null;
+    List<ProductSearch> cartItem = null;
 
     @Override
-    public void initData(ObservableList<ProductSearch> data) {
+    public void initData(List<ProductSearch> data) {
         cart = calculateCartTotal(data, null);
         textField1.setText(formatCurrencyVND(cart.get("totalAmount")));
         textField2.setText(textField1.getText());
@@ -114,25 +113,28 @@ public class CashController implements initDataInterface<ObservableList<ProductS
     }
 
     public void handleCancel(ActionEvent event) {
-        closeModal();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        closeModal(stage);
     }
 
-    public void handleOkOnClick(ActionEvent actionEvent) throws SQLException {
-        Connection connection = MySQLConnection.connect();
-        if (connection != null) {
-            int paymentId = findOrInsertPaymentMethod(connection, "cash", "Payment via cash");
-            int orderId = insertOrder(connection, null, paymentId, cart.get("totalAmount"), "No specific note", cart.get("totalDiscount"));
-            for (ProductSearch item : cartItem) {
-                insertOrderItem(connection, orderId, item.variantIdProperty(), item.getSoLuong());
-                if (item.discountIdProperty() != null) {
-                    updateDiscountRemaining(connection, item.discountIdProperty(), item.getSoLuong());
+    public void handleOkOnClick(ActionEvent actionEvent) {
+        showAlert("Xác nhận", "Xác nhận thanh toán tiền mặt!", Alert.AlertType.WARNING, () -> {
+            Connection connection = MySQLConnection.connect();
+            try {
+               String payCode = handlePayment(connection, "cash", cartItem);
+                if (payCode != null) {
+                    Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                    printInvoice(cartItem, payCode,stage);
+                    SalesDashboardLayoutController.productList.clear();
+                    closeAllModals();
+                } else {
+                    showAlert("Thanh toán không thành công. Vui lòng thử lại sau!");
                 }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
-            SalesDashboardLayoutController control = new SalesDashboardLayoutController();
-            control.clearData();
-            closeModal();
-        } else {
-            showAlert("Lỗi khi thanh toán. vui lòng thử lại sau!");
-        }
+
+        }, null);
     }
+
 }

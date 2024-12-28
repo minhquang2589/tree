@@ -1,5 +1,4 @@
 package com.example.demo.DAO;
-import com.example.demo.config.MySQLConnection;
 import javafx.beans.property.IntegerProperty;
 
 import java.sql.Connection;

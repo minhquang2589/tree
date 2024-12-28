@@ -28,6 +28,7 @@ import com.example.demo.model.Shift;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -69,7 +70,7 @@ public class SalesDashboardLayoutController {
     @FXML
     private TableView<ProductSearch> productTable;
     @FXML
-    public ObservableList<ProductSearch> productList = FXCollections.observableArrayList();
+    public static ObservableList<ProductSearch> productList = FXCollections.observableArrayList();
 
     @FXML
     private TableColumn<ProductSearch, Integer> colStt;
@@ -107,84 +108,6 @@ public class SalesDashboardLayoutController {
     @FXML
     private Button btnDeleteRow;
 
-    public void clearData() {
-        productList.clear();
-    }
-
-
-
-    private void handleDelete() {
-        ProductSearch selectedProduct = productTable.getSelectionModel().getSelectedItem();
-        if (selectedProduct == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Chưa chọn sản phẩm");
-            alert.setHeaderText(null);
-            alert.setContentText("Vui lòng chọn một sản phẩm để huỷ dòng.");
-            alert.showAndWait();
-            return;
-        }
-        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmAlert.setTitle("Xác Nhận");
-        confirmAlert.setHeaderText("Bạn có chắc chắn muốn huỷ sản phẩm này?");
-        confirmAlert.setContentText("Sản phẩm: " + selectedProduct.getTenSanPham());
-        confirmAlert.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                productTable.getItems().remove(selectedProduct);
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Thông Báo");
-                alert.setHeaderText(null);
-                alert.setContentText("Sản phẩm đã được huỷ.");
-                alert.showAndWait();
-            } else {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Thông Báo");
-                alert.setHeaderText(null);
-                alert.setContentText("Sản phẩm không bị Huỷ.");
-                alert.showAndWait();
-            }
-        });
-    }
-
-    private void handleEditQuantity() {
-        ProductSearch selectedProduct = productTable.getSelectionModel().getSelectedItem();
-        if (selectedProduct == null) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Chưa chọn sản phẩm");
-            alert.setHeaderText(null);
-            alert.setContentText("Vui lòng chọn một sản phẩm để chỉnh sửa số lượng.");
-            alert.showAndWait();
-            return;
-        }
-        TextInputDialog dialog = new TextInputDialog(String.valueOf(selectedProduct.getSoLuong()));
-        dialog.setTitle("Chỉnh Sửa Số Lượng");
-        dialog.setHeaderText("Sửa số lượng cho sản phẩm: " + selectedProduct.getTenSanPham());
-        dialog.setContentText("Nhập số lượng mới:");
-        dialog.showAndWait().ifPresent(input -> {
-            try {
-                int newQuantity = Integer.parseInt(input.trim());
-                if (newQuantity < 0) {
-                    throw new NumberFormatException("Số lượng không thể âm");
-                }
-                selectedProduct.setSoLuong(newQuantity);
-                double newThanhTien = selectedProduct.getGia() * newQuantity * (1 - selectedProduct.getChietKhau() / 100);
-                selectedProduct.setThanhTien(newThanhTien);
-                productTable.refresh();
-            } catch (NumberFormatException ex) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Lỗi Nhập Liệu");
-                alert.setHeaderText("Dữ liệu không hợp lệ");
-                alert.setContentText("Vui lòng nhập một số nguyên dương hợp lệ cho số lượng.");
-                alert.showAndWait();
-            } catch (Exception ex) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Lỗi Hệ Thống");
-                alert.setHeaderText("Đã xảy ra lỗi khi cập nhật dữ liệu");
-                alert.setContentText("Chi tiết lỗi: " + ex.getMessage());
-                alert.showAndWait();
-            }
-        });
-    }
-
 
     public void initialize() throws IOException {
         salesDateField.setText(Config.getCurrentDate());
@@ -198,8 +121,87 @@ public class SalesDashboardLayoutController {
                 }
             }
         });
-
+        productList.addListener((ListChangeListener<ProductSearch>) change -> {
+            while (change.next()) {
+                if (change.wasAdded() || change.wasRemoved() || change.wasUpdated()) {
+                    updateTableView();
+                }
+            }
+        });
     }
+
+//    private void handleDelete() {
+//        ProductSearch selectedProduct = productTable.getSelectionModel().getSelectedItem();
+//        if (selectedProduct == null) {
+//            Alert alert = new Alert(Alert.AlertType.WARNING);
+//            alert.setTitle("Chưa chọn sản phẩm");
+//            alert.setHeaderText(null);
+//            alert.setContentText("Vui lòng chọn một sản phẩm để huỷ dòng.");
+//            alert.showAndWait();
+//            return;
+//        }
+//        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+//        confirmAlert.setTitle("Xác Nhận");
+//        confirmAlert.setHeaderText("Bạn có chắc chắn muốn huỷ sản phẩm này?");
+//        confirmAlert.setContentText("Sản phẩm: " + selectedProduct.getTenSanPham());
+//        confirmAlert.showAndWait().ifPresent(response -> {
+//            if (response == ButtonType.OK) {
+//                productTable.getItems().remove(selectedProduct);
+//                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//                alert.setTitle("Thông Báo");
+//                alert.setHeaderText(null);
+//                alert.setContentText("Sản phẩm đã được huỷ.");
+//                alert.showAndWait();
+//            } else {
+//                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//                alert.setTitle("Thông Báo");
+//                alert.setHeaderText(null);
+//                alert.setContentText("Sản phẩm không bị Huỷ.");
+//                alert.showAndWait();
+//            }
+//        });
+//    }
+//
+//    private void handleEditQuantity() {
+//        ProductSearch selectedProduct = productTable.getSelectionModel().getSelectedItem();
+//        if (selectedProduct == null) {
+//            Alert alert = new Alert(Alert.AlertType.WARNING);
+//            alert.setTitle("Chưa chọn sản phẩm");
+//            alert.setHeaderText(null);
+//            alert.setContentText("Vui lòng chọn một sản phẩm để chỉnh sửa số lượng.");
+//            alert.showAndWait();
+//            return;
+//        }
+//        TextInputDialog dialog = new TextInputDialog(String.valueOf(selectedProduct.getSoLuong()));
+//        dialog.setTitle("Chỉnh Sửa Số Lượng");
+//        dialog.setHeaderText("Sửa số lượng cho sản phẩm: " + selectedProduct.getTenSanPham());
+//        dialog.setContentText("Nhập số lượng mới:");
+//        dialog.showAndWait().ifPresent(input -> {
+//            try {
+//                int newQuantity = Integer.parseInt(input.trim());
+//                if (newQuantity < 0) {
+//                    throw new NumberFormatException("Số lượng không thể âm");
+//                }
+//                selectedProduct.setSoLuong(newQuantity);
+//                double newThanhTien = selectedProduct.getGia() * newQuantity * (1 - selectedProduct.getChietKhau() / 100);
+//                selectedProduct.setThanhTien(newThanhTien);
+//                productTable.refresh();
+//            } catch (NumberFormatException ex) {
+//                Alert alert = new Alert(Alert.AlertType.ERROR);
+//                alert.setTitle("Lỗi Nhập Liệu");
+//                alert.setHeaderText("Dữ liệu không hợp lệ");
+//                alert.setContentText("Vui lòng nhập một số nguyên dương hợp lệ cho số lượng.");
+//                alert.showAndWait();
+//            } catch (Exception ex) {
+//                Alert alert = new Alert(Alert.AlertType.ERROR);
+//                alert.setTitle("Lỗi Hệ Thống");
+//                alert.setHeaderText("Đã xảy ra lỗi khi cập nhật dữ liệu");
+//                alert.setContentText("Chi tiết lỗi: " + ex.getMessage());
+//                alert.showAndWait();
+//            }
+//        });
+//    }
+
 
     @FXML
     public void onPayment(ActionEvent actionEvent) throws IOException {

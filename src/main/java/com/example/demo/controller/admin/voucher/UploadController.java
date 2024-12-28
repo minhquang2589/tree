@@ -3,8 +3,11 @@ import com.example.demo.config.MySQLConnection;
 import com.example.demo.model.Voucher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -54,7 +57,8 @@ public class UploadController {
         if (insertVoucher(newVoucher)) {
             showAlert("Tải lên phiếu giảm giá thành công!", ()-> {
                 clearForm();
-                closeModal();
+                Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                closeModal(stage);
             });
         } else {
             showAlert(null);

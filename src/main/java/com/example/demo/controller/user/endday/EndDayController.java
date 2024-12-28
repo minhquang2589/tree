@@ -7,6 +7,9 @@ import com.example.demo.model.Shift;
 import com.example.demo.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.stage.Stage;
+
 import java.sql.*;
 import java.io.IOException;
 import java.sql.Connection;
@@ -47,7 +50,8 @@ public class EndDayController {
             PreferencesUtils.clearShiftList();
             PreferencesUtils.clearshift();
             endshift();
-            closeModal();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            closeModal(stage);
         }else{
             Modal.showAlert("Chưa đạt đủ số ca trong ngày");
         }

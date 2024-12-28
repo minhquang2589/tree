@@ -17,6 +17,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -103,9 +105,10 @@ public class Config {
 
 
     public static String getCurrentDate() {
-        return String.valueOf(LocalDate.now());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        LocalDateTime now = LocalDateTime.now();
+        return now.format(formatter);
     }
-
 
     public static String hashCodeSHA(String value) {
         try {
@@ -128,31 +131,30 @@ public class Config {
         return decimalFormat.format(amount) + " ₫";
     }
 
-    public static Map<String, Double> calculateCartTotal(ObservableList<ProductSearch> productList, Voucher voucher) {
+    public static Map<String, Double> calculateCartTotal(List<ProductSearch> productList, Voucher voucher) {
         Map<String, Double> cart = new HashMap<>();
         double totalAmount = 0;
         double totalOriginalAmount = 0;
         double totalDiscount = 0;
         int totalQuantity = 0;
-
         for (ProductSearch product : productList) {
             double price = product.getGia();
             int quantity = product.getSoLuong();
             double discountPercentage = product.getChietKhau();
             double productOriginalTotal = price * quantity;
-            totalOriginalAmount += productOriginalTotal;
             double productTotal = productOriginalTotal * (1 - discountPercentage / 100);
+            totalOriginalAmount += productOriginalTotal;
             totalAmount += productTotal;
             totalDiscount += productOriginalTotal - productTotal;
             totalQuantity += quantity;
         }
-
         cart.put("totalAmount", totalAmount);
         cart.put("totalQuantity", (double) totalQuantity);
         cart.put("totalDiscount", totalDiscount);
 
         return cart;
     }
+
 
 
 }

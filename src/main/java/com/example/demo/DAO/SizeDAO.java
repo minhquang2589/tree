@@ -1,5 +1,4 @@
 package com.example.demo.DAO;
-
 import com.example.demo.config.MySQLConnection;
 import com.example.demo.model.Size;
 
@@ -7,15 +6,8 @@ import java.sql.*;
 
 public class SizeDAO {
 
-    private final Connection connection;
 
-    public SizeDAO() {
-
-        this.connection = MySQLConnection.connect();
-
-    }
-
-    public int addSize(Size size) throws SQLException {
+    public int addSize(Connection connection,Size size) throws SQLException {
         String query = "INSERT INTO sizes (size, description) VALUES (?, ?)";
         try (
                 PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
@@ -39,7 +31,7 @@ public class SizeDAO {
         return -1;
     }
 
-    public Size getSizeByName(String sizeText) {
+    public Size getSizeByName(Connection connection,String sizeText) {
         Size size = null;
         String query = "SELECT * FROM sizes WHERE size = ?";
 

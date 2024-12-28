@@ -1,5 +1,4 @@
 package com.example.demo.DAO;
-import com.example.demo.config.MySQLConnection;
 import com.example.demo.model.Category;
 import java.sql.*;
 import java.util.ArrayList;
@@ -7,13 +6,8 @@ import java.util.List;
 
 public class CategoryDAO {
 
-    private final Connection connection;
 
-    public CategoryDAO() {
-        connection = MySQLConnection.connect();
-    }
-
-    public List<Category> getAllCategories() throws SQLException {
+    public List<Category> getAllCategories(Connection connection) throws SQLException {
         List<Category> categories = new ArrayList<>();
         String query = "SELECT * FROM categories";
         try (
@@ -32,7 +26,7 @@ public class CategoryDAO {
     }
 
 
-    public Category addCategory(Category category) throws SQLException {
+    public Category addCategory(Connection connection,Category category) throws SQLException {
         String query = "INSERT INTO categories (category, image, description) VALUES (?, ?, ?)";
         try (
                 PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
@@ -59,7 +53,7 @@ public class CategoryDAO {
     }
 
 
-    public Category getCategoryById(int categoryId) throws SQLException {
+    public Category getCategoryById(Connection connection,int categoryId) throws SQLException {
         String query = "SELECT * FROM categories WHERE category_id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setInt(1, categoryId);
@@ -74,8 +68,7 @@ public class CategoryDAO {
         return null;
     }
 
-    public Category getCategoryByName(String categoryName) throws SQLException {
-        Connection connection = MySQLConnection.connect();
+    public Category getCategoryByName(Connection connection,String categoryName) throws SQLException {
         String query = "SELECT * FROM categories WHERE category = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
             stmt.setString(1, categoryName);

@@ -13,10 +13,12 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Modal {
 
-    private static Stage currentModalStage;
+    public static List<Stage> modalStages = new ArrayList<>();
 
     public static void showAlert(String title, String message, Alert.AlertType type, Runnable onOkAction, Runnable onCancelAction) {
         Alert alert = new Alert(type != null ? type : Alert.AlertType.NONE);
@@ -48,9 +50,6 @@ public class Modal {
     }
 
     public static void showModal(String fxmlPath, String title , Runnable onCallback) throws IOException {
-        if (currentModalStage != null && currentModalStage.isShowing()) {
-            currentModalStage.close();
-        }
         FXMLLoader loader = new FXMLLoader(Modal.class.getResource(fxmlPath));
         Parent root = loader.load();
         Stage modalStage = new Stage();
@@ -58,7 +57,9 @@ public class Modal {
         modalStage.setTitle(title);
         modalStage.setScene(new Scene(root));
         modalStage.setResizable(true);
-        currentModalStage = modalStage;
+
+        modalStages.add(modalStage);
+
         Platform.runLater(() -> {
             Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
             double centerX = (screenBounds.getWidth() - modalStage.getWidth()) / 2;
@@ -66,23 +67,32 @@ public class Modal {
             modalStage.setX(centerX);
             modalStage.setY(centerY);
         });
+
         modalStage.setOnHidden(event -> {
+            modalStages.remove(modalStage);
             if (onCallback != null) {
                 onCallback.run();
             }
         });
+
         modalStage.showAndWait();
     }
 
-    public static void closeModal() {
-        if (currentModalStage != null) {
-            currentModalStage.close();
-            currentModalStage = null;
+    public static void closeModal(Stage stage) {
+        if (stage != null) {
+            stage.close();
+            modalStages.remove(stage);
         }
     }
 
-    public static <T> void showModalWithData(String fxmlPath, String title, T data, Runnable onCallback) throws IOException {
+    public static void closeAllModals() {
+        for (Stage stage : new ArrayList<>(modalStages)) {
+            stage.close();
+        }
+        modalStages.clear();
+    }
 
+    public static <T> void showModalWithData(String fxmlPath, String title, T data, Runnable onCallback) throws IOException {
         FXMLLoader loader = new FXMLLoader(Modal.class.getResource(fxmlPath));
         Parent root = loader.load();
         Object controller = loader.getController();
@@ -92,12 +102,13 @@ public class Modal {
         }
 
         Stage stage = new Stage();
-        currentModalStage = stage;
         stage.setResizable(true);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.setTitle(title);
         stage.setScene(new Scene(root));
+        modalStages.add(stage);
         stage.setOnHidden(event -> {
+            modalStages.remove(stage);
             if (onCallback != null) {
                 onCallback.run();
             }
@@ -105,6 +116,4 @@ public class Modal {
 
         stage.show();
     }
-
-
 }

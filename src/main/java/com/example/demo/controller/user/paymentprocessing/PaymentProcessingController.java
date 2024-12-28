@@ -1,6 +1,4 @@
 package com.example.demo.controller.user.paymentprocessing;
-
-import com.example.demo.Utils.Modal;
 import com.example.demo.classInterFace.initDataInterface;
 import com.example.demo.model.ProductSearch;
 import javafx.collections.FXCollections;
@@ -39,7 +37,7 @@ public class PaymentProcessingController implements initDataInterface<Observable
     public void handleCashPayment(ActionEvent event) throws IOException {
 
         showModalWithData("/com/example/demo/controller/auth/view/user/cash/cash-tt.fxml", "Thanh toán tiền mặt", productList, () -> {
-            closeModal();
+
         });
     }
 

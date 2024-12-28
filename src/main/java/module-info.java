@@ -10,6 +10,7 @@ module com.example.demo {
     requires java.prefs;
     requires java.net.http;
     requires java.persistence;
+    requires itextpdf;
 
     opens com.example.demo to javafx.fxml;
     exports com.example.demo;
