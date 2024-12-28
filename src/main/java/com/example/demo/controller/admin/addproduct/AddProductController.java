@@ -1,6 +1,7 @@
 package com.example.demo.controller.admin.addproduct;
 import com.example.demo.Utils.Config;
 import com.example.demo.config.MySQLConnection;
+import com.example.demo.model.ProductSearch;
 import com.example.demo.model.ProductView;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.fxml.FXML;
@@ -18,6 +19,8 @@ import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.demo.Utils.Config.formatCurrencyVND;
 
 public class AddProductController {
     @FXML
@@ -63,6 +66,18 @@ public class AddProductController {
         sizeColumn.setCellValueFactory(cellData -> cellData.getValue().sizeProperty());
         quantityColumn.setCellValueFactory(cellData -> cellData.getValue().stockQuantityProperty().asObject());
         priceColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty().asObject());
+
+        priceColumn.setCellFactory(column -> new TableCell<ProductView, Double>() {
+            @Override
+            protected void updateItem(Double item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(formatCurrencyVND(item));
+                }
+            }
+        });
         dateColumn.setCellValueFactory(cellData -> cellData.getValue().updatedDateProperty());
         discountColumn.setCellValueFactory(cellData -> cellData.getValue().discountStatusProperty());
         isNewColumn.setCellValueFactory(cellData -> cellData.getValue().isNewProperty());

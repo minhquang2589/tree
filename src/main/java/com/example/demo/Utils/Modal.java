@@ -13,6 +13,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,7 +93,7 @@ public class Modal {
         modalStages.clear();
     }
 
-    public static <T> void showModalWithData(String fxmlPath, String title, T data, Runnable onCallback) throws IOException {
+    public static <T> void showModalWithData(String fxmlPath, String title, T data, Runnable onCallback) throws IOException, SQLException {
         FXMLLoader loader = new FXMLLoader(Modal.class.getResource(fxmlPath));
         Parent root = loader.load();
         Object controller = loader.getController();

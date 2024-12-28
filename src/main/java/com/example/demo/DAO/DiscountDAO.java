@@ -3,6 +3,7 @@ package com.example.demo.DAO;
 import com.example.demo.config.MySQLConnection;
 import com.example.demo.model.Discount;
 
+import javax.persistence.EntityManager;
 import java.sql.*;
 
 public class DiscountDAO {
@@ -54,6 +55,36 @@ public class DiscountDAO {
             }
         }
     }
+
+    public static Discount findDiscountById(Connection connection,String discountId) throws SQLException {
+
+        String query = "SELECT discount_id, discount_percentage, discount_quantity, discount_remaining, start_date, end_date " +
+                "FROM discounts WHERE discount_id = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, discountId);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    Discount discount = new Discount(
+                            resultSet.getDouble("discount_percentage"),
+                            resultSet.getInt("discount_quantity"),
+                            resultSet.getInt("discount_remaining"),
+                            resultSet.getDate("start_date").toLocalDate(),
+                            resultSet.getDate("end_date").toLocalDate()
+                    );
+                    discount.setDiscountId(resultSet.getInt("discount_id"));
+                    return discount;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return null;
+    }
+
 
 
 

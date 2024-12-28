@@ -21,8 +21,7 @@
             <VBox maxWidth="350" minWidth="237" prefHeight="598.0" prefWidth="238.0" styleClass="sidebar">
                 <Button onAction="#onDashboardButtonClick" styleClass="button" text="Bảng điều khiển" />
                 <Button onAction="#onSales" styleClass="button" text="Bàn hàng" />
-                <Button onAction="#onAddProductTest" styleClass="button" text="Thêm sản test" />
-                <Button onAction="#onAddProduct" styleClass="button" text="Thêm sản phẩm" />
+                <Button onAction="#onAddProduct" styleClass="button" text="Quản lý sản phẩm" />
                 <Button onAction="#voucherOnClick" styleClass="button" text="Phiếu giảm giá" />
                 <Button text="Quản lý tài khoản" onAction="#onUsersButtonClick" styleClass="button"/>
             </VBox>

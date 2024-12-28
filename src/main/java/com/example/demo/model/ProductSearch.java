@@ -13,9 +13,15 @@ public class ProductSearch {
     private String image;
     private IntegerProperty variantId;
     private String discountId;
+    private String productId;
+    private StringProperty code;
+    private String productDescription;
+    private String sizeId;
+    private String categoryId;
+    private String imageId;
 
 
-    public ProductSearch(int stt, String tenSanPham, String image, String loai, double gia, int soLuong, double chietKhau, double thanhTien, String size, int vId,String discountId) {
+    public ProductSearch(int stt, String tenSanPham, String image, String loai, double gia, int soLuong, double chietKhau, double thanhTien, String size, int vId,String discountId, String productId, String code, String productDescription, String sizeId, String categoryId, String imageId) {
         this.stt = new SimpleIntegerProperty(stt);
         this.tenSanPham = new SimpleStringProperty(tenSanPham);
         this.loai = new SimpleStringProperty(loai);
@@ -27,6 +33,12 @@ public class ProductSearch {
         this.image = image;
         this.variantId = new SimpleIntegerProperty(vId);
         this.discountId = discountId;
+        this.productId = productId;
+        this.imageId = imageId;
+        this.sizeId = sizeId;
+        this.categoryId = categoryId;
+        this.productDescription = productDescription;
+        this.code = new SimpleStringProperty(code);
 
     }
 
@@ -61,6 +73,19 @@ public class ProductSearch {
         return discountId;
     }
 
+    public String getProductId() {
+        return productId;
+    }
+    public String getSizeId() {
+        return sizeId;
+    }
+    public String getCategoryId() {
+        return categoryId;
+    }
+    public StringProperty getCode() {
+        return code;
+    }
+
     public void setVariantId(int id) {
         this.variantId.set(id);
     }
@@ -80,9 +105,15 @@ public class ProductSearch {
     public String getLoai() {
         return loai.get();
     }
+    public String getProductDescription() {
+        return productDescription;
+    }
 
     public StringProperty loaiProperty() {
         return loai;
+    }
+    public String getImageId() {
+        return imageId;
     }
 
 

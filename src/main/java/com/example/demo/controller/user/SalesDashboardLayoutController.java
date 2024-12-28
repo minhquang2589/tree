@@ -204,7 +204,7 @@ public class SalesDashboardLayoutController {
 
 
     @FXML
-    public void onPayment(ActionEvent actionEvent) throws IOException {
+    public void onPayment(ActionEvent actionEvent) throws IOException, SQLException {
         if (productList.isEmpty()) {
             Modal.showAlert("Giỏ hàng hiện tại đang trống. Hãy thêm sản phẩm để thanh thoán!");
         } else {
@@ -290,7 +290,7 @@ public class SalesDashboardLayoutController {
         Connection connection = MySQLConnection.connect();
 
         String query = """
-                    SELECT p.name, v.variant_id AS variant_id, p.description, c.category, v.quantity, v.price, v.code, v.discount_id AS product_discount_id, d.*, i.image, s.size
+                    SELECT  p.description AS pro_des,  p.category_id AS pCateId,  p.product_id, p.name, v.variant_id AS variant_id,v.size_id AS vSizeId, p.description, c.category, v.quantity, v.price, v.code, v.discount_id AS product_discount_id, d.*, i.image,i.image_id, s.size
                     FROM variants v
                     JOIN products p ON v.product_id = p.product_id
                     JOIN categories c ON p.category_id = c.category_id
@@ -320,7 +320,13 @@ public class SalesDashboardLayoutController {
                 double thanhTien = gia * soLuong * (1 - discountPercentage / 100);
                 String imageUrl = resultSet.getString("image");
                 String discountId = resultSet.getString("product_discount_id");
-                return new ProductSearch(1, tenSanPham, imageUrl, loai, gia, soLuong, discountPercentage, thanhTien, size, variant_id, discountId);
+                String productId = resultSet.getString("product_id");
+                String code = resultSet.getString("code");
+                String des = resultSet.getString("pro_des");
+                String sizeId =  resultSet.getString("vSizeId");
+                String cateId =  resultSet.getString("pCateId");
+                String imageId =  resultSet.getString("image_id");
+                return new ProductSearch(1, tenSanPham, imageUrl, loai, gia, soLuong, discountPercentage, thanhTien, size, variant_id, discountId,productId,code,des,sizeId,cateId,imageId);
             }
 
         } catch (SQLException e) {
@@ -375,7 +381,7 @@ public class SalesDashboardLayoutController {
                 } else {
                     Image image = new Image("file:" + item);
                     imageView.setImage(image);
-                    imageView.setFitHeight(80);
+                    imageView.setFitHeight(110);
                     imageView.setFitWidth(160);
                     setGraphic(imageView);
                 }

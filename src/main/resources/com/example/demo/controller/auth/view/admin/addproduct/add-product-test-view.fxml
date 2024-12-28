@@ -2,60 +2,72 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 
+<?import java.net.URL?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.demo.controller.admin.addproduct.AddProductTestController"
-            prefWidth="1000"    prefHeight="700.0" style="-fx-background-color: #fafafa;">
+            fx:controller="com.example.demo.controller.admin.addproduct.UploadproductController"
+            prefHeight="700.0" prefWidth="850.0" style="-fx-background-color: #f7f7f7;">
 
-    <Label text="Add New Product" layoutX="150.0" layoutY="20.0" style="-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #333333;"/>
+    <stylesheets>
+        <URL value="@../../../../../styleCss/customStyle.css"/>
+    </stylesheets>
 
-    <ScrollPane layoutX="50.0" layoutY="60.0"  prefWidth="1000"   prefHeight="600.0"  style="-fx-background-color: transparent;">
-        <VBox spacing="20" alignment="CENTER">
+    <ScrollPane layoutX="50.0" layoutY="10.0" prefWidth="850" prefHeight="700.0"
+                style="-fx-background-color: transparent;">
+        <VBox spacing="20" alignment="CENTER" style="-fx-padding: 20px;">
 
-            <HBox spacing="10">
-                <Label text="Product Name:" style="-fx-font-size: 14px; -fx-font-weight: bold;" prefWidth="150.0"/>
-                <TextField fx:id="nameField" prefWidth="350.0" promptText="Enter product name" />
+            <HBox spacing="10" alignment="CENTER">
+                <Label text="Tên sản phẩm:" style="-fx-font-size: 14px; -fx-font-weight: bold;" prefWidth="150.0"/>
+                <TextField fx:id="nameField" prefWidth="350.0" promptText="Nhập tên sản phẩm"/>
             </HBox>
-
-            <HBox spacing="10">
-                <Label text="Description:" style="-fx-font-size: 14px; -fx-font-weight: bold;" prefWidth="150.0"/>
-                <TextArea fx:id="descriptionField" prefWidth="350.0" prefHeight="100.0" promptText="Enter product description"/>
+            <HBox spacing="10" alignment="CENTER">
+                <Label text="Mô tả:" style="-fx-font-size: 14px; -fx-font-weight: bold;" prefWidth="150.0"/>
+                <TextArea fx:id="descriptionField" prefWidth="350.0" prefHeight="100.0"
+                          promptText="Nhập mô tả sản phẩm"/>
             </HBox>
-
             <GridPane hgap="15" vgap="15" alignment="CENTER" style="-fx-padding: 10;">
-                <Label text="Discount Quantity:" style="-fx-font-size: 14px; -fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                <TextField fx:id="discountQuantityField" promptText="Enter quantity" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                <Label text="Số lượng giảm giá:" style="-fx-font-size: 14px; -fx-font-weight: bold;"
+                       GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <TextField fx:id="discountQuantityField" promptText="Nhập số lượng" prefWidth="250.0"
+                           GridPane.columnIndex="1" GridPane.rowIndex="0"/>
 
-                <Label text="Discount (%)" style="-fx-font-size: 14px; -fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                <TextField fx:id="discountPercentageField" promptText="Enter discount percentage" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                <Label text="Giảm giá (%)" style="-fx-font-size: 14px; -fx-font-weight: bold;" GridPane.columnIndex="0"
+                       GridPane.rowIndex="1"/>
+                <TextField fx:id="discountPercentageField" promptText="Nhập % giảm giá" prefWidth="250.0"
+                           GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
-                <Label text="Start Date:" style="-fx-font-size: 14px; -fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                <Label text="Ngày bắt đầu:" style="-fx-font-size: 14px; -fx-font-weight: bold;" GridPane.columnIndex="0"
+                       GridPane.rowIndex="2"/>
                 <DatePicker fx:id="startDatePicker" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
 
-                <Label text="End Date:" style="-fx-font-size: 14px; -fx-font-weight: bold;" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                <Label text="Ngày kết thúc:" style="-fx-font-size: 14px; -fx-font-weight: bold;"
+                       GridPane.columnIndex="0" GridPane.rowIndex="3"/>
                 <DatePicker fx:id="endDatePicker" prefWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
             </GridPane>
 
-            <HBox spacing="10">
-                <Label text="Category:" style="-fx-font-size: 14px; -fx-font-weight: bold;" prefWidth="150.0"/>
-                <TextField fx:id="categoryField" prefWidth="350.0" promptText="Enter product category" />
+            <HBox spacing="10" alignment="CENTER">
+                <Label text="Loại sản phẩm:" style="-fx-font-size: 14px; -fx-font-weight: bold;" prefWidth="150.0"/>
+                <TextField fx:id="categoryField" prefWidth="350.0" promptText="Nhập loại sản phẩm"/>
             </HBox>
 
-            <HBox spacing="10">
-                <CheckBox fx:id="isNewCheckBox" text="Is this product new?" />
+            <HBox spacing="10" alignment="CENTER">
+                <CheckBox fx:id="isNewCheckBox" text="Sản phẩm mới?"/>
             </HBox>
 
-            <HBox spacing="10">
-                <Label text="Product Images:" style="-fx-font-size: 14px; -fx-font-weight: bold;" prefWidth="150.0"/>
+            <HBox spacing="10" alignment="CENTER">
+                <Label text="Hình ảnh sản phẩm:" style="-fx-font-size: 14px; -fx-font-weight: bold;" prefWidth="150.0"/>
                 <ListView fx:id="imageListView" prefWidth="350.0" prefHeight="100.0"/>
             </HBox>
-            <Button text="Add Image" layoutX="150.0" layoutY="510.0" onAction="#handleAddImage" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+            <Button text="Thêm Hình Ảnh" onAction="#handleAddImage"
+                    style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 8px 20px; -fx-font-weight: bold;"/>
 
-            <VBox fx:id="sizesVBox" spacing="10" prefWidth="500.0" style="-fx-background-color: #f4f4f4; -fx-padding: 10px;">
+
+            <VBox fx:id="sizesVBox" spacing="10" prefWidth="500.0"
+                  style="-fx-background-color: #f4f4f4; -fx-padding: 10px;">
             </VBox>
-            <Button text="Add Size" layoutX="150.0" layoutY="560.0" onAction="#handleAddSize" style="-fx-background-color: #4CAF50; -fx-text-fill: white;"/>
+            <Button text="Thêm Size" onAction="#handleAddSize" styleClass="save-button"/>
 
-            <Button text="Add Product" layoutX="250.0" layoutY="620.0" onAction="#handleAddProduct" style="-fx-background-color: #2196F3; -fx-text-fill: white;"/>
+            <Button text="Thêm Sản Phẩm" onAction="#handleAddProduct" styleClass="save-button"/>
         </VBox>
     </ScrollPane>
 </AnchorPane>

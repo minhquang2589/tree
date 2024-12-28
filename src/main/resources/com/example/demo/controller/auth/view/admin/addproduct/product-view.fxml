@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.demo.controller.admin.addproduct.AddProductTestController"
+>
+    <stylesheets>
+        <URL value="@../../../../../styleCss/customStyle.css"/>
+    </stylesheets>
+
+    <Button onAction="#uploadOnClick" text="Tải lên sản phẩm" styleClass="save-button"
+            AnchorPane.topAnchor="10.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0"/>
+
+    <HBox spacing="10" AnchorPane.topAnchor="60.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+        <TextField fx:id="searchField" styleClass="q-form" promptText="Nhập tên sản phẩm hoặc Scan mã Code" HBox.hgrow="ALWAYS"/>
+        <Button text="Tìm kiếm" styleClass="save-button" onAction="#onSearchButtonClick"/>
+    </HBox>
+
+    <TableView fx:id="productTable" prefHeight="600" AnchorPane.topAnchor="110.0" AnchorPane.bottomAnchor="110.0"
+               AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+        <columns>
+            <TableColumn fx:id="nameColumn" text="Tên" prefWidth="200"/>
+            <TableColumn fx:id="imageColumn" prefWidth="120" maxWidth="120" text="Hình Ảnh"/>
+            <TableColumn fx:id="categoryColumn" prefWidth="99.2" text="Loại"/>
+            <TableColumn fx:id="sizeColumn" prefWidth="54.4" text="Size"/>
+            <TableColumn fx:id="discountPriceColumn" prefWidth="115.2" text="Giá"/>
+            <TableColumn fx:id="quantityColumn" prefWidth="59.2" text="Số lượng"/>
+            <TableColumn fx:id="discountColumn" prefWidth="100" text="Chiết khấu"/>
+            <TableColumn fx:id="priceColumn" prefWidth="220.0" text="Thành tiền"/>
+            <TableColumn fx:id="codeColumn" prefWidth="220.0" text="Code"/>
+            <TableColumn fx:id="actionColumn" prefWidth="150" text="Hành động" maxWidth="150"/>
+        </columns>
+    </TableView>
+
+    <HBox spacing="20" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" alignment="CENTER">
+        <Button text="Quay lại" fx:id="backButton" onAction="#onPreviousPage"/>
+        <Label fx:id="pageLabel" text="Trang: 1"/>
+        <Button  text="Tiếp theo" onAction="#onNextPage"/>
+    </HBox>
+</AnchorPane>

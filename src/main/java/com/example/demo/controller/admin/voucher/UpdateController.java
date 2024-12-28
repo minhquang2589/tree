@@ -1,9 +1,7 @@
 package com.example.demo.controller.admin.voucher;
-import com.example.demo.classInterFace.ModalController;
 import com.example.demo.classInterFace.initDataInterface;
 import com.example.demo.config.MySQLConnection;
 import com.example.demo.model.Voucher;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;

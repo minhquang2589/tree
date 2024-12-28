@@ -1,239 +1,345 @@
 package com.example.demo.controller.admin.addproduct;
 
-import java.sql.Connection;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.io.IOException;
+import java.sql.*;
 
-import com.example.demo.DAO.*;
-import com.example.demo.Utils.Config;
+import com.example.demo.Utils.Modal;
 import com.example.demo.config.MySQLConnection;
 import com.example.demo.model.*;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+import javafx.util.Callback;
 
-import java.io.File;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.example.demo.Utils.Config.hashCodeSHA;
-import static com.example.demo.Utils.Modal.showAlert;
+import static com.example.demo.Utils.Config.formatCurrencyVND;
+import static com.example.demo.Utils.Modal.*;
 
 public class AddProductTestController {
+    @FXML
+    public TableView<ProductSearch> productTable;
+    @FXML
+    public static ObservableList<ProductSearch> productList = FXCollections.observableArrayList();
+    @FXML
+    public TableColumn actionColumn;
+    @FXML
+    public TableColumn<ProductSearch, String> codeColumn;
+    @FXML
+    public TextField searchField;
+    @FXML
+    public Button backButton;
+    @FXML
+    private TableColumn<ProductSearch, String> nameColumn;
+    @FXML
+    private TableColumn<ProductSearch, String> imageColumn;
+    @FXML
+    private TableColumn<ProductSearch, String> categoryColumn;
+    @FXML
+    private TableColumn<ProductSearch, String> sizeColumn;
+    @FXML
+    private TableColumn<ProductSearch, Double> discountPriceColumn;
+    @FXML
+    private TableColumn<ProductSearch, Integer> quantityColumn;
+    @FXML
+    private TableColumn<ProductSearch, Double> discountColumn;
+    @FXML
+    private TableColumn<ProductSearch, Double> priceColumn;
+    @FXML
+    private Label pageLabel;
 
-    public TextField categoryField;
-
-    private final List<SizeQuantity> sizeQuantities = new ArrayList<>();
     @FXML
-    public VBox sizesVBox;
-    @FXML
-    public CheckBox isNewCheckBox;
-    @FXML
-    public TextField discountQuantityField;
-    @FXML
-    public TextField discountPercentageField;
-    @FXML
-    public DatePicker startDatePicker;
-    @FXML
-    public DatePicker endDatePicker;
-    @FXML
-    private TextField nameField;
-    @FXML
-    private TextArea descriptionField;
-    @FXML
-    private ListView<String> imageListView;
-    private final ProductDAO productDAO = new ProductDAO();
-    private final CategoryDAO categoryDAO = new CategoryDAO();
-    private final SizeDAO sizeDao = new SizeDAO();
-    private final VariantDAO variantDAO = new VariantDAO();
-    private final List<String> images = new ArrayList<>();
+    private static int currentPage = 1;
 
 
-    public void handleAddImage(javafx.event.ActionEvent actionEvent) {
-        Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        List<File> selectedFiles = (List<File>) Config.showFileChooser(currentStage);
-        if (selectedFiles != null) {
-            for (File selectedFile : selectedFiles) {
-                imageListView.getItems().add(String.valueOf(selectedFile));
-                images.add(String.valueOf(selectedFile));
+    public void initialize() throws IOException, SQLException {
+        loadDataproduct(null, 1);
+        updatePageLabel(currentPage);
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                if (newValue.trim().isEmpty()) {
+                    loadDataproduct(null, 1);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+
+        productList.addListener((ListChangeListener<ProductSearch>) change -> {
+            while (change.next()) {
+                if (change.wasAdded() || change.wasRemoved() || change.wasUpdated()) {
+                    updateProductTableView();
+                }
+            }
+        });
+        updateProductTableView();
+
+    }
+
+    private void updatePageLabel(int page) {
+        backButton.setVisible(page > 1);
+        pageLabel.setText("Page: " + page);
+    }
+
+    @FXML
+    private void onNextPage() {
+        currentPage++;
+        try {
+            loadDataproduct(null, currentPage);
+            updatePageLabel(currentPage);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void onPreviousPage() {
+        if (currentPage > 1) {
+            currentPage--;
+            try {
+                loadDataproduct(null, currentPage);
+                updatePageLabel(currentPage);
+
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
         }
     }
 
-
-    @FXML
-    private void handleAddProduct() {
-        String productName = nameField.getText();
-        String description = descriptionField.getText();
-        String selectedCategory = categoryField.getText();
-        boolean isNew = isNewCheckBox.isSelected();
-        String finalDiscountId = null;
+    public static void loadDataproduct(String codeOrNameSearch, int page) throws SQLException {
         Connection connection = MySQLConnection.connect();
-
-        double discountPercentage = (discountPercentageField.getText() != null && !discountPercentageField.getText().isEmpty())
-                ? Double.parseDouble(discountPercentageField.getText())
-                : 0.0;
-        int discountQuantity = (discountQuantityField.getText() != null && !discountQuantityField.getText().isEmpty()) ? Integer.parseInt(discountQuantityField.getText()) : 0;
-        LocalDate startDate = startDatePicker.getValue();
-        LocalDate endDate = endDatePicker.getValue();
-
-        if (productName.isEmpty() || description.isEmpty() || selectedCategory == null || selectedCategory.isEmpty()) {
-            showAlert("All fields must be filled!");
-            return;
+        productList.clear();
+        int itemsPerPage = 20;
+        if (page <= 1) {
+            page = 1;
         }
+        int offset = (page - 1) * itemsPerPage;
+
+        String query = """
+                SELECT
+                    p.product_id,
+                    p.description AS pro_des,
+                    p.name AS product_name,
+                    p.category_id AS pCateId,
+                    c.category AS category_name,
+                    c.category,
+                    s.size AS size_name,
+                    v.variant_id,
+                    v.size_id as vSizeId,
+                    v.quantity,
+                    v.discount_id,
+                    v.price,
+                    v.code,
+                    d.discount_percentage,
+                    i.image,
+                    i.image_id
+                FROM products p
+                JOIN categories c ON p.category_id = c.category_id
+                JOIN variants v ON p.product_id = v.product_id
+                JOIN sizes s ON v.size_id = s.size_id
+                LEFT JOIN discounts d ON v.discount_id = d.discount_id
+                LEFT JOIN images i ON p.product_id = i.product_id
+                WHERE i.image_id = (
+                    SELECT MIN(image_id)
+                    FROM images
+                    WHERE product_id = p.product_id
+                )
+                """;
+
+
+        if (codeOrNameSearch != null && !codeOrNameSearch.isEmpty()) {
+            query += " WHERE v.code LIKE ? OR p.name LIKE ?";
+        }
+
+        query += " LIMIT ? OFFSET ?";
 
         try {
-            Category selectedCategoryObj = categoryDAO.getCategoryByName(connection,selectedCategory);
-            if (selectedCategoryObj == null) {
-                Category newCategory = new Category(0, selectedCategory, null, "Category description");
-                selectedCategoryObj = categoryDAO.addCategory(connection,newCategory);
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+            if (codeOrNameSearch != null && !codeOrNameSearch.isEmpty()) {
+                String searchPattern = "%" + codeOrNameSearch + "%";
+                preparedStatement.setString(1, searchPattern);
+                preparedStatement.setString(2, searchPattern);
+                preparedStatement.setInt(3, itemsPerPage);
+                preparedStatement.setInt(4, offset);
+            } else {
+                preparedStatement.setInt(1, itemsPerPage);
+                preparedStatement.setInt(2, offset);
             }
 
-            int categoryId = selectedCategoryObj.getCategoryId();
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                String category = resultSet.getString("category_name");
+                int variantId = resultSet.getInt("variant_id");
+                String size = resultSet.getString("size_name");
+                String productName = resultSet.getString("product_name");
+                double price = resultSet.getDouble("price");
+                int qty = resultSet.getInt("quantity");
+                double discountPercentage = resultSet.getDouble("discount_percentage");
+                double totalAmount = price * qty * (1 - (discountPercentage / 100));
+                String imageUrl = resultSet.getString("image");
+                String discountId = resultSet.getString("discount_id");
+                String productId = resultSet.getString("product_id");
+                String code = resultSet.getString("code");
+                String des = resultSet.getString("pro_des");
+                String sizeId = resultSet.getString("vSizeId");
+                String cateId = resultSet.getString("pCateId");
+                String imageId = resultSet.getString("image_id");
+                ProductSearch newProduct = new ProductSearch(1, productName, imageUrl, category, price, qty, discountPercentage, totalAmount, size, variantId, discountId, productId, code, des, sizeId, cateId, imageId);
+                productList.add(newProduct);
+            }
 
-            Product newProduct = new Product(productName, description, categoryId, isNew);
-            productDAO.addProduct(connection,newProduct);
-            if (discountPercentage > 0 && discountQuantity > 0) {
-                if (startDate == null || endDate == null) {
-                    showAlert("Xin vui lòng chọn nhày bắt đầu và ngày kết thúc giảm giá cho sản phẩm này!");
-                    return;
-                } else if (!endDate.isAfter(startDate)) {
-                    showAlert("Ngày kết thúc phải lớn hơn ngày bắt đầu. Vui lòng chọn lại!");
-                    return;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void updateProductTableView() {
+        nameColumn.setCellValueFactory(cellData -> cellData.getValue().tenSanPhamProperty());
+        categoryColumn.setCellValueFactory(cellData -> cellData.getValue().loaiProperty());
+        sizeColumn.setCellValueFactory(cellData -> cellData.getValue().sizeProperty());
+        codeColumn.setCellValueFactory(cellData -> cellData.getValue().getCode());
+        discountColumn.setCellValueFactory(cellData -> cellData.getValue().chietKhauProperty().asObject());
+        discountColumn.setCellFactory(column -> new TableCell<ProductSearch, Double>() {
+            @Override
+            protected void updateItem(Double item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
                 } else {
-                    Discount newDiscount = new Discount(discountPercentage, discountQuantity, discountQuantity, startDate, endDate);
-                    int discountId = DiscountDAO.addDiscount(newDiscount);
-                    finalDiscountId = (discountId != -1) ? Integer.toString(discountId) : null;
+                    setText(item + " %");
                 }
             }
-
-            int productId = newProduct.getProductId();
-            productDAO.addProductImages(connection,productId, images);
-            for (SizeQuantity sizeQuantity : sizeQuantities) {
-                Size size = sizeQuantity.getSize();
-                int quantity = sizeQuantity.getQuantity();
-                int price = sizeQuantity.getPrice();
-                Size existingSize = sizeDao.getSizeByName(connection,size.getSize());
-                String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMddHHmm"));
-                String uniqueCode = hashCodeSHA(size.getSize() + quantity + timestamp);
-
-                if (existingSize != null) {
-                    variantDAO.addProductVariant(connection,productId, existingSize.getSizeId(), price, quantity, uniqueCode, finalDiscountId);
+        });
+        quantityColumn.setCellValueFactory(cellData -> cellData.getValue().soLuongProperty().asObject());
+        priceColumn.setCellValueFactory(cellData -> cellData.getValue().thanhTienProperty().asObject());
+        priceColumn.setCellFactory(column -> new TableCell<ProductSearch, Double>() {
+            @Override
+            protected void updateItem(Double item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
                 } else {
-                    int newSizeId = sizeDao.addSize(connection,size);
-                    if (newSizeId != -1) {
-                        variantDAO.addProductVariant(connection,productId, newSizeId, price, quantity, uniqueCode, finalDiscountId);
-                    } else {
-                        showAlert("Error adding new size: " + size.getSize());
-                        return;
+                    setText(formatCurrencyVND(item));
+                }
+            }
+        });
+        discountPriceColumn.setCellValueFactory(cellData -> cellData.getValue().giaProperty().asObject());
+        discountPriceColumn.setCellFactory(column -> new TableCell<ProductSearch, Double>() {
+            @Override
+            protected void updateItem(Double item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(formatCurrencyVND(item));
+                }
+            }
+        });
+
+        imageColumn.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getImage()));
+        imageColumn.setCellFactory(col -> new TableCell<ProductSearch, String>() {
+            private final ImageView imageView = new ImageView();
+
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setGraphic(null);
+                } else {
+                    javafx.scene.image.Image image = new Image("file:" + item);
+                    imageView.setImage(image);
+                    imageView.setFitHeight(125);
+                    imageView.setFitWidth(160);
+                    setGraphic(imageView);
+                }
+            }
+        });
+        actionColumn.setCellFactory(new Callback<TableColumn<ProductSearch, String>, TableCell<ProductSearch, String>>() {
+            @Override
+            public TableCell<ProductSearch, String> call(TableColumn<ProductSearch, String> param) {
+                return new TableCell<ProductSearch, String>() {
+                    private final Button deleteButton = new Button("Xoá");
+                    private final Button editButton = new Button("Sửa");
+
+                    {
+                        deleteButton.getStyleClass().add("delete-button");
+                        editButton.getStyleClass().add("edit-button");
+                        deleteButton.setOnAction(event -> handleDelete(getTableRow().getItem()));
+                        editButton.setOnAction(event -> {
+                            try {
+                                handleEdit(getTableRow().getItem());
+                            } catch (IOException | SQLException e) {
+                                throw new RuntimeException(e);
+                            }
+                        });
                     }
-                }
+
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            HBox hBox = new HBox(3);
+                            hBox.setAlignment(Pos.CENTER);
+                            editButton.setMaxWidth(Double.MAX_VALUE);
+                            deleteButton.setMaxWidth(Double.MAX_VALUE);
+                            hBox.getChildren().addAll(editButton, deleteButton);
+                            setGraphic(hBox);
+                        }
+                    }
+                };
             }
-            imageListView.getItems().clear();
-            images.clear();
-            showAlert("Product added successfully!");
-        } catch (NumberFormatException | SQLException e) {
-            System.out.println(e.getMessage());
-        }
+        });
+        productTable.setItems(productList);
     }
 
-
-    @FXML
-    private void handleAddSize() {
-        HBox newSizeRow = new HBox(10);
-        TextField newSizeInputField = new TextField();
-        newSizeInputField.setPromptText("Size");
-        newSizeInputField.setPrefWidth(150);
-        TextField newQuantityInputField = new TextField();
-        TextField newPriceInputField = new TextField();
-        newQuantityInputField.setPromptText("Quantity");
-        newQuantityInputField.setPrefWidth(150);
-        newPriceInputField.setPromptText("Price");
-        newPriceInputField.setPrefWidth(150);
-        Button deleteButton = new Button("Delete");
-        deleteButton.setOnAction(event -> {
-            sizesVBox.getChildren().remove(newSizeRow);
-            sizeQuantities.removeIf(sizeQuantity ->
-                    sizeQuantity.getSize().getSize().equals(newSizeInputField.getText()));
-            updateSizeQuantitiesView();
-        });
-
-        newSizeRow.getChildren().addAll(newSizeInputField, newQuantityInputField, newPriceInputField, deleteButton);
-
-        sizesVBox.getChildren().addFirst(newSizeRow);
-        newQuantityInputField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                addSizeQuantity(newSizeInputField, newQuantityInputField, newPriceInputField);
-            }
-        });
-
-        newPriceInputField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) {
-                addSizeQuantity(newSizeInputField, newQuantityInputField, newPriceInputField);
-            }
+    private void handleEdit(ProductSearch item) throws IOException, SQLException {
+        showModalWithData("/com/example/demo/controller/auth/view/admin/addproduct/edit-product-view.fxml", "Sửa thông tin sản phẩm", item, () -> {
         });
     }
 
-    private void addSizeQuantity(TextField sizeField, TextField quantityField, TextField priceField) {
-        String sizeText = sizeField.getText();
-        String quantityText = quantityField.getText();
-        String priceText = priceField.getText();
-
-        if (!sizeText.isEmpty() && !quantityText.isEmpty() && !priceText.isEmpty()) {
+    private void handleDelete(ProductSearch item) {
+        System.out.println(item);
+        Modal.showAlert(null, "Bạn có chắc chắn muốn xoá sản phầm này không?", Alert.AlertType.CONFIRMATION, () -> {
+            String query = "DELETE FROM products WHERE product_id = " + item.getProductId();
+            Connection connection = MySQLConnection.connect();
             try {
-                int quantity = Integer.parseInt(quantityText);
-                int price = Integer.parseInt(priceText);
-
-                Size existingSize = sizeQuantities.stream()
-                        .map(SizeQuantity::getSize)
-                        .filter(size -> size.getSize().equals(sizeText))
-                        .findFirst()
-                        .orElse(null);
-
-                if (existingSize != null) {
-                    sizeQuantities.removeIf(sq -> sq.getSize().getSize().equals(sizeText));
-                    SizeQuantity updatedSizeQuantity = new SizeQuantity(existingSize, quantity, price);
-                    sizeQuantities.add(updatedSizeQuantity);
-                } else {
-                    Size newSize = new Size(0, sizeText, "");
-                    sizeQuantities.add(new SizeQuantity(newSize, quantity, price));
+                assert connection != null;
+                try (Statement statement = connection.createStatement()) {
+                    statement.executeUpdate(query);
+                    productList.remove(item);
                 }
 
-                sizeField.clear();
-                quantityField.clear();
-                priceField.clear();
-                updateSizeQuantitiesView();
-            } catch (NumberFormatException e) {
-                showAlert("Invalid quantity or price entered.");
+            } catch (SQLException e) {
+                showAlert(null);
+                e.printStackTrace();
             }
-        } else {
-            showAlert("Please enter size, quantity, and price.");
-        }
-    }
-
-    private void updateSizeQuantitiesView() {
-        sizesVBox.getChildren().clear();
-        for (SizeQuantity sizeQuantity : sizeQuantities) {
-            HBox sizeRow = new HBox(10);
-            Label sizeLabel = new Label("Size: " + sizeQuantity.getSize().getSize());
-            Label quantityLabel = new Label("Quantity: " + sizeQuantity.getQuantity());
-            Label priceLabel = new Label("Price: " + sizeQuantity.getPrice());
-            Button deleteButton = new Button("Delete");
-
-            deleteButton.setOnAction(event -> {
-                sizeQuantities.remove(sizeQuantity);
-                updateSizeQuantitiesView();
-            });
-
-            sizeRow.getChildren().addAll(sizeLabel, quantityLabel, priceLabel, deleteButton);
-            sizesVBox.getChildren().add(sizeRow);
-        }
+        }, null);
     }
 
 
+    public void uploadOnClick(ActionEvent actionEvent) throws IOException {
+        showModal("/com/example/demo/controller/auth/view/admin/addproduct/add-product-test-view.fxml", "Tải lên sản phẩm", () -> {
+            try {
+                loadDataproduct(null, 1);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+    }
+
+    public void onSearchButtonClick(ActionEvent actionEvent) throws SQLException {
+        String searchInput = searchField.getText();
+        loadDataproduct(searchInput, 1);
+    }
 }

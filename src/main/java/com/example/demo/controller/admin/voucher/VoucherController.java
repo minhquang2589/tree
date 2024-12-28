@@ -70,7 +70,7 @@ public class VoucherController {
                         editButton.setOnAction(event -> {
                             try {
                                 handleEdit(getTableRow().getItem());
-                            } catch (IOException e) {
+                            } catch (IOException | SQLException e) {
                                 throw new RuntimeException(e);
                             }
                         });
@@ -156,7 +156,7 @@ public class VoucherController {
         }, null);
     }
 
-    private void handleEdit(Voucher voucher) throws IOException {
+    private void handleEdit(Voucher voucher) throws IOException, SQLException {
         showModalWithData("/com/example/demo/controller/auth/view/admin/voucher/update-view.fxml", "Sửa phiếu giảm giá", voucher, this::loadData);
     }
 

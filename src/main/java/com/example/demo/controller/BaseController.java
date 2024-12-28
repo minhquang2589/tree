@@ -70,13 +70,15 @@ public class BaseController {
 
     @FXML
     public void onAddProduct(ActionEvent actionEvent) throws IOException {
-        setMainContent("/com/example/demo/controller/auth/view/admin/addproduct/addproduct.fxml");
+        setMainContent("/com/example/demo/controller/auth/view/admin/addproduct/product-view.fxml");
+//        setMainContent("/com/example/demo/controller/auth/view/admin/addproduct/addproduct.fxml");
     }
 
     @FXML
     public void onAddProductTest(ActionEvent actionEvent) throws IOException {
-        setMainContent("/com/example/demo/controller/auth/view/admin/addproduct/add-product-test-view.fxml");
+        setMainContent("/com/example/demo/controller/auth/view/admin/addproduct/product-view.fxml");
     }
+
 
     @FXML
     public void voucherOnClick(ActionEvent actionEvent) throws IOException {

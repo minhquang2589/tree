@@ -1,5 +1,4 @@
 package com.example.demo.DAO;
-import com.example.demo.config.MySQLConnection;
 import com.example.demo.model.Size;
 
 import java.sql.*;
@@ -11,7 +10,6 @@ public class SizeDAO {
         String query = "INSERT INTO sizes (size, description) VALUES (?, ?)";
         try (
                 PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-
             preparedStatement.setString(1, size.getSize());
             preparedStatement.setString(2, size.getDescription());
 

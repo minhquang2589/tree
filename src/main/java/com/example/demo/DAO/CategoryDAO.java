@@ -1,30 +1,7 @@
 package com.example.demo.DAO;
 import com.example.demo.model.Category;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-
 public class CategoryDAO {
-
-
-    public List<Category> getAllCategories(Connection connection) throws SQLException {
-        List<Category> categories = new ArrayList<>();
-        String query = "SELECT * FROM categories";
-        try (
-                Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery(query)) {
-
-            while (resultSet.next()) {
-                int categoryId = resultSet.getInt("category_id");
-                String category = resultSet.getString("category");
-                String image = resultSet.getString("image");
-                String description = resultSet.getString("description");
-                categories.add(new Category(categoryId, category, image, description));
-            }
-        }
-        return categories;
-    }
-
 
     public Category addCategory(Connection connection,Category category) throws SQLException {
         String query = "INSERT INTO categories (category, image, description) VALUES (?, ?, ?)";

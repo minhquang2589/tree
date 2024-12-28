@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Map;
 
 import static com.example.demo.Utils.Config.calculateCartTotal;
@@ -36,7 +37,7 @@ public class PaymentProcessingController implements initDataInterface<Observable
 
 
     @FXML
-    public void handleCashPayment(ActionEvent event) throws IOException {
+    public void handleCashPayment(ActionEvent event) throws IOException, SQLException {
 
         showModalWithData("/com/example/demo/controller/auth/view/user/cash/cash-tt.fxml", "Thanh toán tiền mặt", productList, () -> {
 
@@ -44,7 +45,7 @@ public class PaymentProcessingController implements initDataInterface<Observable
     }
 
     @FXML
-    private void handleTpayQrcode(ActionEvent event) throws IOException {
+    private void handleTpayQrcode(ActionEvent event) throws IOException, SQLException {
         showModalWithData("/com/example/demo/controller/auth/view/user/pay/e-walletpayment.fxml", "Thanh toán QR code", productList, () -> {
             System.out.println("call back QR handle");
         });
