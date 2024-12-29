@@ -2,10 +2,8 @@ package com.example.demo.Utils;
 
 import com.example.demo.model.ProductSearch;
 import com.example.demo.model.Voucher;
-import javafx.collections.ObservableList;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -23,7 +21,6 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.nio.file.Path;
-import java.time.LocalDate;
 
 
 public class Config {

@@ -13,6 +13,7 @@ import static com.example.demo.DAO.OrderDAO.insertOrder;
 import static com.example.demo.DAO.OrderItemDAO.insertOrderItem;
 import static com.example.demo.DAO.PaymentMethodDAO.findOrInsertPaymentMethod;
 import static com.example.demo.DAO.VariantDAO.updateProductVariant;
+import static com.example.demo.DAO.VoucherDAO.updateVoucher;
 import static com.example.demo.Utils.Config.*;
 
 public class PaymentController {
@@ -22,8 +23,11 @@ public class PaymentController {
             String orderCode = hashCodeSHA(getCurrentDate());
             Map<String, Double> cart = calculateCartTotal(cartItem, voucher);
             System.out.println();
+            if (voucher != null) {
+                updateVoucher(connection, voucher);
+            }
             int paymentId = findOrInsertPaymentMethod(connection, paymentMethod, "Payment via" + " " + paymentMethod);
-            int orderId = insertOrder(connection, null, paymentId, cart.get("totalAmount"), "No specific note", cart.get("totalDiscount"), orderCode,voucher);
+            int orderId = insertOrder(connection, null, paymentId, cart.get("totalAmount"), "No specific note", cart.get("totalDiscount"), orderCode, voucher);
             for (ProductSearch item : cartItem) {
                 int purchasedQuantity = item.getSoLuong();
                 insertOrderItem(connection, orderId, item.variantIdProperty(), purchasedQuantity);

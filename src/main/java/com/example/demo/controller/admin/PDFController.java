@@ -108,12 +108,13 @@ public class PDFController {
         qty.setAlignment(Element.ALIGN_RIGHT);
         document.add(qty);
 
-        Paragraph totalDis = new Paragraph("Giảm giá:   - " + formatCurrencyVND(saleDiscountAmount), boldFont);
-        totalDis.setAlignment(Element.ALIGN_RIGHT);
-        document.add(totalDis);
-
+        if (saleDiscountAmount > 0) {
+            Paragraph totalDis = new Paragraph("Giảm giá:   - " + formatCurrencyVND(saleDiscountAmount), boldFont);
+            totalDis.setAlignment(Element.ALIGN_RIGHT);
+            document.add(totalDis);
+        }
         if (voucher != null) {
-            Paragraph voucherApply = new Paragraph("Voucher :   - " + voucher.getVoucherPercentage() + " %", boldFont);
+            Paragraph voucherApply = new Paragraph("Voucher :  " + voucher.getVoucherPercentage() + " % " + " - " + formatCurrencyVND(voucherDiscountAmount), boldFont);
             voucherApply.setAlignment(Element.ALIGN_RIGHT);
             document.add(voucherApply);
 

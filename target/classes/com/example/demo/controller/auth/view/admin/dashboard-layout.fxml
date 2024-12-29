@@ -11,18 +11,20 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo.controller.BaseController">
+<AnchorPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.demo.controller.BaseController">
     <stylesheets>
-        <URL value="@../../../../styleCss/customStyle.css" />
+        <URL value="@../../../../styleCss/customStyle.css"/>
     </stylesheets>
-    <SplitPane dividerPositions="0.2" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+    <SplitPane dividerPositions="0.2" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0"
+               AnchorPane.topAnchor="0">
         <!--user Sidebar -->
         <ScrollPane maxWidth="350" minWidth="236" style="-fx-padding: 0; -fx-background-color: #f7f7f7;">
             <VBox maxWidth="350" minWidth="237" prefHeight="598.0" prefWidth="238.0" styleClass="sidebar">
-                <Button onAction="#onDashboardButtonClick" styleClass="button" text="Bảng điều khiển" />
-                <Button onAction="#onSales" styleClass="button" text="Bàn hàng" />
-                <Button onAction="#onAddProduct" styleClass="button" text="Quản lý sản phẩm" />
-                <Button onAction="#voucherOnClick" styleClass="button" text="Phiếu giảm giá" />
+                <Button onAction="#onDashboardButtonClick" styleClass="button" text="Bảng điều khiển"/>
+                <Button onAction="#onSales" styleClass="button" text="Bàn hàng"/>
+                <Button onAction="#onAddProduct" styleClass="button" text="Quản lý sản phẩm"/>
+                <Button onAction="#voucherOnClick" styleClass="button" text="Phiếu giảm giá"/>
                 <Button text="Quản lý tài khoản" onAction="#onUsersButtonClick" styleClass="button"/>
             </VBox>
         </ScrollPane>
@@ -30,15 +32,16 @@
         <VBox>
             <!-- header -->
             <HBox alignment="CENTER_LEFT" spacing="5" style="-fx-background-color: #ffffff; -fx-padding: 5;">
-                <Label fx:id="welcomeLabel" style="-fx-font-size: 18px; -fx-text-fill: black; -fx-font-weight: bold;" HBox.hgrow="ALWAYS" />
-                <Region HBox.hgrow="ALWAYS" />
-                <Button onAction="#onLogoutButtonClick" styleClass="logout-button" text="Đăng xuất" />
+                <Label fx:id="welcomeLabel" style="-fx-font-size: 18px; -fx-text-fill: black; -fx-font-weight: bold;"
+                       HBox.hgrow="ALWAYS"/>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button onAction="#onLogoutButtonClick" styleClass="logout-button" text="Đăng xuất"/>
             </HBox>
-            <Region style="-fx-background-color: #e0e0e0; -fx-min-height: 1; -fx-max-height: 1;" />
+            <Region style="-fx-background-color: #e0e0e0; -fx-min-height: 1; -fx-max-height: 1;"/>
 
             <!--user main Content -->
-            <StackPane fx:id="rootPaneDashboard" style="-fx-background-color: white; -fx-padding: 10px 1px 10px 1px;">
-                <AnchorPane fx:id="mainContent" style="-fx-background-color: white;">
+            <StackPane fx:id="rootPaneDashboard" prefHeight="1200" style="-fx-background-color: white; -fx-padding: 10px 1px 10px 1px;">
+                <AnchorPane fx:id="mainContent" style="-fx-background-color: white;" prefHeight="1200">
                 </AnchorPane>
             </StackPane>
         </VBox>

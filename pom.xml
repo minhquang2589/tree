@@ -10,9 +10,9 @@
     <name>demo</name>
 
     <properties>
-        <maven.compiler.source>23</maven.compiler.source>
-        <maven.compiler.target>23</maven.compiler.target>
-        <maven.compiler.release>23</maven.compiler.release>
+        <maven.compiler.source>23.0.1</maven.compiler.source>
+        <maven.compiler.target>23.0.1</maven.compiler.target>
+        <maven.compiler.release>23.0.1</maven.compiler.release>
         <junit.version>5.10.0</junit.version>
     </properties>
 
@@ -44,7 +44,7 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-swing</artifactId>
-            <version>23</version>
+            <version>23.0.1</version>
         </dependency>
 
 
@@ -62,18 +62,18 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>23</version>
+            <version>23.0.1</version>
         </dependency>
 
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>23</version>
+            <version>23.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-graphics</artifactId>
-            <version>23</version>
+            <version>23.0.1</version>
         </dependency>
 
         <dependency>
@@ -109,8 +109,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.13.0</version>
                 <configuration>
-                    <source>23</source>
-                    <target>23</target>
+                    <source>23.0.1</source>
+                    <target>23.0.1</target>
                     <compilerArgs>
                         <arg>--enable-preview</arg>
                     </compilerArgs>

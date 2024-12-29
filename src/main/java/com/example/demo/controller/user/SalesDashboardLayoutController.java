@@ -6,10 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.prefs.BackingStoreException;
 
 import com.example.demo.Utils.Config;
@@ -103,8 +100,10 @@ public class SalesDashboardLayoutController {
 
     private Map<String, List<ProductSearch>> pendingOrders = new HashMap<>();
 
+    private String orderPendingCode = null;
 
-    public void initialize() throws IOException {
+    public void initialize() throws IOException, BackingStoreException {
+        countPeddingOrder();
         applyVoucher = null;
         updateDate();
         searchField.setOnKeyPressed(event -> {
@@ -181,16 +180,26 @@ public class SalesDashboardLayoutController {
     }
 
     @FXML
-    private void onHoldOrder(ActionEvent event) {
+    private void onHoldOrder(ActionEvent event) throws BackingStoreException {
         if (!productList.isEmpty()) {
-            String newOrderId = "Order_" + hashCodeSHA(getCurrentDate());
-            pendingOrders.put(newOrderId, productList);
+            String newOrderId = "Order_" + pendingOrders.size();
+            Map<String, List<ProductSearch>> orderMap = new HashMap<>();
+            if (orderPendingCode != null) {
+                showAlert("Thông báo", "Bạn đang gọi phiếu  " + orderPendingCode + " bạn có muốn treo lại phiếu " + orderPendingCode + " không?", Alert.AlertType.CONFIRMATION,
+                        () -> {
+                            orderMap.put(orderPendingCode, new ArrayList<>(productList));
+                            saveOrders(orderMap);
+                            productList.clear();
+                        }, null);
+            } else {
+                orderMap.put(newOrderId, new ArrayList<>(productList));
+                saveOrders(orderMap);
+                showAlert("Đã treo phiếu:  " + newOrderId);
+                orderPendingCode = null;
+                productList.clear();
+                countPeddingOrder();
+            }
 
-            saveOrders(pendingOrders);
-            showAlert("Thông báo", "Đã treo phiếu: " + newOrderId, Alert.AlertType.INFORMATION, null, null);
-            productList.clear();
-            productTable.setItems(productList);
-            treoPhieuText.setText("Phiếu treo: " + pendingOrders.size());
         } else {
             showAlert("Thông báo", "Không có sản phẩm để treo phiếu!", Alert.AlertType.WARNING, null, null);
         }
@@ -210,6 +219,8 @@ public class SalesDashboardLayoutController {
         dialog.setTitle("Gọi phiếu");
         dialog.setHeaderText("Chọn phiếu để gọi");
         dialog.setContentText("Danh sách phiếu:");
+        dialog.setResizable(true);
+        dialog.getDialogPane().setPrefSize(350, 200);
 
         Optional<String> result = dialog.showAndWait();
         if (result.isPresent()) {
@@ -221,7 +232,7 @@ public class SalesDashboardLayoutController {
                 productList.addAll(order);
                 productTable.setItems(productList);
                 treoPhieuText.setText("Phiếu treo: " + pendingOrders.size());
-                OrderController.removeOrder(orderId);
+                orderPendingCode = orderId;
             }
         }
     }
@@ -361,6 +372,14 @@ public class SalesDashboardLayoutController {
                                     () -> {
                                         productList.remove(product);
                                         getTableView().refresh();
+                                        if(orderPendingCode != null){
+                                            try {
+                                                OrderController.removeOrder(orderPendingCode);
+                                                countPeddingOrder();
+                                            } catch (BackingStoreException e) {
+                                                throw new RuntimeException(e);
+                                            }
+                                        }
                                     }, null
                             );
                         } else {
@@ -393,12 +412,8 @@ public class SalesDashboardLayoutController {
             sl_CancelTransaction.setVisible(true);
             sl_Payment.setVisible(true);
         } else {
-            showAlert(
-                    "Thông báo",
-                    "Chưa bắt đầu ngày",
-                    Alert.AlertType.INFORMATION,
-                    null, null
-            );
+            showAlert("Chưa bắt đầu ngày");
+
         }
     }
 
@@ -527,7 +542,7 @@ public class SalesDashboardLayoutController {
         if (productList.isEmpty()) {
             Modal.showAlert("Giỏ hàng hiện tại đang trống. Hãy thêm sản phẩm để thanh thoán!");
         } else {
-            Modal.showModalWithData("/com/example/demo/controller/auth/view/user/paymentprocessing/paymentProcessing.fxml", "Chọn các hình thức thanh toán bằng cách bấm vào ô tương ứng.", productList, ()->{
+            Modal.showModalWithData("/com/example/demo/controller/auth/view/user/paymentprocessing/paymentProcessing.fxml", "Chọn các hình thức thanh toán bằng cách bấm vào ô tương ứng.", productList, () -> {
                 applyVoucher = null;
                 updateTableView();
             });
@@ -564,6 +579,38 @@ public class SalesDashboardLayoutController {
 
         }
     }
+
+    public void cancelHandle(ActionEvent actionEvent) {
+        if (productList.isEmpty()) {
+            showAlert("Không có giao dịch nào đang thực hiện!");
+            return;
+        }
+        showAlert(
+                "Huỷ giao dịch",
+                "Bạn có chắc chắn muốn huỷ" + " giao dịch " + (orderPendingCode != null ? (orderPendingCode) : "") + " không?",
+                Alert.AlertType.CONFIRMATION,
+                () -> {
+                    if (orderPendingCode != null) {
+                        try {
+                            OrderController.removeOrder(orderPendingCode);
+                            orderPendingCode = null;
+                            countPeddingOrder();
+                        } catch (BackingStoreException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    productList.clear();
+                }, null
+        );
+
+    }
+
+    private void countPeddingOrder() throws BackingStoreException {
+        pendingOrders = OrderController.loadOrders();
+        treoPhieuText.setText("Phiếu đang treo: " + pendingOrders.size());
+    }
+
+
 }
 
 

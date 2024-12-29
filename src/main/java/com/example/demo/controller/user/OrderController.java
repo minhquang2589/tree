@@ -6,7 +6,6 @@ import com.example.demo.model.ProductSearch;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
-
 import java.util.*;
 import java.util.prefs.BackingStoreException;
 
@@ -48,7 +47,6 @@ public class OrderController {
     public static void removeOrder(String key) throws BackingStoreException {
         if (PreferencesUtils.preferences.get(key, null) != null) {
             PreferencesUtils.preferences.remove(key);
-            PreferencesUtils.preferences.flush();
         }
     }
 

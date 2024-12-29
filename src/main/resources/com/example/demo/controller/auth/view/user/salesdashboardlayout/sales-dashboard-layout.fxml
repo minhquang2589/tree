@@ -67,7 +67,6 @@
                                                            text="Giao dịch tại quầy"/>
                                                 <TableView fx:id="productTable" layoutY="53.0" prefHeight="678.0"
                                                            prefWidth="1008.0"
-                                                           editable="true"
                                                 >
                                                     <columns>
                                                         <TableColumn fx:id="colStt" prefWidth="48.80001354217529"
@@ -220,12 +219,12 @@
                                 <Button fx:id="sl_sales2" layoutX="114.0" layoutY="14.8" mnemonicParsing="false"
                                         prefHeight="0.0" prefWidth="100.0" AnchorPane.bottomAnchor="5.0"
                                         AnchorPane.topAnchor="5.0"/>
-                                <!--                        <Button layoutX="230.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="100.0" text="Back" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />-->
                                 <fx:include source="../../../components/back-button.fxml" AnchorPane.bottomAnchor="0.0"
                                             AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"/>
                                 <Button fx:id="sl_CancelTransaction" layoutX="10.0" layoutY="35.2"
                                         mnemonicParsing="false" prefHeight="0.0" prefWidth="90.0" text="Huỷ giao dịch"
-                                        visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0"
+                                        visible="false" onAction="#cancelHandle" AnchorPane.bottomAnchor="5.0"
+                                        AnchorPane.leftAnchor="5.0"
                                         AnchorPane.topAnchor="5.0"/>
                                 <Button fx:id="sl_Payment" layoutX="114.0" layoutY="4.8" mnemonicParsing="false"
                                         onAction="#onPayment" prefHeight="0.0" prefWidth="100.0" text="Tính tiền"

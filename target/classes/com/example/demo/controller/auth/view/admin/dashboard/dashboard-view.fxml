@@ -3,19 +3,28 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" xmlns:fx="http://javafx.com/fxml"
+<ScrollPane fitToWidth="true" xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.demo.controller.admin.dashboard.DashboardController">
-    <VBox spacing="20" alignment="CENTER">
-        <HBox spacing="20" alignment="CENTER">
-            <BarChart fx:id="revenueChart" title="Doanh thu">
-                <xAxis>
-                    <CategoryAxis fx:id="xAxis"/>
-                </xAxis>
-                <yAxis>
-                    <NumberAxis fx:id="yAxis"/>
-                </yAxis>
-            </BarChart>
-            <LineChart fx:id="lineChart" title="Doanh thu theo tháng">
+    <VBox spacing="20">
+        <VBox spacing="20" alignment="CENTER">
+            <TableView fx:id="orderTable" prefHeight="400" prefWidth="600">
+                <columns>
+                    <TableColumn fx:id="productImageColumn" text="Ảnh"/>
+                    <TableColumn fx:id="status" text="Status"/>
+                    <TableColumn fx:id="productNameColumn" text="Tên sản phẩm"/>
+                    <TableColumn fx:id="orderCodeColumn" text="Order reference"/>
+                    <TableColumn fx:id="quantityColumn" text="Số lượng"/>
+                    <TableColumn fx:id="sizeColumn" text="Size"/>
+                    <TableColumn fx:id="discountColumn" text="Giảm giá"/>
+                    <TableColumn fx:id="totalPriceColumn" text="Thanh toán"/>
+                    <TableColumn fx:id="orderDateColumn" text="Ngày Order"/>
+                    <TableColumn fx:id="actionColumn"/>
+                </columns>
+            </TableView>
+        </VBox>
+        <HBox spacing="20">
+            <PieChart fx:id="pieChart" title="Phân bổ doanh thu" prefHeight="350"/>
+            <LineChart fx:id="lineChart" title="Doanh thu theo tháng" prefHeight="350">
                 <xAxis>
                     <CategoryAxis fx:id="lineXAxis"/>
                 </xAxis>
@@ -24,9 +33,17 @@
                 </yAxis>
             </LineChart>
         </HBox>
-        <VBox spacing="20" alignment="CENTER">
-            <PieChart fx:id="pieChart" title="Phân bổ doanh thu">
-            </PieChart>
+        <VBox spacing="20" alignment="CENTER" prefHeight="350">
+            <BarChart fx:id="revenueChart" title="Doanh thu">
+                <xAxis>
+                    <CategoryAxis fx:id="xAxis"/>
+                </xAxis>
+                <yAxis>
+                    <NumberAxis fx:id="yAxis"/>
+                </yAxis>
+            </BarChart>
         </VBox>
+
+
     </VBox>
 </ScrollPane>
