@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import java.net.URL?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.demo.controller.user.paymentprocessing.PaymentProcessingController"
+            prefHeight="400.0" prefWidth="600.0">
+    <stylesheets>
+        <URL value="@../../../../../styleCss/customStyle.css"/>
+    </stylesheets>
+    <VBox alignment="CENTER" spacing="20.0" AnchorPane.leftAnchor="10" AnchorPane.rightAnchor="10"
+          AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0">
+        <Label text="Nhập mã voucher:" style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #333;"/>
+
+        <TextField fx:id="voucherCodeField" styleClass="q-form" promptText="Nhập mã voucher"
+                   style="-fx-font-size: 14px; -fx-padding: 10px; -fx-background-color: #f0f0f0; -fx-border-radius: 5px;"/>
+        <Label fx:id="voucherStatusLabel" style="-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #d32f2f;"/>
+        <Button text="Áp dụng voucher" fx:id="buttonText" onAction="#onApplyVoucher"
+                style="-fx-font-size: 14px; -fx-padding: 10px 10px 10px 10px; -fx-background-color: #4CAF50; -fx-text-fill: white; -fx-border-radius: 5px;"
+        />
+    </VBox>
+
+</AnchorPane>

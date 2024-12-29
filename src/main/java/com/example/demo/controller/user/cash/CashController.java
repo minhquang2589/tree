@@ -11,9 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
-
-import java.awt.*;
-import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -25,6 +22,7 @@ import static com.example.demo.Utils.Config.formatCurrencyVND;
 import static com.example.demo.Utils.Modal.*;
 import static com.example.demo.controller.admin.PDFController.printInvoice;
 import static com.example.demo.controller.admin.PaymentController.handlePayment;
+import static com.example.demo.controller.admin.voucher.VoucherController.applyVoucher;
 
 public class CashController implements initDataInterface<List<ProductSearch>> {
     @FXML
@@ -69,7 +67,7 @@ public class CashController implements initDataInterface<List<ProductSearch>> {
 
     @Override
     public void initData(List<ProductSearch> data) {
-        cart = calculateCartTotal(data, null);
+        cart = calculateCartTotal(data, applyVoucher);
         textField1.setText(formatCurrencyVND(cart.get("totalAmount")));
         textField2.setText(textField1.getText());
         cartItem = data;
@@ -124,16 +122,17 @@ public class CashController implements initDataInterface<List<ProductSearch>> {
         showAlert("Xác nhận", "Xác nhận thanh toán tiền mặt!", Alert.AlertType.WARNING, () -> {
             Connection connection = MySQLConnection.connect();
             try {
-                String payCode = handlePayment(connection, "cash", cartItem);
+                String payCode = handlePayment(connection, "cash", cartItem, applyVoucher);
                 if (payCode != null) {
-                    printInvoice(cartItem, payCode);
+                    printInvoice(cartItem, payCode,applyVoucher);
+                    applyVoucher = null;
                     SalesDashboardLayoutController.productList.clear();
                     closeAllModals();
                 } else {
                     showAlert("Thanh toán không thành công. Vui lòng thử lại sau!");
                 }
             } catch (SQLException e) {
-                throw new RuntimeException(e);
+                showAlert("Thanh toán không thành công. Vui lòng thử lại sau!");
             } catch (IOException e) {
                 showAlert("Không thể mở tệp PDF");
             }

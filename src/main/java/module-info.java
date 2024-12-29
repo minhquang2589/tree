@@ -1,7 +1,6 @@
 module com.example.demo {
     requires javafx.controls;
     requires javafx.fxml;
-    requires java.sql;
     requires net.bytebuddy;
     requires java.xml.bind;
     requires com.google.zxing;
@@ -11,6 +10,8 @@ module com.example.demo {
     requires java.net.http;
     requires java.persistence;
     requires itextpdf;
+    requires com.google.gson;
+    requires java.sql;
 
     opens com.example.demo to javafx.fxml;
     exports com.example.demo;
@@ -62,5 +63,6 @@ module com.example.demo {
     opens com.example.demo.controller.user.pay to javafx.fxml;
     exports com.example.demo.controller.user.QR;
     opens com.example.demo.controller.user.QR to javafx.fxml;
+
 
 }

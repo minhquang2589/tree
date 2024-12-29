@@ -1,30 +1,52 @@
 package com.example.demo.model;
 
 import javafx.beans.property.*;
+import com.google.gson.annotations.Expose;
 
 public class ProductSearch {
+    @Expose
     private IntegerProperty stt;
+    @Expose
     private StringProperty tenSanPham;
+    @Expose
     private StringProperty loai;
+    @Expose
     private DoubleProperty gia;
+    @Expose
     private StringProperty size;
+    @Expose
     private IntegerProperty soLuong;
+    @Expose
     private DoubleProperty chietKhau;
+    @Expose
     private DoubleProperty thanhTien;
+    @Expose
     private String image;
+    @Expose
     private IntegerProperty variantId;
+    @Expose
     private String discountId;
+    @Expose
     private String productId;
+    @Expose
     private StringProperty code;
+    @Expose
     private String productDescription;
+    @Expose
     private String sizeId;
+    @Expose
     private String categoryId;
+    @Expose
     private String imageId;
+    @Expose
     private String productQuantity;
+    @Expose
+    private String discountRemaining;
+    @Expose
     private boolean isNew;
 
 
-    public ProductSearch(int stt, String tenSanPham, String image, String loai, double gia, int soLuong, double chietKhau, double thanhTien, String size, int vId, String discountId, String productId, String code, String productDescription, String sizeId, String categoryId, String imageId, boolean isNew, String qty) {
+    public ProductSearch(int stt, String tenSanPham, String image, String loai, double gia, int soLuong, double chietKhau, double thanhTien, String size, int vId, String discountId, String productId, String code, String productDescription, String sizeId, String categoryId, String imageId, boolean isNew, String qty, String discountRemaining) {
         this.stt = new SimpleIntegerProperty(stt);
         this.tenSanPham = new SimpleStringProperty(tenSanPham);
         this.loai = new SimpleStringProperty(loai);
@@ -44,6 +66,7 @@ public class ProductSearch {
         this.code = new SimpleStringProperty(code);
         this.isNew = isNew;
         this.productQuantity = qty;
+        this.discountRemaining = discountRemaining;
 
     }
 
@@ -90,6 +113,10 @@ public class ProductSearch {
         return productId;
     }
 
+    public String getDiscountRemaining() {
+        return discountRemaining;
+    }
+
     public String getSizeId() {
         return sizeId;
     }
@@ -104,6 +131,10 @@ public class ProductSearch {
 
     public void setVariantId(int id) {
         this.variantId.set(id);
+    }
+
+    public void setSize(String size) {
+        this.size.set(size);
     }
 
     public String getTenSanPham() {

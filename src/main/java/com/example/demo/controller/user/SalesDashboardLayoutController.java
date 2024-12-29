@@ -8,19 +8,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.prefs.BackingStoreException;
 
 import com.example.demo.Utils.Config;
 
-import static com.example.demo.Utils.Config.formatCurrencyVND;
-
 import com.example.demo.Utils.Modal;
 
+import static com.example.demo.Utils.Config.*;
 import static com.example.demo.Utils.Modal.showAlert;
 
 import com.example.demo.Utils.PreferencesUtils;
 import com.example.demo.config.MySQLConnection;
 
 import static com.example.demo.config.button.ButtonHandler.handleNavigator;
+import static com.example.demo.controller.admin.voucher.VoucherController.applyVoucher;
+import static com.example.demo.controller.user.OrderController.saveOrders;
 
 import com.example.demo.controller.user.starttheday.StartTheDayController;
 import com.example.demo.model.ProductSearch;
@@ -32,17 +36,13 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
@@ -101,15 +101,11 @@ public class SalesDashboardLayoutController {
     @FXML
     private TextField saleshiftnumber;
 
-    private final HashMap<String, ObservableList<ProductSearch>> pendingOrders = new HashMap<>();
-    private int orderCounter = 1;
-    @FXML
-    private Button btnEditQuantity;
-    @FXML
-    private Button btnDeleteRow;
+    private Map<String, List<ProductSearch>> pendingOrders = new HashMap<>();
 
 
     public void initialize() throws IOException {
+        applyVoucher = null;
         updateDate();
         searchField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
@@ -130,30 +126,67 @@ public class SalesDashboardLayoutController {
 
         colSoLuong.setCellValueFactory(cellData -> cellData.getValue().soLuongProperty().asObject());
         colSoLuong.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-        colSoLuong.setOnEditCommit(event -> {
-            ProductSearch product = event.getRowValue();
-            int newQuantity = event.getNewValue();
-            product.setSoLuong(newQuantity);
-            double updatedPrice = product.getGia() * newQuantity * (1 - product.getChietKhau() / 100);
-            product.setThanhTien(updatedPrice);
-            productTable.refresh();
-        });
-    }
+        colSoLuong.setCellFactory(column -> new TableCell<>() {
+            private final Button increaseButton = new Button("+");
+            private final Button decreaseButton = new Button("-");
+            private final Label quantityLabel = new Label();
+            private final HBox hbox = new HBox(decreaseButton, quantityLabel, increaseButton);
 
-    @FXML
-    public void onPayment(ActionEvent actionEvent) throws IOException, SQLException {
-        if (productList.isEmpty()) {
-            Modal.showAlert("Giỏ hàng hiện tại đang trống. Hãy thêm sản phẩm để thanh thoán!");
-        } else {
-            Modal.showModalWithData("/com/example/demo/controller/auth/view/user/paymentprocessing/paymentProcessing.fxml", "Chọn các hình thức thanh toán bằng cách bấm vào ô tương ứng.", productList, this::updateTableView);
-        }
+            {
+                hbox.setSpacing(15);
+                hbox.setAlignment(Pos.CENTER);
+                increaseButton.setOnAction(event -> {
+                    ProductSearch product = getTableView().getItems().get(getIndex());
+                    int currentQuantity = product.getSoLuong();
+                    int maxQuantity = Integer.parseInt(product.getProductQty());
+
+                    if (currentQuantity < maxQuantity) {
+                        product.setSoLuong(currentQuantity + 1);
+                        double updatedPrice = product.getGia() * product.getSoLuong() * (1 - product.getChietKhau() / 100);
+                        product.setThanhTien(updatedPrice);
+                        quantityLabel.setText(String.valueOf(product.getSoLuong()));
+                        productTable.refresh();
+                    } else {
+                        showAlert("Số lượng nhập vào lớn hơn số lượng tồn kho hiện tại!");
+                    }
+                });
+
+                decreaseButton.setOnAction(event -> {
+                    ProductSearch product = getTableView().getItems().get(getIndex());
+                    int currentQuantity = product.getSoLuong();
+                    if (currentQuantity > 1) {
+                        product.setSoLuong(currentQuantity - 1);
+                        double updatedPrice = product.getGia() * product.getSoLuong() * (1 - product.getChietKhau() / 100);
+                        product.setThanhTien(updatedPrice);
+                        quantityLabel.setText(String.valueOf(product.getSoLuong()));
+                        productTable.refresh();
+                    }
+                });
+            }
+
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setGraphic(null);
+                } else {
+                    ProductSearch product = getTableView().getItems().get(getIndex());
+                    quantityLabel.setText(String.valueOf(product.getSoLuong()));
+                    setGraphic(hbox);
+                }
+            }
+        });
+
+
     }
 
     @FXML
     private void onHoldOrder(ActionEvent event) {
         if (!productList.isEmpty()) {
-            String newOrderId = "Order-" + orderCounter++;
-            pendingOrders.put(newOrderId, FXCollections.observableArrayList(productList));
+            String newOrderId = "Order_" + hashCodeSHA(getCurrentDate());
+            pendingOrders.put(newOrderId, productList);
+
+            saveOrders(pendingOrders);
             showAlert("Thông báo", "Đã treo phiếu: " + newOrderId, Alert.AlertType.INFORMATION, null, null);
             productList.clear();
             productTable.setItems(productList);
@@ -163,69 +196,41 @@ public class SalesDashboardLayoutController {
         }
     }
 
+
     @FXML
-    private void onRecallOrder(ActionEvent event) {
+    private void onRecallOrder(ActionEvent event) throws BackingStoreException {
+        pendingOrders = OrderController.loadOrders();
+
         if (pendingOrders.isEmpty()) {
             showAlert("Thông báo", "Không có phiếu nào để gọi!", Alert.AlertType.WARNING, null, null);
             return;
         }
+
         ChoiceDialog<String> dialog = new ChoiceDialog<>(null, pendingOrders.keySet());
         dialog.setTitle("Gọi phiếu");
         dialog.setHeaderText("Chọn phiếu để gọi");
         dialog.setContentText("Danh sách phiếu:");
-        dialog.showAndWait().ifPresent(orderId -> {
-            if (!productList.isEmpty()) {
-                String currentOrderId = "Order-" + orderCounter++;
-                pendingOrders.put(currentOrderId, FXCollections.observableArrayList(productList));
-                productList.clear();
-            }
-            ObservableList<ProductSearch> order = pendingOrders.remove(orderId);
+
+        Optional<String> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            String orderId = result.get();
+            List<ProductSearch> order = pendingOrders.get(orderId);
+
             if (order != null) {
+                productList.clear();
                 productList.addAll(order);
                 productTable.setItems(productList);
-                showAlert("Thông báo", "Đã gọi phiếu: " + orderId, Alert.AlertType.INFORMATION, null, null);
+                treoPhieuText.setText("Phiếu treo: " + pendingOrders.size());
+                OrderController.removeOrder(orderId);
             }
-            treoPhieuText.setText("Phiếu treo: " + pendingOrders.size());
-        });
-    }
-
-
-    @FXML
-    private void onSearch(ActionEvent event) throws SQLException, FileNotFoundException {
-        String barcode = searchField.getText();
-
-        if (barcode != null && !barcode.isEmpty()) {
-            ProductSearch newProduct = searchProductByBarcode(barcode);
-            if (newProduct != null) {
-                ProductSearch existingProduct = checkProductIfExits(newProduct.variantIdProperty());
-                if (existingProduct != null) {
-                    int updatedQuantity = existingProduct.getSoLuong() + newProduct.getSoLuong();
-                    existingProduct.setSoLuong(updatedQuantity);
-
-                    double updatedPrice = existingProduct.getGia() * updatedQuantity * (1 - existingProduct.getChietKhau() / 100);
-                    existingProduct.setThanhTien(updatedPrice);
-
-                    updateTableView();
-                } else {
-                    int stt = productList.size() + 1;
-                    newProduct.setStt(stt);
-                    productList.add(newProduct);
-                    updateTableView();
-                }
-            } else {
-                showAlert("Sản phẩm không tồn tại");
-            }
-            searchField.clear();
-
         }
     }
-
 
     private ProductSearch searchProductByBarcode(String barcode) throws SQLException {
         Connection connection = MySQLConnection.connect();
 
         String query = """
-                    SELECT  p.description AS pro_des,  p.is_new AS isNew,  p.category_id AS pCateId,  p.product_id, p.name, v.variant_id AS variant_id,v.size_id AS vSizeId, p.description, c.category, v.quantity AS vQty, v.price, v.code, v.discount_id AS product_discount_id, d.*, i.image,i.image_id, s.size
+                    SELECT  p.description AS pro_des,  p.is_new AS isNew,  p.category_id AS pCateId,  p.product_id, p.name, v.variant_id AS variant_id,v.size_id AS vSizeId, p.description, c.category, v.quantity AS vQty, v.price,d.discount_remaining, v.code, v.discount_id AS product_discount_id, d.*, i.image,i.image_id, s.size
                     FROM variants v
                     JOIN products p ON v.product_id = p.product_id
                     JOIN categories c ON p.category_id = c.category_id
@@ -263,7 +268,8 @@ public class SalesDashboardLayoutController {
                 String imageId = resultSet.getString("image_id");
                 boolean isNew = resultSet.getInt("isNew") == 1;
                 String vQty = resultSet.getString("vQty");
-                return new ProductSearch(1, tenSanPham, imageUrl, loai, gia, soLuong, discountPercentage, thanhTien, size, variant_id, discountId, productId, code, des, sizeId, cateId, imageId, isNew, vQty);
+                String discountRemaining = resultSet.getString("discount_remaining");
+                return new ProductSearch(1, tenSanPham, imageUrl, loai, gia, soLuong, discountPercentage, thanhTien, size, variant_id, discountId, productId, code, des, sizeId, cateId, imageId, isNew, vQty, discountRemaining);
             }
 
         } catch (SQLException e) {
@@ -293,6 +299,17 @@ public class SalesDashboardLayoutController {
 
         colSoLuong.setCellValueFactory(cellData -> cellData.getValue().soLuongProperty().asObject());
         colChietKhau.setCellValueFactory(cellData -> cellData.getValue().chietKhauProperty().asObject());
+        colChietKhau.setCellFactory(column -> new TableCell<ProductSearch, Double>() {
+            @Override
+            protected void updateItem(Double item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item + " %");
+                }
+            }
+        });
         colThanhTien.setCellValueFactory(cellData -> cellData.getValue().thanhTienProperty().asObject());
         colThanhTien.setCellFactory(column -> new TableCell<ProductSearch, Double>() {
             @Override
@@ -318,8 +335,10 @@ public class SalesDashboardLayoutController {
                 } else {
                     Image image = new Image("file:" + item);
                     imageView.setImage(image);
-                    imageView.setFitHeight(110);
-                    imageView.setFitWidth(160);
+                    imageView.setFitHeight(120);
+                    imageView.setFitWidth(180);
+                    imageView.setPreserveRatio(true);
+                    imageView.setStyle("-fx-border-color: gray; -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-border-width: 1px; -fx-effect: innershadow( gaussian , rgba(0,0,0,0.1), 10, 0, 0, 0 );");
                     setGraphic(imageView);
                 }
             }
@@ -503,7 +522,48 @@ public class SalesDashboardLayoutController {
         return null;
     }
 
+    @FXML
+    public void onPayment(ActionEvent actionEvent) throws IOException, SQLException {
+        if (productList.isEmpty()) {
+            Modal.showAlert("Giỏ hàng hiện tại đang trống. Hãy thêm sản phẩm để thanh thoán!");
+        } else {
+            Modal.showModalWithData("/com/example/demo/controller/auth/view/user/paymentprocessing/paymentProcessing.fxml", "Chọn các hình thức thanh toán bằng cách bấm vào ô tương ứng.", productList, ()->{
+                applyVoucher = null;
+                updateTableView();
+            });
+        }
+    }
 
+
+    @FXML
+    private void onSearch(ActionEvent event) throws SQLException, FileNotFoundException {
+        String barcode = searchField.getText();
+
+        if (barcode != null && !barcode.isEmpty()) {
+            ProductSearch newProduct = searchProductByBarcode(barcode);
+            if (newProduct != null) {
+                ProductSearch existingProduct = checkProductIfExits(newProduct.variantIdProperty());
+                if (existingProduct != null) {
+                    int updatedQuantity = existingProduct.getSoLuong() + newProduct.getSoLuong();
+                    existingProduct.setSoLuong(updatedQuantity);
+
+                    double updatedPrice = existingProduct.getGia() * updatedQuantity * (1 - existingProduct.getChietKhau() / 100);
+                    existingProduct.setThanhTien(updatedPrice);
+
+                    updateTableView();
+                } else {
+                    int stt = productList.size() + 1;
+                    newProduct.setStt(stt);
+                    productList.add(newProduct);
+                    updateTableView();
+                }
+            } else {
+                showAlert("Sản phẩm không tồn tại");
+            }
+            searchField.clear();
+
+        }
+    }
 }
 
 

@@ -17,6 +17,9 @@
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="763.0"
            prefWidth="1370.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="com.example.demo.controller.user.SalesDashboardLayoutController">
+    <stylesheets>
+        <URL value="@../../../../../styleCss/customStyle.css"/>
+    </stylesheets>
     <children>
         <BorderPane prefHeight="200.0" prefWidth="200.0">
             <center>
@@ -65,7 +68,7 @@
                                                 <TableView fx:id="productTable" layoutY="53.0" prefHeight="678.0"
                                                            prefWidth="1008.0"
                                                            editable="true"
-                                                           stylesheets="@../../../../../styleCss/sales.css">
+                                                >
                                                     <columns>
                                                         <TableColumn fx:id="colStt" prefWidth="48.80001354217529"
                                                                      text="STT"/>
@@ -79,10 +82,10 @@
                                                                      prefWidth="54.4000244140625" text="Size"/>
                                                         <TableColumn fx:id="colGia" prefWidth="115.20001220703125"
                                                                      text="Giá"/>
-                                                        <TableColumn fx:id="colSoLuong" minWidth="8.79998779296875"
-                                                                     prefWidth="59.199951171875" text="Số lượng"/>
-                                                        <TableColumn fx:id="colChietKhau" minWidth="8.79998779296875"
-                                                                     prefWidth="72.800048828125" text="Chiết khấu"/>
+                                                        <TableColumn fx:id="colSoLuong" minWidth="50"
+                                                                     prefWidth="120" text="Số lượng"/>
+                                                        <TableColumn fx:id="colChietKhau"
+                                                                     prefWidth="90.800048828125" text="Chiết khấu"/>
                                                         <TableColumn fx:id="colThanhTien" minWidth="0.0"
                                                                      prefWidth="220.0" text="Thành tiền"/>
                                                     </columns>

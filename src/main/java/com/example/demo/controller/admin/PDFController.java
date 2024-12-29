@@ -3,6 +3,7 @@ package com.example.demo.controller.admin;
 import com.example.demo.Utils.PreferencesUtils;
 import com.example.demo.model.ProductSearch;
 import com.example.demo.model.User;
+import com.example.demo.model.Voucher;
 import com.itextpdf.text.*;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.pdf.BaseFont;
@@ -25,11 +26,11 @@ import static com.example.demo.Utils.Config.*;
 
 public class PDFController {
 
-    public static void printInvoice(List<ProductSearch> cartItems, String payCode) throws IOException {
+    public static void printInvoice(List<ProductSearch> cartItems, String payCode, Voucher voucher) throws IOException {
         String filePath = chooseFilePath(payCode);
         User user = PreferencesUtils.getUser();
         try {
-            createInvoicePDF(filePath, payCode, cartItems, user);
+            createInvoicePDF(filePath, payCode, cartItems, user, voucher);
         } catch (DocumentException | FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -40,7 +41,7 @@ public class PDFController {
     }
 
 
-    public static void createInvoicePDF(String filePath, String payCode, List<ProductSearch> cartItems, User user) throws DocumentException, FileNotFoundException {
+    public static void createInvoicePDF(String filePath, String payCode, List<ProductSearch> cartItems, User user, Voucher voucher) throws DocumentException, FileNotFoundException {
         Document document = new Document();
         PdfWriter.getInstance(document, new FileOutputStream(filePath));
         BaseFont baseFont;
@@ -51,10 +52,12 @@ public class PDFController {
             return;
         }
 
-        Map<String, Double> summary = calculateCartTotal(cartItems, null);
+        Map<String, Double> summary = calculateCartTotal(cartItems, voucher);
         double totalAmount = summary.get("totalAmount");
         double totalDiscount = summary.get("totalDiscount");
         double totalQuantity = summary.get("totalQuantity");
+        double voucherDiscountAmount = summary.get("voucherDiscountAmount");
+        double saleDiscountAmount = summary.get("saleDiscountAmount");
         int totalQuantityInt = (int) totalQuantity;
 
         Font font = new Font(baseFont, 8);
@@ -105,13 +108,24 @@ public class PDFController {
         qty.setAlignment(Element.ALIGN_RIGHT);
         document.add(qty);
 
-        Paragraph totalDis = new Paragraph("Giảm giá:   - " + formatCurrencyVND(totalDiscount), boldFont);
+        Paragraph totalDis = new Paragraph("Giảm giá:   - " + formatCurrencyVND(saleDiscountAmount), boldFont);
         totalDis.setAlignment(Element.ALIGN_RIGHT);
         document.add(totalDis);
 
-        Paragraph totalParagraph = new Paragraph("Tổng số tiền:   " + formatCurrencyVND(totalAmount), boldFont);
+        if (voucher != null) {
+            Paragraph voucherApply = new Paragraph("Voucher :   - " + voucher.getVoucherPercentage() + " %", boldFont);
+            voucherApply.setAlignment(Element.ALIGN_RIGHT);
+            document.add(voucherApply);
+
+            Paragraph totalDiscountAmount = new Paragraph("Tổng số tiền giảm giá :  - " + formatCurrencyVND(totalDiscount), boldFont);
+            totalDiscountAmount.setAlignment(Element.ALIGN_RIGHT);
+            document.add(totalDiscountAmount);
+        }
+
+        Paragraph totalParagraph = new Paragraph("Số tiền thanh toán :   " + formatCurrencyVND(totalAmount), boldFont);
         totalParagraph.setAlignment(Element.ALIGN_RIGHT);
         document.add(totalParagraph);
+
         document.add(new Paragraph("======================================================================================================================================", smallFont));
 
         document.add(Chunk.NEWLINE);

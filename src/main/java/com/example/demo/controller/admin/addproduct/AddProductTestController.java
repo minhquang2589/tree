@@ -28,7 +28,7 @@ public class AddProductTestController {
     @FXML
     public static ObservableList<ProductSearch> productList = FXCollections.observableArrayList();
     @FXML
-    public TableColumn actionColumn;
+    public  TableColumn actionColumn;
     @FXML
     public TableColumn<ProductSearch, String> codeColumn;
     @FXML
@@ -137,6 +137,7 @@ public class AddProductTestController {
                     v.price,
                     v.code,
                     d.discount_percentage,
+                    d.discount_remaining,
                     i.image,
                     p.is_new AS isNew,
                     i.image_id
@@ -194,7 +195,8 @@ public class AddProductTestController {
                 String imageId = resultSet.getString("image_id");
                 String vQty = resultSet.getString("vQty");
                 boolean isNew = resultSet.getInt("isNew") == 1;
-                ProductSearch newProduct = new ProductSearch(1, productName, imageUrl, category, price, qty, discountPercentage, totalAmount, size, variantId, discountId, productId, code, des, sizeId, cateId, imageId, isNew,vQty);
+                String discountRemaining = resultSet.getString("discount_remaining");
+                ProductSearch newProduct = new ProductSearch(1, productName, imageUrl, category, price, qty, discountPercentage, totalAmount, size, variantId, discountId, productId, code, des, sizeId, cateId, imageId, isNew,vQty,discountRemaining);
                 productList.add(newProduct);
             }
 
@@ -259,8 +261,11 @@ public class AddProductTestController {
                 } else {
                     javafx.scene.image.Image image = new Image("file:" + item);
                     imageView.setImage(image);
-                    imageView.setFitHeight(125);
-                    imageView.setFitWidth(160);
+                    imageView.setFitHeight(120);
+                    imageView.setFitWidth(180);
+                    imageView.setPreserveRatio(true);
+                    imageView.setStyle("-fx-border-color: gray; -fx-background-radius: 8px; -fx-border-radius: 8px; -fx-border-width: 1px; -fx-effect: innershadow( gaussian , rgba(0,0,0,0.1), 10, 0, 0, 0 );");
+                    setGraphic(imageView);
                     setGraphic(imageView);
                 }
             }

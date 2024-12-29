@@ -23,6 +23,7 @@ import java.time.LocalDate;
 import static com.example.demo.Utils.Modal.*;
 
 public class VoucherController {
+    public static Voucher applyVoucher = null;
     @FXML
     private TableColumn<Voucher, String> actionColumn;
     @FXML

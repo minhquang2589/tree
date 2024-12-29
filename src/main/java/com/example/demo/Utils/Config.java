@@ -137,23 +137,45 @@ public class Config {
         double totalOriginalAmount = 0;
         double totalDiscount = 0;
         int totalQuantity = 0;
+        double saleDiscountAmount = 0;
+        double voucherDiscountAmount = 0;
+
+        double voucherDiscountPercentage = 0;
+        if (voucher != null) {
+            voucherDiscountPercentage = voucher.getVoucherPercentage();
+        }
+
         for (ProductSearch product : productList) {
             double price = product.getGia();
             int quantity = product.getSoLuong();
             double discountPercentage = product.getChietKhau();
             double productOriginalTotal = price * quantity;
             double productTotal = productOriginalTotal * (1 - discountPercentage / 100);
+
+            double productSaleDiscount = productOriginalTotal - productTotal;
+            saleDiscountAmount += productSaleDiscount;
+
             totalOriginalAmount += productOriginalTotal;
             totalAmount += productTotal;
-            totalDiscount += productOriginalTotal - productTotal;
             totalQuantity += quantity;
         }
+
+        if (voucher != null) {
+            voucherDiscountAmount = totalAmount * (voucherDiscountPercentage / 100);
+            totalAmount -= voucherDiscountAmount;
+        }
+
+        totalDiscount = saleDiscountAmount + voucherDiscountAmount;
+
         cart.put("totalAmount", totalAmount);
         cart.put("totalQuantity", (double) totalQuantity);
+        cart.put("saleDiscountAmount", saleDiscountAmount);
+        cart.put("voucherDiscountAmount", voucherDiscountAmount);
         cart.put("totalDiscount", totalDiscount);
 
         return cart;
     }
+
 
 
 

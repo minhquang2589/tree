@@ -1,6 +1,7 @@
 package com.example.demo.controller.admin;
 
 import com.example.demo.model.ProductSearch;
+import com.example.demo.model.Voucher;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -16,17 +17,22 @@ import static com.example.demo.Utils.Config.*;
 
 public class PaymentController {
 
-    public static String handlePayment(Connection connection, String paymentMethod, List<ProductSearch> cartItem) throws SQLException {
+    public static String handlePayment(Connection connection, String paymentMethod, List<ProductSearch> cartItem, Voucher voucher) throws SQLException {
         if (connection != null) {
             String orderCode = hashCodeSHA(getCurrentDate());
-            Map<String, Double> cart = calculateCartTotal(cartItem, null);
+            Map<String, Double> cart = calculateCartTotal(cartItem, voucher);
+            System.out.println();
             int paymentId = findOrInsertPaymentMethod(connection, paymentMethod, "Payment via" + " " + paymentMethod);
-            int orderId = insertOrder(connection, null, paymentId, cart.get("totalAmount"), "No specific note", cart.get("totalDiscount"), orderCode);
+            int orderId = insertOrder(connection, null, paymentId, cart.get("totalAmount"), "No specific note", cart.get("totalDiscount"), orderCode,voucher);
             for (ProductSearch item : cartItem) {
                 int purchasedQuantity = item.getSoLuong();
                 insertOrderItem(connection, orderId, item.variantIdProperty(), purchasedQuantity);
                 double price = item.getGia();
-                updateProductVariant(connection, item.getProductId(), item.getSizeId(), String.valueOf(price), purchasedQuantity, item.discountIdProperty(), true);
+                String discountId = item.discountIdProperty();
+                if (discountId == null || discountId.trim().isEmpty()) {
+                    discountId = null;
+                }
+                updateProductVariant(connection, item.getProductId(), item.getSizeId(), String.valueOf(price), purchasedQuantity, discountId, true);
                 if (item.getChietKhau() > 0 && item.discountIdProperty() != null) {
                     updateDiscountRemaining(connection, item.discountIdProperty(), item.getSoLuong());
                 }

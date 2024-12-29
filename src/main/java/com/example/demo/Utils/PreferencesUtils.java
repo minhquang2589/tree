@@ -13,7 +13,7 @@ import javafx.collections.ObservableList;
 
 public class PreferencesUtils {
 
-    private static final Preferences preferences = Preferences.userNodeForPackage(PreferencesUtils.class);
+    public static final Preferences preferences = Preferences.userNodeForPackage(PreferencesUtils.class);
 
     public static void save(String key, Object value) {
         switch (value) {
