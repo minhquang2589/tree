@@ -26,8 +26,9 @@ public class VariantDAO {
         }
     }
 
-    public static void updateProductVariant(Connection connection, String productId, String sizeId, String price, int quantity, String discountId) throws SQLException {
+    public static void updateProductVariant(Connection connection, String productId, String sizeId, String price, int quantity, String discountId, boolean isBuy) throws SQLException {
         String checkQuery = "SELECT quantity FROM variants WHERE product_id = ? AND size_id = ?";
+
         try (PreparedStatement checkStatement = connection.prepareStatement(checkQuery)) {
             checkStatement.setString(1, productId);
             checkStatement.setString(2, sizeId);
@@ -43,7 +44,7 @@ public class VariantDAO {
                             WHERE product_id = ? AND size_id = ?
                         """;
                 try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
-                    preparedStatement.setInt(1, currentQuantity - quantity);
+                    preparedStatement.setInt(1, isBuy ? (currentQuantity - quantity) : quantity);
                     preparedStatement.setString(2, price);
                     preparedStatement.setString(3, discountId);
                     preparedStatement.setString(4, productId);

@@ -26,7 +26,7 @@ public class PaymentController {
                 int purchasedQuantity = item.getSoLuong();
                 insertOrderItem(connection, orderId, item.variantIdProperty(), purchasedQuantity);
                 double price = item.getGia();
-                updateProductVariant(connection, item.getProductId(), item.getSizeId(), String.valueOf(price), purchasedQuantity, item.discountIdProperty());
+                updateProductVariant(connection, item.getProductId(), item.getSizeId(), String.valueOf(price), purchasedQuantity, item.discountIdProperty(), true);
                 if (item.getChietKhau() > 0 && item.discountIdProperty() != null) {
                     updateDiscountRemaining(connection, item.discountIdProperty(), item.getSoLuong());
                 }

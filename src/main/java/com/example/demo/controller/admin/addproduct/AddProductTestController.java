@@ -132,12 +132,13 @@ public class AddProductTestController {
                     s.size AS size_name,
                     v.variant_id,
                     v.size_id as vSizeId,
-                    v.quantity,
+                    v.quantity AS vQty,
                     v.discount_id,
                     v.price,
                     v.code,
                     d.discount_percentage,
                     i.image,
+                    p.is_new AS isNew,
                     i.image_id
                 FROM products p
                 JOIN categories c ON p.category_id = c.category_id
@@ -180,9 +181,9 @@ public class AddProductTestController {
                 String size = resultSet.getString("size_name");
                 String productName = resultSet.getString("product_name");
                 double price = resultSet.getDouble("price");
-                int qty = resultSet.getInt("quantity");
+                int qty = resultSet.getInt("vQty");
                 double discountPercentage = resultSet.getDouble("discount_percentage");
-                double totalAmount = price * qty * (1 - (discountPercentage / 100));
+                double totalAmount = price * (1 - (discountPercentage / 100));
                 String imageUrl = resultSet.getString("image");
                 String discountId = resultSet.getString("discount_id");
                 String productId = resultSet.getString("product_id");
@@ -191,7 +192,9 @@ public class AddProductTestController {
                 String sizeId = resultSet.getString("vSizeId");
                 String cateId = resultSet.getString("pCateId");
                 String imageId = resultSet.getString("image_id");
-                ProductSearch newProduct = new ProductSearch(1, productName, imageUrl, category, price, qty, discountPercentage, totalAmount, size, variantId, discountId, productId, code, des, sizeId, cateId, imageId);
+                String vQty = resultSet.getString("vQty");
+                boolean isNew = resultSet.getInt("isNew") == 1;
+                ProductSearch newProduct = new ProductSearch(1, productName, imageUrl, category, price, qty, discountPercentage, totalAmount, size, variantId, discountId, productId, code, des, sizeId, cateId, imageId, isNew,vQty);
                 productList.add(newProduct);
             }
 

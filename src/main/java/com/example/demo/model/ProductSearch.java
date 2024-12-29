@@ -1,4 +1,5 @@
 package com.example.demo.model;
+
 import javafx.beans.property.*;
 
 public class ProductSearch {
@@ -19,9 +20,11 @@ public class ProductSearch {
     private String sizeId;
     private String categoryId;
     private String imageId;
+    private String productQuantity;
+    private boolean isNew;
 
 
-    public ProductSearch(int stt, String tenSanPham, String image, String loai, double gia, int soLuong, double chietKhau, double thanhTien, String size, int vId,String discountId, String productId, String code, String productDescription, String sizeId, String categoryId, String imageId) {
+    public ProductSearch(int stt, String tenSanPham, String image, String loai, double gia, int soLuong, double chietKhau, double thanhTien, String size, int vId, String discountId, String productId, String code, String productDescription, String sizeId, String categoryId, String imageId, boolean isNew, String qty) {
         this.stt = new SimpleIntegerProperty(stt);
         this.tenSanPham = new SimpleStringProperty(tenSanPham);
         this.loai = new SimpleStringProperty(loai);
@@ -39,6 +42,8 @@ public class ProductSearch {
         this.categoryId = categoryId;
         this.productDescription = productDescription;
         this.code = new SimpleStringProperty(code);
+        this.isNew = isNew;
+        this.productQuantity = qty;
 
     }
 
@@ -69,19 +74,30 @@ public class ProductSearch {
         return variantId;
     }
 
+    public boolean getIsNew() {
+        return isNew;
+    }
+
     public String discountIdProperty() {
         return discountId;
+    }
+
+    public String getProductQty() {
+        return productQuantity;
     }
 
     public String getProductId() {
         return productId;
     }
+
     public String getSizeId() {
         return sizeId;
     }
+
     public String getCategoryId() {
         return categoryId;
     }
+
     public StringProperty getCode() {
         return code;
     }
@@ -105,6 +121,7 @@ public class ProductSearch {
     public String getLoai() {
         return loai.get();
     }
+
     public String getProductDescription() {
         return productDescription;
     }
@@ -112,6 +129,7 @@ public class ProductSearch {
     public StringProperty loaiProperty() {
         return loai;
     }
+
     public String getImageId() {
         return imageId;
     }

@@ -22,8 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.demo.DAO.DiscountDAO.findDiscountById;
-import static com.example.demo.Utils.Config.getCurrentDate;
-import static com.example.demo.Utils.Config.hashCodeSHA;
+import static com.example.demo.DAO.VariantDAO.updateProductVariant;
 import static com.example.demo.Utils.Modal.closeAllModals;
 import static com.example.demo.Utils.Modal.showAlert;
 
@@ -60,7 +59,6 @@ public class UpdateProductController implements initDataInterface<ProductSearch>
     private final ProductDAO productDAO = new ProductDAO();
     private final CategoryDAO categoryDAO = new CategoryDAO();
     private final SizeDAO sizeDao = new SizeDAO();
-    private final VariantDAO variantDAO = new VariantDAO();
 
     ProductSearch editData = null;
 
@@ -77,12 +75,8 @@ public class UpdateProductController implements initDataInterface<ProductSearch>
                 discountQuantityField.setText(String.valueOf(discount.getDiscountQuantity()));
                 discountPercentageField.setText(String.valueOf(discount.getDiscountPercentage()));
                 discountRemainingField.setText(String.valueOf(discount.getDiscountRemaining()));
-                if (discount.getStartDate() != null) {
-                    startDatePicker.setValue(discount.getStartDate());
-                }
-                if (discount.getEndDate() != null) {
-                    endDatePicker.setValue(discount.getEndDate());
-                }
+                startDatePicker.setValue(discount.getStartDate());
+                endDatePicker.setValue(discount.getEndDate());
             }
             if (data.getImage() != null && !data.getImage().isEmpty()) {
                 Image image = new Image("file:" + data.getImage());
@@ -94,7 +88,7 @@ public class UpdateProductController implements initDataInterface<ProductSearch>
                 images.add(data.getImage());
             }
 
-            isNewCheckBox.setSelected(true);
+            isNewCheckBox.setSelected(data.getIsNew());
             sizeField.setText(data.getSize());
             IntegerProperty productQty = data.soLuongProperty();
             double price = data.getGia();
@@ -155,7 +149,8 @@ public class UpdateProductController implements initDataInterface<ProductSearch>
 
             Product newProduct = new Product(productName, description, categoryId, isNew);
             productDAO.updateProduct(connection, newProduct, editData.getProductId());
-            if (discountPercentage > 0 && discountQuantity > 0) {
+            String discountRemaining = discountRemainingField.getText();
+            if (discountPercentage > 0 && discountRemaining != null) {
                 if (startDate == null || endDate == null) {
                     showAlert("Xin vui lòng chọn nhày bắt đầu và ngày kết thúc giảm giá cho sản phẩm này!");
                     return;
@@ -163,22 +158,21 @@ public class UpdateProductController implements initDataInterface<ProductSearch>
                     showAlert("Ngày kết thúc phải lớn hơn ngày bắt đầu. Vui lòng chọn lại!");
                     return;
                 } else {
-                    Discount newDiscount = new Discount(discountPercentage, discountQuantity, discountQuantity, startDate, endDate);
-                    int discountId = DiscountDAO.addDiscount(newDiscount);
-                    finalDiscountId = (discountId != -1) ? Integer.toString(discountId) : null;
+                    Discount newDiscount = new Discount(discountPercentage, discountQuantity, Integer.parseInt(discountRemaining), startDate, endDate);
+                    int discountId = DiscountDAO.updateDiscount(newDiscount, connection, editData.discountIdProperty());
+                    finalDiscountId = String.valueOf(discountId);
                 }
             }
-
             productDAO.updateProductImageById(connection, editData.getImageId(), images.getFirst());
             Size existingSize = sizeDao.getSizeByName(connection, sizeF);
             if (existingSize != null) {
                 String sizeId = String.valueOf(existingSize.getSizeId());
-                variantDAO.updateProductVariant(connection, editData.getProductId(), sizeId, price, Integer.parseInt(quantity), finalDiscountId);
+                updateProductVariant(connection, editData.getProductId(), sizeId, price, Integer.parseInt(quantity), finalDiscountId, false);
             } else {
                 Size sz = new Size(1, sizeF, "");
                 int newSizeId = sizeDao.addSize(connection, sz);
                 if (newSizeId != -1) {
-                    variantDAO.updateProductVariant(connection, editData.getProductId(), String.valueOf(newSizeId), price, Integer.parseInt(quantity), finalDiscountId);
+                    updateProductVariant(connection, editData.getProductId(), String.valueOf(newSizeId), price, Integer.parseInt(quantity), finalDiscountId, false);
                 }
             }
             showAlert("Sửa thông tin sản phẩm thành công", () -> {

@@ -64,6 +64,7 @@
                                                            text="Giao dịch tại quầy"/>
                                                 <TableView fx:id="productTable" layoutY="53.0" prefHeight="678.0"
                                                            prefWidth="1008.0"
+                                                           editable="true"
                                                            stylesheets="@../../../../../styleCss/sales.css">
                                                     <columns>
                                                         <TableColumn fx:id="colStt" prefWidth="48.80001354217529"

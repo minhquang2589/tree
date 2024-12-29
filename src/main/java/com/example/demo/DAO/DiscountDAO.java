@@ -3,7 +3,6 @@ package com.example.demo.DAO;
 import com.example.demo.config.MySQLConnection;
 import com.example.demo.model.Discount;
 
-import javax.persistence.EntityManager;
 import java.sql.*;
 
 public class DiscountDAO {
@@ -38,6 +37,30 @@ public class DiscountDAO {
         return -1;
     }
 
+    public static int updateDiscount(Discount discount, Connection connection, String discountId) throws SQLException {
+
+        String query = "UPDATE discounts SET discount_percentage = ?, discount_quantity = ?, discount_remaining = ?, start_date = ?, end_date = ? WHERE discount_id = ?";
+        Discount existingDiscount = findDiscountById(connection, discountId);
+
+        if (existingDiscount != null) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setDouble(1, discount.getDiscountPercentage());
+                preparedStatement.setInt(2, discount.getDiscountQuantity());
+                preparedStatement.setInt(3, discount.getDiscountRemaining());
+                preparedStatement.setString(4, discount.getStartDate().toString());
+                preparedStatement.setString(5, discount.getEndDate().toString());
+                preparedStatement.setString(6, discountId);
+
+                int affectedRows = preparedStatement.executeUpdate();
+                return affectedRows > 0 ? existingDiscount.getDiscountId() : -1;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return -1;
+            }
+        } else {
+            return addDiscount(discount);
+        }
+    }
 
     public static void updateDiscountRemaining(Connection connection, String discountId, int quantityPurchased) throws SQLException {
         String sql = "UPDATE discounts " +
@@ -56,7 +79,7 @@ public class DiscountDAO {
         }
     }
 
-    public static Discount findDiscountById(Connection connection,String discountId) throws SQLException {
+    public static Discount findDiscountById(Connection connection, String discountId) throws SQLException {
 
         String query = "SELECT discount_id, discount_percentage, discount_quantity, discount_remaining, start_date, end_date " +
                 "FROM discounts WHERE discount_id = ?";
@@ -84,9 +107,6 @@ public class DiscountDAO {
 
         return null;
     }
-
-
-
 
 
 }
