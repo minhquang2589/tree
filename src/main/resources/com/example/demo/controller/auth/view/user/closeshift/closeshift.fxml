@@ -72,17 +72,17 @@
                   <Font size="16.0" />
                </font>
             </Text>
-            <TextField fx:id="textField" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="308.0" onMouseClicked="#selectTextField" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="85.0" />
-            <TextField fx:id="textField1" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="273.0" onMouseClicked="#selectTextField" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="85.0" />
-            <TextField fx:id="textField2" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="378.0" onMouseClicked="#selectTextField" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="85.0" />
-            <TextField fx:id="textField3" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="413.0" onMouseClicked="#selectTextField" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="85.0" />
-            <TextField fx:id="textField4" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="343.0" onMouseClicked="#selectTextField" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="85.0" />
-            <TextField fx:id="textField5" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="203.0" onMouseClicked="#selectTextField" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="85.0" />
-            <TextField fx:id="textField6" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="98.0" onMouseClicked="#selectTextField" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="85.0" />
-            <TextField fx:id="textField7" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="133.0" onMouseClicked="#selectTextField" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="85.0" />
-            <TextField fx:id="textField8" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="168.0" onMouseClicked="#selectTextField" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="85.0" />
-            <TextField fx:id="textField9" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="238.0" onMouseClicked="#selectTextField" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="85.0" />
-            <TextField fx:id="textField10" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="63.0" onMouseClicked="#selectTextField" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="85.0" />
+            <TextField fx:id="textField" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="308.0" onMouseClicked="#selectTextField" prefHeight="30.0" prefWidth="200.0" promptText="0" AnchorPane.leftAnchor="85.0" />
+            <TextField fx:id="textField1" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="273.0" onMouseClicked="#selectTextField" prefHeight="30.0" prefWidth="200.0" promptText="0" AnchorPane.leftAnchor="85.0" />
+            <TextField fx:id="textField2" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="378.0" onMouseClicked="#selectTextField" prefHeight="30.0" prefWidth="200.0" promptText="0" AnchorPane.leftAnchor="85.0" />
+            <TextField fx:id="textField3" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="413.0" onMouseClicked="#selectTextField" prefHeight="30.0" prefWidth="200.0" promptText="0" AnchorPane.leftAnchor="85.0" />
+            <TextField fx:id="textField4" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="343.0" onMouseClicked="#selectTextField" prefHeight="30.0" prefWidth="200.0" promptText="0" AnchorPane.leftAnchor="85.0" />
+            <TextField fx:id="textField5" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="203.0" onMouseClicked="#selectTextField" prefHeight="30.0" prefWidth="200.0" promptText="0" AnchorPane.leftAnchor="85.0" />
+            <TextField fx:id="textField6" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="98.0" onMouseClicked="#selectTextField" prefHeight="30.0" prefWidth="200.0" promptText="0" AnchorPane.leftAnchor="85.0" />
+            <TextField fx:id="textField7" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="133.0" onMouseClicked="#selectTextField" prefHeight="30.0" prefWidth="200.0" promptText="0" AnchorPane.leftAnchor="85.0" />
+            <TextField fx:id="textField8" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="168.0" onMouseClicked="#selectTextField" prefHeight="30.0" prefWidth="200.0" promptText="0" AnchorPane.leftAnchor="85.0" />
+            <TextField fx:id="textField9" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="238.0" onMouseClicked="#selectTextField" prefHeight="30.0" prefWidth="200.0" promptText="0" AnchorPane.leftAnchor="85.0" />
+            <TextField fx:id="textField10" alignment="CENTER_RIGHT" layoutX="85.0" layoutY="63.0" onMouseClicked="#selectTextField" prefHeight="30.0" prefWidth="200.0" promptText="0" AnchorPane.leftAnchor="85.0" />
             <Separator layoutY="55.4" prefHeight="3.2" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="55.4" />
             <Text layoutX="292.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Số Phong bì" wrappingWidth="100.0">
                <font>
@@ -107,7 +107,7 @@
                   <Font size="16.0" />
                </font>
             </Text>
-            <TextField fx:id="textField14" alignment="CENTER_RIGHT" layoutX="15.2" layoutY="485.0" onMouseClicked="#selectTextField" prefHeight="30.0" prefWidth="270.0" AnchorPane.leftAnchor="15.2" />
+            <TextField fx:id="textField14" alignment="CENTER_RIGHT" layoutX="15.2" layoutY="485.0" onMouseClicked="#selectTextField" prefHeight="30.0" prefWidth="270.0" promptText="0" AnchorPane.leftAnchor="15.2" />
             <Text layoutX="15.0" layoutY="541.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tiền mặt đầu ca" AnchorPane.leftAnchor="15.0">
                <font>
                   <Font size="16.0" />

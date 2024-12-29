@@ -221,8 +221,9 @@ public class MySQLConnection {
                 CREATE TABLE IF NOT EXISTS shifts (
                     shift_id INT AUTO_INCREMENT PRIMARY KEY,
                     user_id INT NOT NULL,
-                    start_date DATE NOT NULL,
-                    end_date DATE,
+                    start_date DATETIME NOT NULL,
+                    end_date DATETIME,
+                    revenue INT,
                     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
                 );
                 """;

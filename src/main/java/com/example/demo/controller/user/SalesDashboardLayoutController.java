@@ -110,8 +110,7 @@ public class SalesDashboardLayoutController {
 
 
     public void initialize() throws IOException {
-        salesDateField.setText(Config.getCurrentDate());
-        Countshift();
+        updateDate();
         searchField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 try {

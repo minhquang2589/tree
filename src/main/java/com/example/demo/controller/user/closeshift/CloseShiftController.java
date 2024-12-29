@@ -126,6 +126,7 @@ public class CloseShiftController {
 
     @FXML
     public void closeshift(ActionEvent actionEvent) throws IOException {
+        calculateTotal();
         save_shift();
         Modal.showModal("/com/example/demo/controller/auth/view/user/closeshift/closeshiftsuccess/closeshiftsuccess.fxml","kết thúc ca",null);
     }

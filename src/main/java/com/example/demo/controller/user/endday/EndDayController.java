@@ -15,22 +15,21 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static com.example.demo.Utils.Modal.closeModal;
 import static com.example.demo.config.MySQLConnection.connect;
 
 public class EndDayController {
+    LocalDateTime currentTime = LocalDateTime.now();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    String formattedDateTime = currentTime.format(formatter);
 
     public void endshift() throws IOException {
         Connection connection = connect();
-
         if (connection != null) {
-            User user = PreferencesUtils.getUser();
-            assert user != null;
-
-
-            String query = "UPDATE shifts SET end_date = '" + LocalDateTime.now() + "' WHERE DATE(start_date) = '" + Config.getCurrentDate() + "'&& end_date IS NULL";
+            String query = "UPDATE shifts SET end_date = '" + LocalDateTime.now() + "', revenue = " + Revenue() + " WHERE DATE(start_date) = '" + formattedDateTime + "' AND end_date IS NULL";
             Statement statement = null;
             try {
                 statement = connection.createStatement();
@@ -46,15 +45,28 @@ public class EndDayController {
     private void EndDaySuccess(ActionEvent event) throws IOException {
         List<Shift> shifts = PreferencesUtils.getShiftList();
         int count = shifts.size();
-        if(count > 2) {
+
+        if(count >= 2) {
+            endshift();
+
+            Modal.showAlert("Kết thúc ngày thành công"+ System.lineSeparator()  + "Doanh thu của ngày: " + Revenue());
+
             PreferencesUtils.clearShiftList();
             PreferencesUtils.clearshift();
-            endshift();
+
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             closeModal(stage);
-        }else{
+        } else {
             Modal.showAlert("Chưa đạt đủ số ca trong ngày");
         }
     }
 
+    private int Revenue(){
+        List<Shift> shifts = PreferencesUtils.getShiftList();
+        int totalRevenue = 0;
+        for (Shift shift : shifts) {
+            totalRevenue += shift.getTong();
+        }
+        return totalRevenue;
+    }
 }
