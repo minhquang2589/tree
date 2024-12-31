@@ -26,9 +26,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.demo.Utils.Modal.closeModal;
-import static com.example.demo.Utils.Modal.showModal;
+import static com.example.demo.Utils.Modal.*;
 import static com.example.demo.config.MySQLConnection.connect;
+import static com.example.demo.controller.admin.PDFController.printEndShift;
 
 public class CloseShiftController {
 
@@ -128,7 +128,13 @@ public class CloseShiftController {
     public void closeshift(ActionEvent actionEvent) throws IOException {
         calculateTotal();
         save_shift();
-        Modal.showModal("/com/example/demo/controller/auth/view/user/closeshift/closeshiftsuccess/closeshiftsuccess.fxml","kết thúc ca",null);
+        List<Shift> shifts = PreferencesUtils.getShiftList();
+        try {
+            printEndShift(shifts);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        closeAllModals();
     }
 
     public void save_shift() {

@@ -4,6 +4,7 @@ import com.example.demo.Utils.PreferencesUtils;
 import com.example.demo.model.ProductSearch;
 import com.example.demo.model.User;
 import com.example.demo.model.Voucher;
+import com.example.demo.model.Shift;
 import com.itextpdf.text.*;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.pdf.BaseFont;
@@ -169,4 +170,113 @@ public class PDFController {
         File file = targetDir.resolve(fileName).toFile();
         return file.getAbsolutePath();
     }
+
+    public static void createEndShiftPDF(String filePath, User user) throws DocumentException, FileNotFoundException {
+        Document document = new Document();
+        PdfWriter.getInstance(document, new FileOutputStream(filePath));
+        BaseFont baseFont;
+        try {
+            baseFont = BaseFont.createFont("src/main/resources/assets/images/font/Inter_24pt-Medium.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        Font font = new Font(baseFont, 8);
+        Font boldFont = new Font(baseFont, 10, Font.BOLD);
+        Font titleFont = new Font(baseFont, 15, Font.BOLD);
+        Font smallFont = new Font(baseFont, 6);
+
+        document.open();
+
+        Paragraph title = new Paragraph("TỔNG KẾT CA", titleFont);
+        title.setAlignment(Element.ALIGN_CENTER);
+        document.add(title);
+        document.add(Chunk.NEWLINE);
+
+        document.add(new Paragraph("======================================================================================================================================", smallFont));
+        PdfPTable table = new PdfPTable(12);
+        table.setWidthPercentage(100);
+        table.setSpacingBefore(10);
+
+        float[] columnWidths = {1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1.5f};
+        table.setWidths(columnWidths);
+
+        table.addCell(createTableCell("500k", boldFont));
+        table.addCell(createTableCell("200k", boldFont));
+        table.addCell(createTableCell("100k", boldFont));
+        table.addCell(createTableCell("50k", boldFont));
+        table.addCell(createTableCell("20k", boldFont));
+        table.addCell(createTableCell("10k", boldFont));
+        table.addCell(createTableCell("5k", boldFont));
+        table.addCell(createTableCell("2k", boldFont));
+        table.addCell(createTableCell("1k", boldFont));
+        table.addCell(createTableCell("500", boldFont));
+        table.addCell(createTableCell("200", boldFont));
+        table.addCell(createTableCell("Tổng", boldFont));
+
+        List<Shift> shifts = PreferencesUtils.getShiftList();
+        if (!shifts.isEmpty()) {
+            Shift lastShift = shifts.get(shifts.size() - 1);
+
+            table.addCell(createTableCell(String.valueOf(lastShift.getT500k()), font));
+            table.addCell(createTableCell(String.valueOf(lastShift.getT200k()), font));
+            table.addCell(createTableCell(String.valueOf(lastShift.getT100k()), font));
+            table.addCell(createTableCell(String.valueOf(lastShift.getT50k()), font));
+            table.addCell(createTableCell(String.valueOf(lastShift.getT20k()), font));
+            table.addCell(createTableCell(String.valueOf(lastShift.getT10k()), font));
+            table.addCell(createTableCell(String.valueOf(lastShift.getT5k()), font));
+            table.addCell(createTableCell(String.valueOf(lastShift.getT2k()), font));
+            table.addCell(createTableCell(String.valueOf(lastShift.getT1k()), font));
+            table.addCell(createTableCell(String.valueOf(lastShift.getT500()), font));
+            table.addCell(createTableCell(String.valueOf(lastShift.getT200()), font));
+            table.addCell(createTableCell(String.valueOf(lastShift.getTong()), font));
+        } else {
+            System.out.println("Shift list is empty, cannot retrieve last shift.");
+        }
+
+
+        document.add(table);
+        document.add(Chunk.NEWLINE);
+
+        document.add(new Paragraph("======================================================================================================================================", smallFont));
+        document.add(new Paragraph("Tree Shop", boldFont));
+        document.add(new Paragraph("Địa chỉ: " + user.getAddress(), font));
+        document.add(new Paragraph("Số điện thoại: " + user.getPhone(), font));
+        document.add(new Paragraph("Email: " + user.getEmail(), font));
+        document.close();
+    }
+
+    public static void printEndShift(List<Shift> shiftList) throws IOException {
+        String filePath = chooseFilePathforShift(shiftList);
+        User user = PreferencesUtils.getUser();
+
+        try {
+            createEndShiftPDF(filePath, user);
+        } catch (DocumentException | FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        if (filePath != null) {
+            File pd = new File(filePath);
+            Desktop.getDesktop().open(pd);
+        }
+    }
+
+    public static String chooseFilePathforShift( List<Shift> shiftList) {
+        Path targetDir = Paths.get("src/main/resources/assets/Shift");
+        if (!Files.exists(targetDir)) {
+            try {
+                Files.createDirectories(targetDir);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        String fileName = "Shift" + shiftList.size() + ".pdf";
+        File file = targetDir.resolve(fileName).toFile();
+        return file.getAbsolutePath();
+
+    }
+
 }
