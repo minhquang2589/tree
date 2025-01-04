@@ -1,5 +1,6 @@
 package com.example.demo.controller.user.QRPayment;
 
+import com.example.demo.Utils.Modal;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -11,6 +12,9 @@ import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+
+public class paycontroller {
+
 
 public class QRPaymentcontroller {
     @FXML
@@ -57,7 +61,6 @@ public class QRPaymentcontroller {
     private Button buttonXN;
 
     private TextField currentTextField;
-
 
     @FXML
     public void initialize() {
@@ -118,4 +121,5 @@ public class QRPaymentcontroller {
         currentStage.setScene(scene);
         currentStage.show();
     }
+}
 }

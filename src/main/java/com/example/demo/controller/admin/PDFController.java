@@ -98,9 +98,9 @@ public class PDFController {
             table.addCell(createTableCell(item.getTenSanPham(), font));
             table.addCell(createTableCell(item.getLoai() + (item.getIsNew() ? "  - Mới" : ""), font));
             table.addCell(createTableCell(item.getSize() + "  x  " + item.getSoLuong(), font));
-            table.addCell(createTableCell(formatCurrencyVND(item.getThanhTien()), font));
-            table.addCell(createTableCell(String.format("%.2f", item.getChietKhau()), font));
             table.addCell(createTableCell(formatCurrencyVND(item.getGia()), font));
+            table.addCell(createTableCell(String.format("%.2f", item.getChietKhau()), font));
+            table.addCell(createTableCell(formatCurrencyVND(item.getThanhTien()), font));
         }
         document.add(table);
         document.add(Chunk.NEWLINE);

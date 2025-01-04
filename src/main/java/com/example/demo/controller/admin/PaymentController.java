@@ -22,7 +22,6 @@ public class PaymentController {
         if (connection != null) {
             String orderCode = hashCodeSHA(getCurrentDate());
             Map<String, Double> cart = calculateCartTotal(cartItem, voucher);
-            System.out.println();
             if (voucher != null) {
                 updateVoucher(connection, voucher);
             }
