@@ -1,5 +1,4 @@
 package com.example.demo.controller.user.paymentprocessing;
-
 import com.example.demo.classInterFace.initDataInterface;
 import com.example.demo.config.MySQLConnection;
 import com.example.demo.model.ProductSearch;
@@ -138,4 +137,25 @@ public class PaymentProcessingController implements initDataInterface<Observable
     }
 
 
+
+
+public class PaymentProcessingController {
+    public void onCashPaymentButtonClick(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/controller/auth/view/user/CashTM/Cash-TM.fxml"));
+        Node newScene = loader.load();
+        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        currentStage.setTitle("Thanh Toán Tiền Mặt.");
+        Scene scene = new Scene((Parent) newScene);
+        currentStage.setScene(scene);
+        currentStage.show();
+    }
+    public  void  handleTpayQrcode (ActionEvent event) throws  IOException{
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/controller/auth/view/user/QRPayment/QR-Payment.fxml"));
+        Node newScene = loader.load();
+        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        currentStage.setTitle("Thanh Toán QRCode.");
+        Scene scene = new Scene((Parent) newScene);
+        currentStage.setScene(scene);
+        currentStage.show();
+    }
 }

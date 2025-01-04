@@ -173,7 +173,6 @@ public class PreferencesUtils {
         List<Shift> shiftList = new ArrayList<>();
         int shiftCount = (Integer) get("shift_count", 0); // Retrieve the number of saved shifts
 
-        // Iterate through the stored shifts
         for (int index = 0; index < shiftCount; index++) {
             int t500k = (Integer) get("shift_" + index + "_500k", 0);
             int t200k = (Integer) get("shift_" + index + "_200k", 0);
@@ -188,7 +187,6 @@ public class PreferencesUtils {
             int t200 = (Integer) get("shift_" + index + "_200", 0);
             int tong = (Integer) get("shift_" + index + "_Tong", 0);
 
-            // Create a Shift object and add it to the list
             Shift shift = new Shift(t500k, t200k, t100k, t50k, t20k, t10k, t5k, t2k, t1k, t500, t200, tong);
             shiftList.add(shift);
         }

@@ -405,8 +405,7 @@ public class SalesDashboardLayoutController {
 
 
     public void onSales(ActionEvent actionEvent) throws IOException {
-        StartTheDayController startTheDayController = new StartTheDayController();
-        if (!startTheDayController.check_day()) {
+        if (checkDay()) {
             sl_sales.setVisible(false);
             sl_sales2.setVisible(false);
             sl_CancelTransaction.setVisible(true);
@@ -440,8 +439,7 @@ public class SalesDashboardLayoutController {
     }
 
     public void onCloseshift(ActionEvent actionEvent) throws IOException {
-        StartTheDayController startTheDayController = new StartTheDayController();
-        if (!startTheDayController.check_day()) {
+        if (checkDay()) {
             Modal.showModal("/com/example/demo/controller/auth/view/user/closeshift/closeshift.fxml", "Kết thúc ca", this::Countshift);
         } else {
             showAlert("Chưa bắt đầu ngày");
@@ -450,8 +448,8 @@ public class SalesDashboardLayoutController {
     }
 
     public void onStartTheDay(ActionEvent actionEvent) throws IOException {
-        StartTheDayController startTheDayController = new StartTheDayController();
-        if (startTheDayController.check_day()) {
+        StartTheDayController activity = new StartTheDayController();
+        if (activity.check_day()) {
             Modal.showModal("/com/example/demo/controller/auth/view/user/starttheday/starttheday.fxml", "Bắt đầu ngày", this::checkDay);
         } else {
             showAlert("Đã có người check in");
@@ -459,8 +457,7 @@ public class SalesDashboardLayoutController {
     }
 
     public void onEndDay(ActionEvent actionEvent) throws IOException {
-        StartTheDayController startTheDayController = new StartTheDayController();
-        if (!startTheDayController.check_day()) {
+        if (checkDay()) {
             Modal.showModal("/com/example/demo/controller/auth/view/user/endday/endday.fxml", "Kết thúc ngày", this::updateDate);
         } else {
             Modal.showAlert("Chưa bắt đầu ngày");
@@ -509,17 +506,20 @@ public class SalesDashboardLayoutController {
         }
     }
 
-    public void checkDay() {
+    public boolean checkDay() {
         StartTheDayController startTheDayController = new StartTheDayController();
         try {
             if (!startTheDayController.check_day() && !startTheDayController.check_day_end()) {
                 salesDateField.setText(Config.getCurrentDate());
+                return true;
             } else {
                 salesDateField.setText("đã đóng");
+                return false;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return false;
     }
 
     public void updateDate() {

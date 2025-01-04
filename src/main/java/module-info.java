@@ -27,6 +27,12 @@ module com.example.demo {
     opens com.example.demo.controller.user to javafx.fxml;
     exports com.example.demo.controller.user.paymentprocessing;
     opens com.example.demo.controller.user.paymentprocessing to javafx.fxml;
+    exports com.example.demo.controller.user.Cash;
+    opens com.example.demo.controller.user.Cash to javafx.fxml;
+    exports com.example.demo.controller.user.QRPayment;
+    opens com.example.demo.controller.user.QRPayment to javafx.fxml;
+    exports com.example.demo.controller.user.QRPayment.QRCode;
+    opens com.example.demo.controller.user.QRPayment.QRCode to javafx.fxml;
     exports com.example.demo.controller.user.orderlist;
     opens com.example.demo.controller.user.orderlist to javafx.fxml;
     exports com.example.demo.controller.user.report;
@@ -55,8 +61,6 @@ module com.example.demo {
     opens com.example.demo.controller.admin.voucher to javafx.fxml;
     exports com.example.demo.controller.user.endday;
     opens com.example.demo.controller.user.endday to javafx.fxml;
-    exports com.example.demo.controller.user.closeshift.closeshiftsuccess;
-    opens com.example.demo.controller.user.closeshift.closeshiftsuccess to javafx.fxml;
     exports com.example.demo.controller.user.cash;
     opens com.example.demo.controller.user.cash to javafx.fxml;
     exports com.example.demo.controller.user.pay;
