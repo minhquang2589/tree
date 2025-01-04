@@ -55,8 +55,6 @@ module com.example.demo {
     opens com.example.demo.controller.admin.voucher to javafx.fxml;
     exports com.example.demo.controller.user.endday;
     opens com.example.demo.controller.user.endday to javafx.fxml;
-    exports com.example.demo.controller.user.closeshift.closeshiftsuccess;
-    opens com.example.demo.controller.user.closeshift.closeshiftsuccess to javafx.fxml;
     exports com.example.demo.controller.user.cash;
     opens com.example.demo.controller.user.cash to javafx.fxml;
     exports com.example.demo.controller.user.pay;
