@@ -1,18 +1,18 @@
-package com.example.demo.controller.user.pay;
+package com.example.demo.controller.user.QRPayment;
 
-import com.example.demo.Utils.Modal;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import static com.example.demo.Utils.Modal.closeModal;
 
-public class paycontroller {
-
+public class QRPaymentcontroller {
     @FXML
     private TextField textField1;
 
@@ -58,6 +58,7 @@ public class paycontroller {
 
     private TextField currentTextField;
 
+
     @FXML
     public void initialize() {
         textField1.setOnMouseClicked(e -> currentTextField = textField1);
@@ -99,11 +100,22 @@ public class paycontroller {
             currentTextField.clear();
         }
     }
-    public void handleCancel(ActionEvent event) {
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        closeModal(stage);
+    public void handleCancel(ActionEvent event)throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/controller/auth/view/user/PaymentProcessing/PaymentProcessing.fxml"));
+        Parent previousScene = loader.load();
+        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        currentStage.setTitle("Chọn các hình thức thanh toán bằng cách bấm vào ô tương ứng.");
+        Scene scene = new Scene(previousScene);
+        currentStage.setScene(scene);
+        currentStage.show();
     }
     public void handleConfirm(ActionEvent event) throws IOException {
-        Modal.showModal("/com/example/demo/controller/auth/view/user/QRcode/QR-code.fxml", "QR Code", null);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/demo/controller/auth/view/user/QRPayment/QRCode/QR-Code.fxml"));
+        Node newScene = loader.load();
+        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        currentStage.setTitle("QRCode");
+        Scene scene = new Scene((Parent) newScene);
+        currentStage.setScene(scene);
+        currentStage.show();
     }
 }
